@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "U-Bahn prototype.sln"
+    "dotnet.defaultSolution": "U-Bahn-prototype.sln"
 }
