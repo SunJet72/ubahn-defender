@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class VehicleCombatBehaviourSystem : MonoBehaviour
@@ -13,20 +14,44 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
     public ChasingVehicleController chasingVehicleController;
     public EscapingVehicleController escapingVehicleController;
     public NoDriverVehicleController noDriverVehicleController;
-
-    [SerializeField] private Transform abordagePoint;
+    private GameCombatManager gameCombatManager;
+    [SerializeField] private List<Transform> passengerSeats; // has to be equall to passengersAmount in data
 
     private VehicleBehaviourController curController;
+    private EnemyCombatBehaviourSystem[] enemies;
 
     void Start()
     {
-        abordagingVehicleController.SetTarget(abordagePoint.position);
-        ChangeCurrentBehaviour(abordagingVehicleController);
-    }
+        gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
+        if (data._passengersList == null || data.passangersAmount != data._passengersList.Count || passengerSeats == null || passengerSeats.Count != data.passangersAmount)
+        {
+            Debug.Log("Vehicle Passengers were wrong defined. Please take a look at SO and passengerSeats. They have to be equal to passengersAmount in data");
+            ChangeCurrentBehaviour(noDriverVehicleController);
+            return;
+        }
 
-    public void OnSpawn()
-    {
+        enemies = new EnemyCombatBehaviourSystem[data.passangersAmount];
 
+        for (int i = 0; i < data.passangersAmount; i++)
+        {
+            GameObject go = Instantiate(data._passengersList[i]);
+            go.transform.SetParent(passengerSeats[i]);
+            go.transform.localPosition = Vector3.zero;
+            enemies[i] = go.GetComponent<EnemyCombatBehaviourSystem>();
+        }
+
+        if (data.isVehicleToRangers)
+        {
+            PlayerMock playerMock = gameCombatManager.GetNearestPlayer(transform);
+            chasingVehicleController.SetTarget(playerMock);
+            ChangeCurrentBehaviour(chasingVehicleController);
+        }
+        else
+        {
+            Transform abordagePoint = gameCombatManager.GetApplicableAbordagePoint(transform);
+            abordagingVehicleController.SetTarget(abordagePoint);
+            ChangeCurrentBehaviour(abordagingVehicleController);
+        }
     }
 
     private void ChangeCurrentBehaviour(VehicleBehaviourController controller)
@@ -43,18 +68,36 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
     {
         if (curController == null)
         {
-            Debug.LogError("I dont have needed behaviour controller");
+            Debug.LogError("I dont have needed behaviour controller, or I didnt get one yet");
             return;
         }
         curController.OnFixedUpdateBehave();
     }
 
-    //---// AbordaginController //---//
+    //---// AbordagingController //---//
     public void Abordage(Vector2 abordagingPoint)
     {
-        // TODO: Set All enemies out
-
-        //
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i] != null && (enemies[i].enemyType == EnemyType.MELEE || enemies[i].enemyType == EnemyType.SCOUNDREL))
+            {
+                enemies[i].gameObject.transform.SetParent(null);
+                enemies[i].VehicleEndedTheAbordageProcess();
+            }
+        }
         ChangeCurrentBehaviour(escapingVehicleController);
+    }
+
+    //---// ChasingController //---//
+    public void TellRangersToAttack(PlayerMock playerMock)
+    {
+        Debug.Log("I am trying to tell the ranger, so that they could attack");
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i] != null && enemies[i].enemyType == EnemyType.RANGED)
+            {
+                enemies[i].VehicleToldTheRangerToAttack(playerMock);
+            }
+        }
     }
 }

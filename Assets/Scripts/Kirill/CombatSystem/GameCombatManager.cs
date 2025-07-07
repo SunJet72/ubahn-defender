@@ -11,7 +11,7 @@ public class GameCombatManager : MonoBehaviour
         trainSystem.Setup();
     }
 
-    public PlayerMock GetNearestPlayer(Transform enemyTransform) // Mock!
+    public PlayerMock GetNearestPlayer(Transform vehicleTransform) // Mock!
     {
         return playerMock;
     }
@@ -20,9 +20,13 @@ public class GameCombatManager : MonoBehaviour
     {
         return trainSystem.ReturnNearestContainer(enemyTransform);
     }
+    public Transform GetApplicableAbordagePoint(Transform vehicleTransform) // Mock!
+    {
+        return trainSystem.transform;
+    }
 
     public void IncrementEnemyScore()
     {
-        
+
     }
 }

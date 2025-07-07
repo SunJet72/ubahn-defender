@@ -8,9 +8,9 @@ public class AbordagingVehicleController : VehicleBehaviourController
 
     private bool isPreparingAbordaging = false;
     private float curTimeforAbordagingLeft;
-    public void SetTarget(Vector2 pos) // Position of the point on the train edge, where abordage has to be happened.
+    public void SetTarget(Transform abordagePointTransform) // Position of the point on the train edge, where abordage has to be happened.
     {
-        abordagingPoint = pos;
+        abordagingPoint = abordagePointTransform.position;
     }
     public override void OnEndBehaviour()
     {
@@ -46,6 +46,7 @@ public class AbordagingVehicleController : VehicleBehaviourController
 
     private void Abordage()
     {
+        Debug.Log(Controller);
         Controller.Abordage(abordagingPoint);
     }
 

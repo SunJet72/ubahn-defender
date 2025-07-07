@@ -1,13 +1,22 @@
 using UnityEngine;
-
+public enum EnemyType
+{
+    RANGED,
+    MELEE,
+    SCOUNDREL,
+    TAXIST
+}
 public class EnemyCombatBehaviourSystem : MonoBehaviour
 {
+    public EnemyType enemyType;
+    public bool useRidingController;
     public bool useAttackingMeleeController;
     public bool useAttackingRangedController;
     public bool useEscapingController;
     public bool useHauntingController;
     public bool useStealingController;
 
+    public RidingBehaviourController ridingBehaviourController;
     public AttackingMeleeBehaviourController attackingMeleeBehaviourController;
     public AttackingRangedBehaviourController attackingRangedBehaviourController;
     public EscapingBehaviourController escapingBehaviourController;
@@ -15,19 +24,22 @@ public class EnemyCombatBehaviourSystem : MonoBehaviour
     public StealingBehaviourController stealingBehaviourController;
 
     [SerializeField] private PlayerMock playerMock;
-    [SerializeField] private GameCombatManager gameCombatManager;
+    private GameCombatManager gameCombatManager;
 
     private CombatBehaviourController curController;
 
     void Start()
     {
+        gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
+        ChangeCurrentBehaviour(ridingBehaviourController);
+
         //ChangeCurrentBehaviour(escapingBehaviourController);
 
 
         /*attackingMeleeBehaviourController.SetTarget(playerMock);
         ChangeCurrentBehaviour(attackingMeleeBehaviourController);*/
 
-        ChangeCurrentBehaviour(hauntingBehaviourController);
+        //ChangeCurrentBehaviour(hauntingBehaviourController);
 
         /*attackingRangedBehaviourController.SetTarget(playerMock);
         ChangeCurrentBehaviour(attackingRangedBehaviourController);*/
@@ -54,6 +66,21 @@ public class EnemyCombatBehaviourSystem : MonoBehaviour
     }
 
 
+    //---//RidingBehaviourController //---//
+    public void VehicleToldTheRangerToAttack(PlayerMock target) // Applicable only to Rangers
+    {
+        Debug.Log("I set a ranger to attack");
+        attackingRangedBehaviourController.SetTarget(target);
+        ChangeCurrentBehaviour(attackingRangedBehaviourController);
+    }
+
+    public void VehicleEndedTheAbordageProcess() // Applicable only to Melee and Scoundrels
+    {
+        EctsContainer container = gameCombatManager.GetNearestContainer(transform);
+        hauntingBehaviourController.SetTarget(container);
+        ChangeCurrentBehaviour(hauntingBehaviourController);
+    }
+
 
     //---// AttackingMeleeBehaviourController //---//
     public void MeleeLoseTarget()
@@ -69,10 +96,6 @@ public class EnemyCombatBehaviourSystem : MonoBehaviour
 
 
     //---// HauntingBehaviourController //---//
-    public EctsContainer GetContainerToHaunt()
-    {
-        return gameCombatManager.GetNearestContainer(transform);
-    }
     public void StartStealing(EctsContainer container)
     {
         stealingBehaviourController.SetTarget(container);

@@ -19,6 +19,5 @@ public class ProjectileData : ScriptableObject
     public TargetType targetType;
     public HitType hitType;
     public float speed;
-    public bool isSelfGuided;
     public float damage;
 }

@@ -7,7 +7,7 @@ public class HauntingBehaviourController : CombatBehaviourController
     private Transform target;
     [SerializeField] private EnemyHauntData data;
 
-    private void SetTarget(EctsContainer container)
+    public void SetTarget(EctsContainer container)
     {
         ectsContainer = container;
         target = container.gameObject.transform;
@@ -15,7 +15,7 @@ public class HauntingBehaviourController : CombatBehaviourController
 
     public override void OnStartBehaviour()
     {
-        SetTarget(Controller.GetContainerToHaunt());
+        
     }
 
     public override void OnFixedUpdateBehave()

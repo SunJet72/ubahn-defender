@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 536db7c75cf1b914e9e3d8f3b689d55f, type: 3}
-  m_Name: EnemyData_Melee_Steal
+  m_Script: {fileID: 11500000, guid: 10f4160cc6a3af74f9120d82bf9274ce, type: 3}
+  m_Name: EnemyData_Scoundrel_Haunt
   m_EditorClassIdentifier: 
-  stealTime: 4.78
-  canBeCancelledByAttack: 1
+  distanceBeforeSteal: 0.55
+  chaiseSpeed: 3.82

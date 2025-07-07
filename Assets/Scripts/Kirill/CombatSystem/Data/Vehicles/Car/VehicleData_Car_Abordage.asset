@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: VehicleData_Car_Abordage
   m_EditorClassIdentifier: 
   timeForAbordage: 3.36
-  vehicleSpeed: 0.7
+  vehicleSpeed: 4.75

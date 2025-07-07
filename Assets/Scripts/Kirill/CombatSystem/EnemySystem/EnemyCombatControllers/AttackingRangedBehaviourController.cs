@@ -40,7 +40,7 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
     {
         var projectile = Instantiate(data._projectile);
         projectile.transform.position = transform.position;
-        projectile.GetComponent<Projectile>().SetTarget(target);
+        projectile.GetComponent<Projectile>().SetTarget((target.position - transform.position).normalized);
         curAttackCooldown = data.timeBetweenAttacks;
     }
 

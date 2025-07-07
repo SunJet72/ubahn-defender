@@ -5,10 +5,12 @@ public class ChasingVehicleController : VehicleBehaviourController
     Transform targetTransform;
     Vector2 targetPosition;
     bool isChasingThePoint;
+    PlayerMock playerMock;
     [SerializeField] private ChasingVehicleControllerData data;
-    public void SetTarget(Transform targetTransform)
+    public void SetTarget(PlayerMock playerMock)
     {
-        this.targetTransform = targetTransform;
+        this.playerMock = playerMock;
+        this.targetTransform = playerMock.gameObject.transform;
         DeterminePosition();
     }
     public override void OnStartBehaviour()
@@ -51,6 +53,7 @@ public class ChasingVehicleController : VehicleBehaviourController
     private void TellRangersToAttack(bool isAttacking)
     {
         // TODO: All the rangers in the vehicle have to change their behavior.
+        Controller.TellRangersToAttack(playerMock);
     }
 
     public override void OnEndBehaviour()
