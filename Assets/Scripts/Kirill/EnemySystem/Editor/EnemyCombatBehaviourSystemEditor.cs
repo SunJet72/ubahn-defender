@@ -12,6 +12,7 @@ public class EnemyCombatBehaviourSystemEditor : Editor
         EditorGUI.BeginChangeCheck();
 
         controller.useAttackingMeleeController = EditorGUILayout.Toggle("Attack Melee Controller", controller.useAttackingMeleeController);
+        controller.useAttackingRangedController = EditorGUILayout.Toggle("Attack Ranged Controller", controller.useAttackingRangedController);
         controller.useEscapingController = EditorGUILayout.Toggle("Escape Controller", controller.useEscapingController);
         controller.useHauntingController = EditorGUILayout.Toggle("Haunt Controller", controller.useHauntingController);
         controller.useStealingController = EditorGUILayout.Toggle("Steal Controller", controller.useStealingController);
@@ -19,6 +20,7 @@ public class EnemyCombatBehaviourSystemEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             ManageComponent<AttackingMeleeBehaviourController>(controller, controller.useAttackingMeleeController, out controller.attackingMeleeBehaviourController);
+            ManageComponent<AttackingRangedBehaviourController>(controller, controller.useAttackingRangedController, out controller.attackingRangedBehaviourController);
             ManageComponent<EscapingBehaviourController>(controller, controller.useEscapingController, out controller.escapingBehaviourController);
             ManageComponent<HauntingBehaviourController>(controller, controller.useHauntingController, out controller.hauntingBehaviourController);
             ManageComponent<StealingBehaviourController>(controller, controller.useStealingController, out controller.stealingBehaviourController);

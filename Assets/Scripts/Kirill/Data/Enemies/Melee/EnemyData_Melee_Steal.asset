@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: EnemyData_Melee_Steal
   m_EditorClassIdentifier: 
   stealTime: 1.76
-  canBeCancelledByAttack: 1
+  canBeCancelledByAttack: 0

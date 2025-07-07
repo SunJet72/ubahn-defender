@@ -69,8 +69,7 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
         chaisedPlayer.onDieEvent -= OnPlayerKilled;
         chaisedPlayer = null;
         target = null;
-        Debug.Log(Controller);
-        Controller.LoseTarget();
+        Controller.MeleeLoseTarget();
     }
 
     public override void OnEndBehaviour()

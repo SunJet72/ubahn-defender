@@ -3,17 +3,19 @@ using UnityEngine;
 public class EnemyCombatBehaviourSystem : MonoBehaviour
 {
     public bool useAttackingMeleeController;
+    public bool useAttackingRangedController;
     public bool useEscapingController;
     public bool useHauntingController;
     public bool useStealingController;
 
     public AttackingMeleeBehaviourController attackingMeleeBehaviourController;
+    public AttackingRangedBehaviourController attackingRangedBehaviourController;
     public EscapingBehaviourController escapingBehaviourController;
     public HauntingBehaviourController hauntingBehaviourController;
     public StealingBehaviourController stealingBehaviourController;
 
     [SerializeField] private PlayerMock playerMock;
-    [SerializeField] private EctsContainer ectsContainerMock;
+    [SerializeField] private GameCombatManager gameCombatManager;
 
     private CombatBehaviourController curController;
 
@@ -25,8 +27,10 @@ public class EnemyCombatBehaviourSystem : MonoBehaviour
         /*attackingMeleeBehaviourController.SetTarget(playerMock);
         ChangeCurrentBehaviour(attackingMeleeBehaviourController);*/
 
-        hauntingBehaviourController.SetTarget(ectsContainerMock);
         ChangeCurrentBehaviour(hauntingBehaviourController);
+
+        /*attackingRangedBehaviourController.SetTarget(playerMock);
+        ChangeCurrentBehaviour(attackingRangedBehaviourController);*/
     }
 
     private void ChangeCurrentBehaviour(CombatBehaviourController controller)
@@ -52,12 +56,23 @@ public class EnemyCombatBehaviourSystem : MonoBehaviour
 
 
     //---// AttackingMeleeBehaviourController //---//
-    public void LoseTarget()
+    public void MeleeLoseTarget()
+    {
+        ChangeCurrentBehaviour(hauntingBehaviourController);
+    }
+
+    //---// AttackingRangedBehaviourController //---//
+    public void RangedLoseTarget()
     {
         ChangeCurrentBehaviour(escapingBehaviourController);
     }
 
+
     //---// HauntingBehaviourController //---//
+    public EctsContainer GetContainerToHaunt()
+    {
+        return gameCombatManager.GetNearestContainer(transform);
+    }
     public void StartStealing(EctsContainer container)
     {
         stealingBehaviourController.SetTarget(container);
