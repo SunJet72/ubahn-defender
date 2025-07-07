@@ -8,7 +8,7 @@ public class ExampleAction : MonoBehaviour, IActionable
 
     public bool state = true;
     private Color startColor;
-    private Color abilityColor;
+    [SerializeField]private Color abilityColor;
 
     public void SetUp(GameObject player, ScriptableActionBase action, UnityEvent actionEvent)
     {

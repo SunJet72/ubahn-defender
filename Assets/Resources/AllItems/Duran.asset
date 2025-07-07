@@ -15,7 +15,8 @@ MonoBehaviour:
   title: Duran duran
   description: Very powerfull but invisible
   maxStackSize: 5
-  isPassive: 0
+  sprite: {fileID: 0}
+  action: {fileID: 0}
   damage: 999
   cooldown: 1
   range: 6.9

@@ -7,13 +7,13 @@ public class UIInventoryController : MonoBehaviour
     private PlayerInventory inventory;
 
     [SerializeField] private UIInventoryStash stash;
-    [SerializeField] private UIItemSlot UIarmor;
-    [SerializeField] private UIItemSlot UIweapon;
+    [SerializeField] public UIItemSlot UIarmor;
+    [SerializeField] public UIItemSlot UIweapon;
 
     private UIInventorySlector selector;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         player = GameObject.Find("Player");
         inventory = player.GetComponent<PlayerInventory>();
@@ -21,17 +21,23 @@ public class UIInventoryController : MonoBehaviour
         selector = GetComponent<UIInventorySlector>();
     }
 
+    public void RebuildWeapon()
+    {
+        stash.ShowWeaponOptions(inventory.GetInventory());
+    }
+    public void RebuildArmor() {
+        stash.ShowArmorOptions(inventory.GetInventory());
+    } 
+
     public void Rebuild()
     {
         switch (selector.state)
         {
             case UIInventorySlector.SelectorState.SelectingArmor:
-                //stash.ShowArmorOptions(inventory.GetInventory());
-                stash.Rebuild(inventory.GetInventory());
+                stash.ShowArmorOptions(inventory.GetInventory());
                 break;
             case UIInventorySlector.SelectorState.SelectingWeapon:
-                //stash.ShowWeaponOptions(inventory.GetInventory());
-                stash.Rebuild(inventory.GetInventory());
+                stash.ShowWeaponOptions(inventory.GetInventory());
                 break;
             default:
                 stash.Rebuild(inventory.GetInventory());

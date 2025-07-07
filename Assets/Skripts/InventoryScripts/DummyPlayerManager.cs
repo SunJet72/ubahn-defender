@@ -1,3 +1,4 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,15 +9,26 @@ public class DummyPlayerManager : MonoBehaviour
     [SerializeField] private ShopManager shopManager;
     [SerializeField] private ScriptableWeapon weapon;
     [SerializeField] private ScriptableArmor armor;
+    [SerializeField]private Component weaponComponent;
+    [SerializeField]private Component armorComponent;
 
     public UnityEvent weaponEvent;
     public UnityEvent armorEvent;
-    void Start()
+
+    void Awake()
     {
         inventory = GetComponent<PlayerInventory>();
         shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
         LoadInventory();
-        InitGameState();
+        inventory.EquipmentChanged.AddListener(LoadInventory);
+        inventory.EquipmentChanged.AddListener(InitPlayerActions);
+    }
+    void Start()
+    {
+        // inventory = GetComponent<PlayerInventory>();
+        // shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
+        // LoadInventory();
+        // InitGameState();
     }
 
     private void LoadInventory()
@@ -25,15 +37,24 @@ public class DummyPlayerManager : MonoBehaviour
         weapon = inventory.GetCurrentWeapon();
     }
 
-    private void InitGameState()
+    private void InitPlayerActions()
     {
+        //Debug.Log("Initing statae");
+        if (weaponComponent != null)
+        {
+            Destroy(weaponComponent);
+        }
+        if (armorComponent != null)
+        {
+            Destroy(armorComponent);
+        }
         if (weapon.action != null)
         {
-            weapon.action.SetUp(gameObject, weaponEvent);
+            weaponComponent = weapon.action.SetUp(gameObject, weaponEvent);
         }
         if (armor.action != null)
         {
-            armor.action.SetUp(gameObject, armorEvent);
+            armorComponent = armor.action.SetUp(gameObject, armorEvent);
         }
     }
 

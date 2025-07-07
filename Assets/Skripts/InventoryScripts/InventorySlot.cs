@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.SearchService;
 using UnityEngine;
 
-public struct InventorySlot
+public class InventorySlot
 {
     private List<ScriptableItemBase> objects;
     public ScriptableItemBase Sample { get; }

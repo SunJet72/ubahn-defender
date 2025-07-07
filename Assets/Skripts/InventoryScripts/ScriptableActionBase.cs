@@ -13,24 +13,24 @@ public abstract class ScriptableActionBase : ScriptableObject
 
     public MonoScript ComponentSkript;
 
-    public void SetUp(GameObject player, UnityEvent actionEvent)
+    public Component SetUp(GameObject player, UnityEvent actionEvent)
     {
-        Debug.Log("trying to configure stuff");
+        //Debug.Log("trying to configure stuff");
         Type ComponentType = ComponentSkript.GetClass();
         if (ComponentType == null)
         {
             Debug.LogError($"{name}: ComponentType is null.");   // `name` is the SO’s name
-            return;
+            return null;
         }
         if (!typeof(MonoBehaviour).IsAssignableFrom(ComponentType))
         {
             Debug.LogError($"{ComponentType} isn’t a MonoBehaviour.");
-            return;
+            return null;
         }
         if (!typeof(IActionable).IsAssignableFrom(ComponentType))
         {
             Debug.LogError($"{ComponentType} doesn’t implement IActionable.");
-            return;
+            return null;
         }
 
         //player.TryGetComponent(ComponentType, out Component action);
@@ -41,7 +41,7 @@ public abstract class ScriptableActionBase : ScriptableObject
         //}
 
         ((IActionable)action).SetUp(player, this, actionEvent);
-        return;
+        return action;
     }
 
 }

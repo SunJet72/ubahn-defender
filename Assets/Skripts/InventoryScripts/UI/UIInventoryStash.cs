@@ -41,29 +41,32 @@ public class UIInventoryStash : MonoBehaviour
         // float rowCount = Mathf.Ceil(slots.Count / rowSlotCount);
         // Debug.Log(rowCount+" "+ rowSlotCount);
         //rt.sizeDelta = new Vector2(parentRT.rect.width, gl.cellSize.y*rowCount);
-        while (transform.childCount > slots.Count)
+        
+        for(int diff = transform.childCount -1; diff>= slots.Count; --diff)
         {
-            Destroy(transform.GetChild(transform.childCount - 1).gameObject);
+            Destroy(transform.GetChild(diff).gameObject);
         }
-        while (transform.childCount < slots.Count)
+        
+        for (int diff = transform.childCount;diff<slots.Count;diff++)
         {
             Instantiate(UISlotPrefab, transform);
         }
+        
         for (int i = 0; i < slots.Count; ++i)
         {
             UIInventorySlot UIslot = transform.GetChild(i).gameObject.GetComponent<UIInventorySlot>();
             UIslot.realSlot = slots[i];
             UIslot.RefreshSlot();
-        }
+        } 
     }
 
     public void ShowArmorOptions(List<InventorySlot> slots)
     {
-        Rebuild(slots.Where(a => a.Sample is ScriptableArmor).ToList());
+        Rebuild((slots??new List<InventorySlot>()).Where(a => a != null && a.Sample is ScriptableArmor).ToList());
     }
 
     public void ShowWeaponOptions(List<InventorySlot> slots)
     {
-        Rebuild(slots.Where(a => a.Sample is ScriptableWeapon).ToList());
+        Rebuild((slots??new List<InventorySlot>()).Where(a => a != null && a.Sample is ScriptableWeapon).ToList());
     }
 }

@@ -30,35 +30,41 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         
-        StringBuilder str = new StringBuilder();
-        str.Append("Clicked on me, here is the stack:\n");
+        // StringBuilder str = new StringBuilder();
+        // str.Append("Clicked on me, here is the stack:\n");
         foreach (GameObject go in eventData.hovered)
         {
-            str.Append(go.name + "\n");
+            //str.Append(go.name + "\n");
             if (state == SelectorState.NoSelection)
             {
                 UIItemSlot slot;
 
                 if (go.TryGetComponent<UIItemSlot>(out slot))
                 {
-                    Debug.Log("check " + slot);
-                    switch (slot.type)
+                    //Debug.Log("check " + slot);
+                    if (slot == controller.UIweapon)
                     {
-                        case UIItemSlot.SlotType.WeaponSlot:
-                            state = SelectorState.SelectingWeapon;
-                            selectedSlot = slot;
-                            controller.Rebuild();
-                            break;
-                        case UIItemSlot.SlotType.ArmorSlot:
-                            state = SelectorState.SelectingArmor;
-                            selectedSlot = slot;
-                            controller.Rebuild();
-                            break;
+                        state = SelectorState.SelectingWeapon;
+                        selectorText.text = "Selecting Weapon:";
+                        selectedSlot = slot;
+                        controller.Rebuild();
                     }
+                    else if (slot == controller.UIarmor)
+                    {
+                        state = SelectorState.SelectingArmor;
+                        selectorText.text = "Selecting Armor:";
+                        selectedSlot = slot;
+                        controller.Rebuild();
+                    }
+                    else
+                    {
+                        Debug.LogError("Shit, what have you done. How did you select this slot");
+                    }StringBuilder str = new StringBuilder();
+        // str.Append("Clicked on me, here is the stack:\n");
                     return;
                 }
             }
-            /*
+            
             else
             {
                 UIInventorySlot slot;
@@ -67,30 +73,38 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
                 {
                     if (slot.realSlot.Sample is ScriptableWeapon && state == SelectorState.SelectingWeapon)
                     {
-                        inventory.SwapOutCurrentWeapon(slot.realSlot.Sample);
                         state = SelectorState.NoSelection;
                         selectedSlot = null;
-                        controller.Rebuild();
+                        inventory.SwapOutCurrentWeapon(slot.realSlot.Sample);
+                        selectorText.text = "Inventory: ";
+                        //controller.Rebuild();
+                        return;
 
                     }
                     if (slot.realSlot.Sample is ScriptableArmor && state == SelectorState.SelectingArmor)
                     {
-                        inventory.SwapOutCurrentArmor(slot.realSlot.Sample);
                         state = SelectorState.NoSelection;
                         selectedSlot = null;
+                        inventory.SwapOutCurrentArmor(slot.realSlot.Sample);
+                        selectorText.text = "Inventory: ";
 
-                        controller.Rebuild();
-
+                        //controller.Rebuild();
+                        return;
                     }
-                    Debug.LogError("Smthing went wrong during swap out");
+                    Debug.LogError("Smthing went wrong during swap out. Maybe a wrong item. Bro just check some good vibe");
+                    state = SelectorState.NoSelection;
+                    selectedSlot = null;
+                    selectorText.text = "Inventory: ";
+
                     return;
                 }
-            }*/
+            }
         }
         state = SelectorState.NoSelection;
         selectedSlot = null;
-
-        Debug.Log(str.ToString());
+        controller.Rebuild();
+        selectorText.text = "Inventory: ";
+        //Debug.Log(str.ToString());
         
     }
 

@@ -11,12 +11,14 @@ public class PlayerInventory : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public UnityEvent InventoryChanged;
+    public UnityEvent EquipmentChanged;
     private GameObject player;
 
     [SerializeField] private List<InventorySlot> inventoryStash = new List<InventorySlot>();
     [SerializeField] private ScriptableArmor currentArmor;
     [SerializeField] private ScriptableWeapon currentWeapon;
     [SerializeField] private List<ScriptableBuff> Consumables = new List<ScriptableBuff>();
+
 
     void Start()
     {
@@ -31,6 +33,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         InventoryChanged.Invoke();
+        EquipmentChanged.Invoke();
     }
 
     public PlayerInventory AddItem(ScriptableItemBase item)
@@ -47,7 +50,6 @@ public class PlayerInventory : MonoBehaviour
         }
         inventoryStash.Add(new InventorySlot(item).AddItem(item));
         InventoryChanged.Invoke();
-        Debug.Log(typeof(PlayerInventory));
         return this;
     }
 
@@ -96,6 +98,8 @@ public class PlayerInventory : MonoBehaviour
         }
         RemoveItem(armor);
         currentArmor = (ScriptableArmor)armor;
+        InventoryChanged.Invoke();
+        EquipmentChanged.Invoke();
     }
 
     public void SwapOutCurrentWeapon(ScriptableItemBase weapon)
@@ -111,6 +115,8 @@ public class PlayerInventory : MonoBehaviour
         }
         RemoveItem(weapon);
         currentWeapon = (ScriptableWeapon)weapon;
+        InventoryChanged.Invoke();
+        EquipmentChanged.Invoke();
     }
 
     public List<InventorySlot> GetInventory()

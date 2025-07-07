@@ -16,4 +16,4 @@ MonoBehaviour:
   description: FIIIIIRREEEEEE
   isPassive: 0
   ComponentSkript: {fileID: 11500000, guid: d34d602cf156b128dba20b47350b7765, type: 3}
-  color: {r: 1, g: 0.5583937, b: 0.015686274, a: 0.7137255}
+  color: {r: 1, g: 0.7891933, b: 0.015686274, a: 0.7137255}
