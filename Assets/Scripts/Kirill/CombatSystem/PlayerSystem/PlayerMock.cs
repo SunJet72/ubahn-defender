@@ -22,4 +22,9 @@ public class PlayerMock : MonoBehaviour
         onDieEvent.Invoke(this, null);
         Destroy(gameObject);
     }
+
+    public Transform GetCurrentTargetSelected()
+    {
+        return transform; // Mock
+    }
 }
