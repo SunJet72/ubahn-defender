@@ -6,11 +6,10 @@ public class DummyPlayerManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private PlayerInventory inventory;
-    [SerializeField] private ShopManager shopManager;
     [SerializeField] private ScriptableWeapon weapon;
     [SerializeField] private ScriptableArmor armor;
-    [SerializeField]private Component weaponComponent;
-    [SerializeField]private Component armorComponent;
+    Component weaponComponent;
+    Component armorComponent;
 
     public UnityEvent weaponEvent;
     public UnityEvent armorEvent;
@@ -18,7 +17,6 @@ public class DummyPlayerManager : MonoBehaviour
     void Awake()
     {
         inventory = GetComponent<PlayerInventory>();
-        shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
         LoadInventory();
         inventory.EquipmentChanged.AddListener(LoadInventory);
         inventory.EquipmentChanged.AddListener(InitPlayerActions);

@@ -8,11 +8,8 @@ using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     public UnityEvent InventoryChanged;
     public UnityEvent EquipmentChanged;
-    private GameObject player;
 
     [SerializeField] private List<InventorySlot> inventoryStash = new List<InventorySlot>();
     [SerializeField] private ScriptableArmor currentArmor;
@@ -22,7 +19,6 @@ public class PlayerInventory : MonoBehaviour
 
     void Start()
     {
-        player = transform.gameObject;
         if (currentArmor == null)
         {
             currentArmor = ItemManager.instance.emptyArmor;
