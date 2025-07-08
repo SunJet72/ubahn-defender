@@ -8,6 +8,8 @@ public class WorldMapController : MonoBehaviour
 {
     public static WorldMapController instance;
 
+    public TrainController currTrain = null;
+
     public HashSet<Station> map = new HashSet<Station>();
     void Awake()
     {
@@ -41,7 +43,6 @@ public class WorldMapController : MonoBehaviour
             map.Add(station);
             tempMap.Remove(station);
         }
-
         LoadMapData();
 
         // foreach (Station station in map)
@@ -76,7 +77,36 @@ public class WorldMapController : MonoBehaviour
                 Debug.LogError("Wrong Id in loded map data");
             }
         }
+    }
 
+    public void LoadCurrentTrain()
+    {
+        ScriptableRoute route;
+        // route = NetworkManager.LoadCurrTrainData()
+        // mock shit:
+        route = Resources.Load<ScriptableRoute>("Routes");
+        // end mockshit
+
+        List<Station> realRoute = new List<Station>();
+        Station realCurrentStation = map.FirstOrDefault(st => st.Id == route.currStation.id);
+        if (realCurrentStation == null)
+        {
+            Debug.LogError("Wrong current station id, check your network vibes");
+            return;
+        }
+
+        for (int i = 0; i < route.routeObj.Count; ++i)
+        {
+            Station realStation = map.FirstOrDefault(st => st.Id == route.routeObj[i].id);
+            if (realCurrentStation == null)
+            {
+                Debug.LogError("Wrong current station id, check your network vibes");
+                return;
+            }
+            realRoute.Add(realStation);
+        }
+
+        currTrain = new TrainController(realRoute, realCurrentStation);
     }
 
     
