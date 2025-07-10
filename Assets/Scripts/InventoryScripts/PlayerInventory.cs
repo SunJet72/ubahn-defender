@@ -22,14 +22,7 @@ public class PlayerInventory : MonoBehaviour
         {
             maxActiveConsumables = 1;
         }
-        if (activeConsumables == null)
-        {
-            activeConsumables = new InventorySlot[maxActiveConsumables];
-        }
-        else
-        {
-            maxActiveConsumables = activeConsumables.Length;
-        }
+        activeConsumables = new InventorySlot[maxActiveConsumables];
     }
 
     void Start()
@@ -37,7 +30,6 @@ public class PlayerInventory : MonoBehaviour
         for(int i =0; i< maxActiveConsumables;++i){
             if (activeConsumables[i] == null)
             {
-                Debug.Log("Filling emptiness");
                 activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
             }
         }
@@ -62,7 +54,6 @@ public class PlayerInventory : MonoBehaviour
             {
                 slot.AddItem(item);
                 InventoryChanged.Invoke();
-                Debug.Log(slot.GetSample().maxStackSize);
                 return this;
             }
         }
@@ -113,7 +104,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (currentArmor is not ScriptableArmor)
         {
-            Debug.Log("Bro is trying to wear not currentArmor and dies from cringe");
+            Debug.LogError("Bro is trying to wear not currentArmor and dies from cringe");
             return;
         }
         if (currentArmor != ItemManager.instance.emptyArmor)
@@ -130,7 +121,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (weapon is not ScriptableWeapon)
         {
-            Debug.Log("Bro is trying to equip not a weapon and dies from cringe");
+            Debug.LogError("Bro is trying to equip not a weapon and dies from cringe");
             return;
         }
         if (currentWeapon != ItemManager.instance.emptyWeapon)
@@ -145,10 +136,8 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddToActiveCosumables(InventorySlot slot, int slotIndex)
     {
-        Debug.Log("trying to put smth in " + slotIndex);
         if (slot.GetSample() is not ScriptableConsumable)
         {
-            Debug.Log("Bro is trying to equip not a consumable and dies from cringe");
             return;
         }
         if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem&& activeConsumables[slotIndex].Count!=0)
