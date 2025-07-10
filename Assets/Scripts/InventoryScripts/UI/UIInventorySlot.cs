@@ -12,10 +12,10 @@ public class UIInventorySlot : MonoBehaviour
 
     public void RefreshSlot()
     {
-        itemNameText.text = realSlot.Sample.title;
+        itemNameText.text = realSlot.GetSample().title;
         int count = realSlot.Count;
         itemCountText.text = count == 1?"":realSlot.Count.ToString();
-        slotImage.sprite = realSlot.Sample.sprite;
+        slotImage.sprite = realSlot.GetSample().sprite;
     }
  
 }

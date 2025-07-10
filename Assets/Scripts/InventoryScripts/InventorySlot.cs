@@ -4,10 +4,11 @@ using Unity.VisualScripting;
 using UnityEditor.SearchService;
 using UnityEngine;
 
+[Serializable]
 public class InventorySlot
 {
-    private List<ScriptableItemBase> objects;
-    public ScriptableItemBase Sample { get; }
+    [SerializeField]private List<ScriptableItemBase> objects;
+    [SerializeField] private ScriptableItemBase sample;
 
     public int Count
     {
@@ -16,13 +17,18 @@ public class InventorySlot
 
     public InventorySlot(ScriptableItemBase sample)
     {
-        Sample = sample;
+        this.sample = sample;
+        objects = new List<ScriptableItemBase>();
+    }
+
+    public InventorySlot()
+    {
         objects = new List<ScriptableItemBase>();
     }
 
     public InventorySlot AddItem(ScriptableItemBase item)
     {
-        if (item.name == Sample.name)
+        if (item.name == sample.name)
         {
             objects.Add(item);
         }
@@ -41,13 +47,18 @@ public class InventorySlot
         }
         else
         {
-            Debug.LogError("Removing nonexistent item, " + Sample.name);
+            Debug.LogError("Removing nonexistent item, " + sample.name);
         }
         return this;
     }
 
+    public ScriptableItemBase GetSample()
+    {
+        return sample;
+    }
+
     public override string ToString()
     {
-        return Count + " of " + Sample;
+        return Count + " of " + sample;
     }
 }

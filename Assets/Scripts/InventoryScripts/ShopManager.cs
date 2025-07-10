@@ -34,6 +34,12 @@ public class ShopManager : MonoBehaviour
         inventory.AddItem(weapons?[Random.Range(0, weapons.Count)]);
     }
 
+      public void SellRandomConsumable()
+    {
+        List<ScriptableItemBase> consumables = (stock ?? new List<ScriptableItemBase>()).Where(a => a != null && a is ScriptableConsumable).ToList();
+        inventory.AddItem(consumables?[Random.Range(0, consumables.Count)]);
+    }
+
     public void SellExtacy()
     {
         inventory.AddItem(extacyDrink);

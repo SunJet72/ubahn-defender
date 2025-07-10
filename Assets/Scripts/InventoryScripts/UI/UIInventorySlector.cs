@@ -4,12 +4,15 @@ using UnityEngine.EventSystems;
 using System.Linq;
 using System.Text;
 using Unity.VisualScripting;
+using System;
+using System.Collections.Generic;
 
 public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
 {
 
     [SerializeField] TMP_Text selectorText;
     [SerializeField] UIItemSlot selectedSlot;
+    [SerializeField] UIInventorySlot selectedInventorySlot;
     public SelectorState state = SelectorState.NoSelection;
 
     private UIInventoryStash stash;
@@ -29,7 +32,20 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+        UIInventoryController uiinvcontroller;
+        if (!TryGetComponentFromList<UIInventoryController>(eventData.hovered, out uiinvcontroller))
+        {
+            Debug.Log("Noclickin` on inventory");
+            return;
+        }
+
+        UIConsumableSlots conSlots;
+
+        bool isOverConsumblePanel = TryGetComponentFromList<UIConsumableSlots>(eventData.hovered, out conSlots);
+
+        bool isOverInventoryStash = TryGetComponentFromList<UIInventoryStash>(eventData.hovered, out UIInventoryStash stash);
+
+
         // StringBuilder str = new StringBuilder();
         // str.Append("Clicked on me, here is the stack:\n");
         foreach (GameObject go in eventData.hovered)
@@ -61,9 +77,24 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
                         {
                             Debug.LogError("Shit, what have you done. How did you select this slot");
                         }
-                        StringBuilder str = new StringBuilder();
+                        //StringBuilder str = new StringBuilder();
                         // str.Append("Clicked on me, here is the stack:\n");
                         return;
+                    }
+
+                    if (isOverConsumblePanel)
+                    {
+                        UIInventorySlot conSlot;
+
+                        if (go.TryGetComponent<UIInventorySlot>(out conSlot))
+                        {
+                            state = SelectorState.SelectingConsumable;
+                            selectorText.text = "Selecting Consumable:";
+                            selectedInventorySlot = conSlot;
+                            controller.Rebuild();
+                            Debug.Log(conSlot.realSlot);
+                            return;
+                        }
                     }
 
                     break;
@@ -72,23 +103,23 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
 
                     UIInventorySlot slot;
 
-                    if (go.TryGetComponent<UIInventorySlot>(out slot))
+                    if (go.TryGetComponent<UIInventorySlot>(out slot)&&isOverInventoryStash)
                     {
-                        if (slot.realSlot.Sample is ScriptableWeapon && state == SelectorState.SelectingWeapon)
+                        if (slot.realSlot.GetSample() is ScriptableWeapon && state == SelectorState.SelectingWeapon)
                         {
                             state = SelectorState.NoSelection;
                             selectedSlot = null;
-                            inventory.SwapOutCurrentWeapon(slot.realSlot.Sample);
+                            inventory.SwapOutCurrentWeapon(slot.realSlot.GetSample());
                             selectorText.text = "Inventory: ";
                             //controller.Rebuild();
                             return;
 
                         }
-                        if (slot.realSlot.Sample is ScriptableArmor && state == SelectorState.SelectingArmor)
+                        if (slot.realSlot.GetSample() is ScriptableArmor && state == SelectorState.SelectingArmor)
                         {
                             state = SelectorState.NoSelection;
                             selectedSlot = null;
-                            inventory.SwapOutCurrentArmor(slot.realSlot.Sample);
+                            inventory.SwapOutCurrentArmor(slot.realSlot.GetSample());
                             selectorText.text = "Inventory: ";
 
                             //controller.Rebuild();
@@ -102,33 +133,61 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
                         return;
                     }
                     break;
+                case SelectorState.SelectingConsumable:
+
+                    UIInventorySlot selSlot;
+
+                    if (go.TryGetComponent<UIInventorySlot>(out selSlot)&&isOverInventoryStash)
+                    {
+                        int indexOfSlot = controller.UIConsumable.GetIndexOfSlot(selectedInventorySlot);
+                        Debug.Log(selectedInventorySlot.realSlot.GetSample().ToString() + " to " + selSlot.realSlot);
+                        if (indexOfSlot < 0 || indexOfSlot >= inventory.GetMaxActiveConsumables())
+                        {
+                            Debug.LogError("Bro... if you see this... I am already dead. Take care");
+                        }
+                        inventory.AddToActiveCosumables(selSlot.realSlot, indexOfSlot);
+                        selectorText.text = "Inventory: ";
+                        selectedInventorySlot = null;
+                        state = SelectorState.NoSelection;
+                        //controller.Rebuild();
+                        return;
+                    }
+                    break;
             }
         }
         state = SelectorState.NoSelection;
         selectedSlot = null;
-        controller.Rebuild();
-        selectorText.text = "Inventory: ";
+        selectedInventorySlot = null;
+        try
+        {
+            controller.Rebuild();
+            selectorText.text = "Inventory: ";
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log("Please stop this nonsence " + e + " I dont know this person");
+        }
         //Debug.Log(str.ToString());
         
     }
 
-    public void OnSlotClick(Component clickedComponent)
-    {
-
-        /*
-        selectedSlot = slot;
-        if (slot.type == UIItemSlot.SlotType.WeaponSlot)
+    public bool TryGetComponentFromList<T>(List<GameObject> list, out T found) where T:Component {
+        for (int i = 0; i < list.Count; i++)
         {
-            selectorText
+            var go = list[i];
+            if (go != null && go.TryGetComponent(out found))
+                return true;
         }
-        Debug.Log("Slot: " + slot.gameObject.name + " selected");*/
-    }
+        found = null;
+        return false;
+    } 
 
     public enum SelectorState
     {
         NoSelection,
         SelectingArmor,
-        SelectingWeapon
+        SelectingWeapon,
+        SelectingConsumable
     }
 
 }
