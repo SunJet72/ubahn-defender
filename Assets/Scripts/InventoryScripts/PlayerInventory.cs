@@ -91,6 +91,12 @@ public class PlayerInventory : MonoBehaviour
         return this;
     }
 
+    public PlayerInventory RemoveSlot(InventorySlot slot)
+    {
+        inventoryStash.Remove(slot);
+        return this;
+    }
+
     public bool Contains(ScriptableItemBase item)
     {
         foreach (InventorySlot slot in inventoryStash)
@@ -145,10 +151,11 @@ public class PlayerInventory : MonoBehaviour
             Debug.Log("Bro is trying to equip not a consumable and dies from cringe");
             return;
         }
-        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem)
+        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem&& activeConsumables[slotIndex].Count!=0)
         {
             inventoryStash.Add(activeConsumables[slotIndex]);
         }
+        RemoveSlot(slot);
         activeConsumables[slotIndex] = slot;
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();

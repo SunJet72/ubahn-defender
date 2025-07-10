@@ -16,5 +16,5 @@ MonoBehaviour:
   description: qeqeqe
   maxStackSize: 23
   sprite: {fileID: 4606908045521496030, guid: 1056345fd9fa024449c779535659f1d7, type: 3}
-  action: {fileID: 0}
+  action: {fileID: 11400000, guid: acb81a849552239e095125790dbf4b06, type: 2}
   power: 0
