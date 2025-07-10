@@ -119,7 +119,8 @@ public class DummyPlayerManager : MonoBehaviour
         {
             consumableEvents[ActiveConsumableIndex].Invoke();
             activeConsumables[ActiveConsumableIndex].RemoveItem();
-            UIMasterController.instance.RebuildConsumableSelector();
+            //UIMasterController.instance.RebuildConsumableSelector();
+            UIMasterController.instance.RebuildAll();
         }
     }
 

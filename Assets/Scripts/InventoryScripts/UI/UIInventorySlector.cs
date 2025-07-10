@@ -92,7 +92,6 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
                             selectorText.text = "Selecting Consumable:";
                             selectedInventorySlot = conSlot;
                             controller.Rebuild();
-                            Debug.Log(conSlot.realSlot);
                             return;
                         }
                     }
@@ -140,7 +139,6 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
                     if (go.TryGetComponent<UIInventorySlot>(out selSlot)&&isOverInventoryStash)
                     {
                         int indexOfSlot = controller.UIConsumable.GetIndexOfSlot(selectedInventorySlot);
-                        Debug.Log(selectedInventorySlot.realSlot.GetSample().ToString() + " to " + selSlot.realSlot);
                         if (indexOfSlot < 0 || indexOfSlot >= inventory.GetMaxActiveConsumables())
                         {
                             Debug.LogError("Bro... if you see this... I am already dead. Take care");
