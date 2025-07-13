@@ -1,14 +1,8 @@
 using UnityEngine;
-public enum EnemyType
+public class EnemyCombatBehaviourSystem : UnitController
 {
-    RANGED,
-    MELEE,
-    SCOUNDREL,
-    TAXIST
-}
-public class EnemyCombatBehaviourSystem : MonoBehaviour
-{
-    public EnemyType enemyType;
+    protected override UnitData UnitData => data;
+    [SerializeField] private EnemyCombatSystemData data;
     public bool useRidingController;
     public bool useAttackingMeleeController;
     public bool useAttackingRangedController;
@@ -22,6 +16,8 @@ public class EnemyCombatBehaviourSystem : MonoBehaviour
     public EscapingBehaviourController escapingBehaviourController;
     public HauntingBehaviourController hauntingBehaviourController;
     public StealingBehaviourController stealingBehaviourController;
+
+    [HideInInspector] public EnemyType EnemyType { get => data.enemyType; }
 
     [SerializeField] private PlayerMock playerMock;
     private GameCombatManager gameCombatManager;
@@ -109,5 +105,10 @@ public class EnemyCombatBehaviourSystem : MonoBehaviour
         container.Steal();
         Debug.Log("I increment enemy score for stealing box with ects");
         ChangeCurrentBehaviour(escapingBehaviourController);
+    }
+
+    protected override void Die()
+    {
+        throw new System.NotImplementedException();
     }
 }

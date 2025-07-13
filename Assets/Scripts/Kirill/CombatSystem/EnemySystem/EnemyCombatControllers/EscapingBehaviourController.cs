@@ -3,7 +3,7 @@ using UnityEngine;
 public class EscapingBehaviourController : CombatBehaviourController
 {
     private Vector2 escapeDirection;
-    [SerializeField]private EnemyEscapeData data;
+    //[SerializeField]private EnemyEscapeData data;
     public override void OnStartBehaviour()
     {
         ChooseEscapeDirection();
@@ -16,7 +16,7 @@ public class EscapingBehaviourController : CombatBehaviourController
 
     public override void OnFixedUpdateBehave()
     {
-        transform.Translate(escapeDirection * data.escapeSpeed * Time.fixedDeltaTime);
+        transform.Translate(escapeDirection * Controller.Speed * Time.fixedDeltaTime);
     }
 
     public override void OnEndBehaviour()

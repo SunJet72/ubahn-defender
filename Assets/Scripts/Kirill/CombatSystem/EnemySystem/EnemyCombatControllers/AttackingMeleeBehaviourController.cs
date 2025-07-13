@@ -28,7 +28,7 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
 
     public override void OnFixedUpdateBehave()
     {
-        curAttackCooldown -= Time.fixedDeltaTime;
+        curAttackCooldown -= Time.fixedDeltaTime * Controller.AttackSpeed;
 
         float distance = (transform.position - target.position).magnitude;
         if (data.detectionRange < distance)
@@ -50,13 +50,13 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
 
     private void Chaise()
     {
-        transform.Translate((target.position - transform.position).normalized * data.chaiseSpeed * Time.fixedDeltaTime);
+        transform.Translate((target.position - transform.position).normalized * Controller.Speed * Time.fixedDeltaTime);
     }
 
     private void Attack()
     {
         chaisedPlayer.Hurt(data.attackDamage);
-        curAttackCooldown = data.timeBetweenAttacks;
+        curAttackCooldown = 1f;
     }
 
     private void OnPlayerKilled(System.Object obj, EventArgs e)
@@ -76,7 +76,7 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
     {
         chaisedPlayer = null;
         target = null;
-        curAttackCooldown = data.timeBetweenAttacks;
+        curAttackCooldown = 1f;
     }
 
     private void OnDrawGizmosSelected()

@@ -119,6 +119,26 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &38601794 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 278197942937264810, guid: f840389ef57bb5a4c9d3954c69a71906, type: 3}
+  m_PrefabInstance: {fileID: 6880520098503927867}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &38601795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38601794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1ec558b579d534bb49e102a44697f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1597825262}
+  maxHealth: 50
+  currentHealth: 0
 --- !u!1 &86372430
 GameObject:
   m_ObjectHideFlags: 0
@@ -12908,7 +12928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &770090341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14408,7 +14428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1739458229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14592,6 +14612,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbordagingCar_Easy
       objectReference: {fileID: 0}
+    - target: {fileID: 278197942937264810, guid: f840389ef57bb5a4c9d3954c69a71906, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2694953461405488002, guid: f840389ef57bb5a4c9d3954c69a71906, type: 3}
       propertyPath: m_LocalPosition.x
       value: 18.9
@@ -14635,7 +14659,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 278197942937264810, guid: f840389ef57bb5a4c9d3954c69a71906, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 38601795}
   m_SourcePrefab: {fileID: 100100000, guid: f840389ef57bb5a4c9d3954c69a71906, type: 3}
 --- !u!1001 &7039733437270193251
 PrefabInstance:
@@ -14651,7 +14678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1892713171676975189, guid: 2449c50585373d54a92459b4ffad8d30, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8323373763697192105, guid: 2449c50585373d54a92459b4ffad8d30, type: 3}
       propertyPath: m_LocalPosition.x

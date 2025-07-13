@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VehicleCombatBehaviourSystem : MonoBehaviour
+public class VehicleCombatBehaviourSystem : UnitController
 {
     [SerializeField] private VehicleCombatSystemData data;
+    protected override UnitData UnitData => data;
 
     public bool useAbordagingController;
     public bool useChasingController;
@@ -79,7 +80,7 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
     {
         for (int i = 0; i < enemies.Length; i++)
         {
-            if (enemies[i] != null && (enemies[i].enemyType == EnemyType.MELEE || enemies[i].enemyType == EnemyType.SCOUNDREL))
+            if (enemies[i] != null && (enemies[i].EnemyType == EnemyType.MELEE || enemies[i].EnemyType == EnemyType.SCOUNDREL))
             {
                 enemies[i].gameObject.transform.SetParent(null);
                 enemies[i].VehicleEndedTheAbordageProcess();
@@ -94,10 +95,15 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
         Debug.Log("I am trying to tell the ranger, so that they could attack");
         for (int i = 0; i < enemies.Length; i++)
         {
-            if (enemies[i] != null && enemies[i].enemyType == EnemyType.RANGED)
+            if (enemies[i] != null && enemies[i].EnemyType == EnemyType.RANGED)
             {
                 enemies[i].VehicleToldTheRangerToAttack(playerMock);
             }
         }
+    }
+
+    protected override void Die()
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -4,5 +4,4 @@ using UnityEngine;
 public class EnemyHauntData : ScriptableObject
 {
     public float distanceBeforeSteal;
-    public float chaiseSpeed;
 }

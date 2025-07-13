@@ -4,8 +4,6 @@ using UnityEngine;
 public class EnemyMeleeAttackData : ScriptableObject
 {
     public float detectionRange;
-    public float chaiseSpeed;
     public float attackRange;
-    public float timeBetweenAttacks;
     public float attackDamage;
 }

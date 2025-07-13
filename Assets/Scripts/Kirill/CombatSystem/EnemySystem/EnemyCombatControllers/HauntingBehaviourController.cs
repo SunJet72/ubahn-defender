@@ -33,7 +33,7 @@ public class HauntingBehaviourController : CombatBehaviourController
 
     private void Chaise()
     {
-        transform.Translate((target.position - transform.position).normalized * data.chaiseSpeed * Time.fixedDeltaTime);
+        transform.Translate((target.position - transform.position).normalized * Controller.Speed * Time.fixedDeltaTime);
     }
 
     private void StartStealing()
