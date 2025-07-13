@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class UnitController : MonoBehaviour
@@ -34,14 +35,17 @@ public abstract class UnitController : MonoBehaviour
         attackSpeedMultiplex = 1f;
     }
 
-    public void ApplyEffect()
+    public void ApplyStatusEffect(StatusEffect statusEffect, Action<StatusEffect> onEndAction)
     {
+        // Applying effect
+
         // Subscribe on event in effector to then cleanse the effect
+        onEndAction += RemoveStatusEffect;
     }
 
-    private void RemoveEffect()
+    private void RemoveStatusEffect(StatusEffect effect)
     {
-        
+        // Reverting application of an effect
     }
 
     public void Hurt(float damage, float enemyPenetration)
