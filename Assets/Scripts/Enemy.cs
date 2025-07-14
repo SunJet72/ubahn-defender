@@ -22,8 +22,6 @@ public class Enemy : NetworkBehaviour
 
     // public Transform ParentTransform { get; set; }
 
-    private ChangeDetector _changeDetector;
-
     public override void Spawned()
     {
         CurrentHealth = maxHealth;
@@ -41,9 +39,9 @@ public class Enemy : NetworkBehaviour
     {
         // if (transform.parent != ParentTransform)
         // {
-        //     Debug.Log("What the fuck, no parent! Replace " + transform.parent?.name + " with " + ParentTransform);
+        //     Debug.Log("No parent! Replace " + transform.parent?.name + " with " + ParentTransform);
         //     transform.localScale = Vector3.one;
-        //     Debug.Log("Replaces parent: " + transform.parent?.name);
+        //     Debug.Log("Replaced parent: " + transform.parent?.name);
         // }
         agent.SetDestination(target.position); // Set the destination to the target's position
     }
