@@ -10,6 +10,7 @@ public class ExampleAction : MonoBehaviour, IActionable
     private Color startColor;
     [SerializeField]private Color abilityColor;
 
+
     public void SetUp(GameObject player, ScriptableActionBase action, UnityEvent actionEvent)
     {
         playerRenderer = player.GetComponent<SpriteRenderer>();
@@ -23,10 +24,9 @@ public class ExampleAction : MonoBehaviour, IActionable
         {
             Debug.LogError("The Fuck wrong with you. Wrong Ability, no Color");
         }
-
+        //Debug.Log("Bro is set up " + actionEvent);
         actionEvent.AddListener(Action);
-
-        }
+    }
     public void Action()
     {
         if (state)

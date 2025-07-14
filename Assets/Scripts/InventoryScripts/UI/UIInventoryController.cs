@@ -9,6 +9,7 @@ public class UIInventoryController : MonoBehaviour
     [SerializeField] private UIInventoryStash stash;
     [SerializeField] public UIItemSlot UIarmor;
     [SerializeField] public UIItemSlot UIweapon;
+    [SerializeField] public UIConsumableSlots UIConsumable;
 
     private UIInventorySlector selector;
 
@@ -27,7 +28,7 @@ public class UIInventoryController : MonoBehaviour
     }
     public void RebuildArmor() {
         stash.ShowArmorOptions(inventory.GetInventory());
-    } 
+    }
 
     public void Rebuild()
     {
@@ -39,12 +40,16 @@ public class UIInventoryController : MonoBehaviour
             case UIInventorySlector.SelectorState.SelectingWeapon:
                 stash.ShowWeaponOptions(inventory.GetInventory());
                 break;
+            case UIInventorySlector.SelectorState.SelectingConsumable:
+                stash.ShowConsumableOptions(inventory.GetInventory());
+                break;
             default:
                 stash.Rebuild(inventory.GetInventory());
                 break;
         }
         UIarmor.RefreshSlot(inventory.GetCurrentArmor());
         UIweapon.RefreshSlot(inventory.GetCurrentWeapon());
+        UIConsumable.Rebuild(inventory.GetActiveConsumables());
     }
 
 }
