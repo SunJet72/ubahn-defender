@@ -9,6 +9,8 @@ public class ScriptableWeapon : ScriptableItemBase
     public float cooldown;
     public float range;
 
+    public UnitData unitData;
+    public GameObject spell;
 
 
     public void Use(GameObject player)

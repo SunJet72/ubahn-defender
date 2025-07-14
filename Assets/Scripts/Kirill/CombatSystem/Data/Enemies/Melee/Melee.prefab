@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0fdbe2e84acdf4281983a601fcb819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 1
+  data: {fileID: 11400000, guid: 35be86cd3faba7940ad86ec737fd7dd1, type: 2}
   useRidingController: 1
   useAttackingMeleeController: 1
   useAttackingRangedController: 0
@@ -119,7 +119,6 @@ MonoBehaviour:
   hauntingBehaviourController: {fileID: 4808710791471251249}
   stealingBehaviourController: {fileID: 1599132928172126657}
   playerMock: {fileID: 0}
-  gameCombatManager: {fileID: 0}
 --- !u!114 &2074797756735876518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820c19fbb7a04a54399a338681301330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 92301dd36de3d494b8629159fc90293c, type: 2}
 --- !u!114 &4808710791471251249
 MonoBehaviour:
   m_ObjectHideFlags: 0

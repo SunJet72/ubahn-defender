@@ -10,7 +10,7 @@ public class TimeReload : Reload
     private float timeSpent;
     void Awake()
     {
-        reloadPercentage = 100;
+        reloadPercentage = 1f;
         isReady = true;
     }
 
@@ -22,13 +22,13 @@ public class TimeReload : Reload
             if (timeSpent >= data.reloadTime)
             {
                 timeSpent = 0;
-                reloadPercentage = 100;
+                reloadPercentage = 1f;
                 isReady = true;
                 Trigger();
             }
             else
             {
-                reloadPercentage = (timeSpent / data.reloadTime) * 100;
+                reloadPercentage = timeSpent / data.reloadTime;
             }
         }
     }

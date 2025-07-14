@@ -1,9 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NAME_GeneralSpellData", menuName = "Spells/General Spell Data")]
-public class Spell : ScriptableObject
+public abstract class Spell : MonoBehaviour
 {
-    public string spellName;
-    public string spellDescription;
-    public Sprite icon;
+    public abstract SpellData SpellData { get; }
 }

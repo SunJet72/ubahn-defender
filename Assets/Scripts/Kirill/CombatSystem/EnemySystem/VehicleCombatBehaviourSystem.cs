@@ -21,6 +21,11 @@ public class VehicleCombatBehaviourSystem : UnitController
     private VehicleBehaviourController curController;
     private EnemyCombatBehaviourSystem[] enemies;
 
+    void Awake()
+    {
+        base.Init();
+    }
+
     void Start()
     {
         gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();

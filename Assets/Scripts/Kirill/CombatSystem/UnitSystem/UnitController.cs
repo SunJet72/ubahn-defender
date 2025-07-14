@@ -21,31 +21,94 @@ public abstract class UnitController : MonoBehaviour
 
     private float speedMultiplex;
     private float attackSpeedMultiplex;
-
-    void Awake()
+    protected void Init()
     {
-        health = UnitData.health;
-        armor = UnitData.armor;
-        strength = UnitData.strength;
-        speed = UnitData.speed;
-        attackSpeed = UnitData.attackSpeed;
-        armorPenetration = UnitData.armorPenetration;
+        health = 0;
+        armor = 0;
+        strength = 0;
+        speed = 0;
+        attackSpeed = 0;
+        armorPenetration = 0;
 
         speedMultiplex = 1f;
         attackSpeedMultiplex = 1f;
+
+        ApplyUnitDataStats(UnitData);
     }
 
-    public void ApplyStatusEffect(StatusEffect statusEffect, Action<StatusEffect> onEndAction)
+    protected void ApplyUnitDataStats(UnitData unitData)
+    {
+        health += UnitData.health;
+        armor += UnitData.armor;
+        strength += UnitData.strength;
+        speed += UnitData.speed;
+        attackSpeed += UnitData.attackSpeed;
+        armorPenetration += UnitData.armorPenetration;
+    }
+
+    public void ApplyStatusEffect(StatusEffect statusEffect, Action<StatusEffect> onEndAction, bool isPermanent)
     {
         // Applying effect
-
+        switch (statusEffect.paramToEffect)
+        {
+            case UnitParams.HEALTH:
+                health += statusEffect.value;
+                if (health <= 0)
+                {
+                    health = 0;
+                    Die();
+                }
+                break;
+            case UnitParams.ARMOR:
+                armor += statusEffect.value;
+                break;
+            case UnitParams.ARMOR_PENETRATION:
+                armorPenetration += statusEffect.value;
+                break;
+            case UnitParams.STRENGTH:
+                strength += statusEffect.value;
+                break;
+            case UnitParams.SPEED:
+                speedMultiplex += statusEffect.value;
+                break;
+            case UnitParams.ATTACK_SPEED:
+                attackSpeedMultiplex += statusEffect.value;
+                break;
+        }
         // Subscribe on event in effector to then cleanse the effect
-        onEndAction += RemoveStatusEffect;
+        if (!isPermanent)
+            onEndAction += RemoveStatusEffect;
     }
 
-    private void RemoveStatusEffect(StatusEffect effect)
+    private void RemoveStatusEffect(StatusEffect statusEffect)
     {
         // Reverting application of an effect
+        switch (statusEffect.paramToEffect)
+        {
+            case UnitParams.HEALTH:
+                health -= statusEffect.value;
+                if (health <= 0)
+                {
+                    health = 0;
+                    Die();
+                }
+                break;
+            case UnitParams.ARMOR:
+                armor -= statusEffect.value;
+                break;
+            case UnitParams.ARMOR_PENETRATION:
+                armorPenetration -= statusEffect.value;
+                break;
+            case UnitParams.STRENGTH:
+                strength -= statusEffect.value;
+                break;
+            case UnitParams.SPEED:
+                speedMultiplex -= statusEffect.value;
+                break;
+            case UnitParams.ATTACK_SPEED:
+                attackSpeedMultiplex -= statusEffect.value;
+                break;
+        }
     }
 
     public void Hurt(float damage, float enemyPenetration)

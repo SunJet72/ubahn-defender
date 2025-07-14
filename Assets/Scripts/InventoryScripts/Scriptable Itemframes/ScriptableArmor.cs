@@ -8,6 +8,9 @@ public class ScriptableArmor : ScriptableItemBase
     public float durability;
     public float coolness;
 
+    public UnitData unitData;
+    public GameObject spell;
+
 
     public void Use(GameObject player)
     {

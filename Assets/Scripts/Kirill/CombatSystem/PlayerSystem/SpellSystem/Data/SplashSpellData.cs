@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SplashSpellData", menuName = "Spells/SplashSpellData")]
-public class SplashSpellData : ScriptableObject
+public class SplashSpellData : SpellData
 {
     public float radius;
     public float fov;

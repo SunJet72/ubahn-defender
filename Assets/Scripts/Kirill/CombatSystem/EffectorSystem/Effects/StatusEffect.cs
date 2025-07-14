@@ -8,7 +8,8 @@ public class StatusEffect : Effect
     public bool hasDuration;
     public float duration;
     public bool hasEffectRadius;
-    public bool effectRadius;
+    public float effectRadius;
+    public bool isPermanent;
 
     public void ApplyEfect(Transform target)
     {

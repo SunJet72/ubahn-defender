@@ -24,6 +24,11 @@ public class EnemyCombatBehaviourSystem : UnitController
 
     private CombatBehaviourController curController;
 
+    void Awake()
+    {
+        base.Init();
+    }
+
     void Start()
     {
         gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
