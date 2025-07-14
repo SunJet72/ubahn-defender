@@ -9,15 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff73467fc8162adcbecc12c2c49c62c, type: 3}
-  m_Name: DruidAreom
+  m_Script: {fileID: 11500000, guid: 76e09506821fb2e44a775ff7253f94fb, type: 3}
+  m_Name: TimeReloadData_Ingenieur_Kite
   m_EditorClassIdentifier: 
-  title: 
-  description: 
-  maxStackSize: 1
-  sprite: {fileID: 0}
-  action: {fileID: 0}
-  spell: {fileID: 0}
-  durability: 0
-  coolness: 0
-  unitData: {fileID: 0}
+  reloadTime: 12

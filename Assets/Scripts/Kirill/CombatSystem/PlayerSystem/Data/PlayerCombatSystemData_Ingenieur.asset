@@ -9,15 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff73467fc8162adcbecc12c2c49c62c, type: 3}
-  m_Name: DruidAreom
+  m_Script: {fileID: 11500000, guid: 171b15cd88223454fbe77c266bc7e78e, type: 3}
+  m_Name: PlayerCombatSystemData_Ingenieur
   m_EditorClassIdentifier: 
-  title: 
-  description: 
-  maxStackSize: 1
-  sprite: {fileID: 0}
-  action: {fileID: 0}
-  spell: {fileID: 0}
-  durability: 0
-  coolness: 0
-  unitData: {fileID: 0}
+  health: 50
+  armor: 20
+  strength: 15
+  speed: 5
+  attackSpeed: 0.9
+  armorPenetration: 5

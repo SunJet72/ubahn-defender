@@ -9,15 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff73467fc8162adcbecc12c2c49c62c, type: 3}
-  m_Name: DruidAreom
+  m_Script: {fileID: 11500000, guid: 773d185ccaf0e3944b362d028b766429, type: 3}
+  m_Name: UnitData_Armor_Ingenieur_Scarf
   m_EditorClassIdentifier: 
-  title: 
-  description: 
-  maxStackSize: 1
-  sprite: {fileID: 0}
-  action: {fileID: 0}
-  spell: {fileID: 0}
-  durability: 0
-  coolness: 0
-  unitData: {fileID: 0}
+  health: 25
+  armor: 5
+  strength: 10
+  speed: 5
+  attackSpeed: 2
+  armorPenetration: 0

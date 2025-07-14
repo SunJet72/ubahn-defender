@@ -46,7 +46,7 @@ public abstract class UnitController : MonoBehaviour
         armorPenetration += UnitData.armorPenetration;
     }
 
-    public void ApplyStatusEffect(StatusEffect statusEffect, Action<StatusEffect> onEndAction, bool isPermanent)
+    public void ApplyStatusEffect(StatusEffect statusEffect)
     {
         // Applying effect
         switch (statusEffect.paramToEffect)
@@ -75,13 +75,11 @@ public abstract class UnitController : MonoBehaviour
                 attackSpeedMultiplex += statusEffect.value;
                 break;
         }
-        // Subscribe on event in effector to then cleanse the effect
-        if (!isPermanent)
-            onEndAction += RemoveStatusEffect;
     }
 
-    private void RemoveStatusEffect(StatusEffect statusEffect)
+    public void RemoveStatusEffect(StatusEffect statusEffect)
     {
+        Debug.Log("I remove effect: " + statusEffect);
         // Reverting application of an effect
         switch (statusEffect.paramToEffect)
         {

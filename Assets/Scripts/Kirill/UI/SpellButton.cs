@@ -7,10 +7,11 @@ public class SpellButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private bool isPreparingSpell = false;
 
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private ActiveSpell spell;
     [SerializeField] private Image cooldownOverlay;
     [SerializeField] private Image icon;
     [SerializeField] private PlayerMock playerMock;
+
+    private ActiveSpell spell;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -21,13 +22,21 @@ public class SpellButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void Awake()
     {
-        icon.sprite = spell.SpellData.icon;
+        //icon.sprite = spell.SpellData.icon;
+    }
+
+    public void SetSpell(Spell spell)
+    {
+        if (spell is ActiveSpell activeSpell)
+        {
+            this.spell = activeSpell;
+            icon.sprite = activeSpell.SpellData.icon;
+        }
     }
 
     void FixedUpdate()
     {
         cooldownOverlay.fillAmount = 1f - spell.Reload.ReloadPercentage;
-        Debug.Log(spell.Reload.ReloadPercentage);
     }
 
     public void OnPointerUp(PointerEventData eventData)
