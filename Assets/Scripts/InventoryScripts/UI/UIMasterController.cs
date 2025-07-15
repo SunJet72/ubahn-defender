@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class UIMasterController : MonoBehaviour
 {
     public static UIMasterController instance;
     private UIConsumableSelector consumableSelector;
+    private UIShopManager uiShop;
     private UIInventoryController inventoryController;
 
     public DummyPlayerManager player;
@@ -18,16 +20,28 @@ public class UIMasterController : MonoBehaviour
         consumableSelector = GetComponentInChildren<UIConsumableSelector>();
         inventoryController = GetComponentInChildren<UIInventoryController>();
         player = GameObject.Find("Player").GetComponent<DummyPlayerManager>();
+        uiShop = GetComponentInChildren<UIShopManager>();
     }
 
     public void RebuildConsumableSelector()
     {
-        consumableSelector.Rebuild(player);
+        consumableSelector?.Rebuild(player);
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
     }
 
     public void RebuildAll()
     {
-        consumableSelector.Rebuild(player);
-        inventoryController.Rebuild();
+        consumableSelector?.Rebuild(player);
+        inventoryController?.Rebuild();
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+    }
+
+    public void RebuildShop()
+    {
+        uiShop?.Rebuild();
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
     }
 }

@@ -1,9 +1,6 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
-using System.Linq;
-using System.Text;
-using Unity.VisualScripting;
 using System;
 using System.Collections.Generic;
 
@@ -15,8 +12,6 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
     [SerializeField] UIInventorySlot selectedInventorySlot;
     public SelectorState state = SelectorState.NoSelection;
 
-    private UIInventoryStash stash;
-
     private GameObject player;
     private PlayerInventory inventory;
 
@@ -24,7 +19,6 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
 
     public void Awake()
     {
-        stash = GetComponentInChildren<UIInventoryStash>();
         player = GameObject.Find("Player");
         inventory = player.GetComponent<PlayerInventory>();
         controller = GetComponent<UIInventoryController>();

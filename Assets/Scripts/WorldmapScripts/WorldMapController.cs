@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,6 +8,10 @@ public class WorldMapController : MonoBehaviour
     public static WorldMapController instance;
 
     public TrainController currTrain = null;
+
+    public Station currentStation;
+
+    [SerializeField] private StationTierData tierConfig;
 
     public HashSet<Station> map = new HashSet<Station>();
     void Awake()
@@ -49,6 +52,7 @@ public class WorldMapController : MonoBehaviour
         // {
         //     Debug.Log(station);
         // }
+        currentStation = CheckCurrentStation();
 
     }
 
@@ -70,7 +74,7 @@ public class WorldMapController : MonoBehaviour
             float stationValue;
             if (stationScores.TryGetValue(station.Id, out stationValue))
             {
-                station.Wealth = stationValue;
+                station.LoadData(stationValue, tierConfig.tierReqs);
             }
             else
             {
@@ -107,6 +111,12 @@ public class WorldMapController : MonoBehaviour
         }
 
         currTrain = new TrainController(realRoute, realCurrentStation);
+    }
+
+    private Station CheckCurrentStation()
+    {
+        //Mock
+        return map.FirstOrDefault(st => st.Id == 0);
     }
 
     

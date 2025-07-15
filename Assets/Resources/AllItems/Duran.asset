@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fefdbe746f011f36a5bbd1074c3d66a, type: 3}
   m_Name: Duran
   m_EditorClassIdentifier: 
+  id: 3
   title: Duran duran
   description: Very powerfull but invisible
   maxStackSize: 5
+  tier: 1
   sprite: {fileID: 0}
+  price: 20
   action: {fileID: 0}
   damage: 999
   cooldown: 1

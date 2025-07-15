@@ -7,10 +7,12 @@ public class DummyPlayerManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private PlayerInventory inventory;
+
+    [SerializeField]private int playerMoney = 0;
     [SerializeField] private ScriptableWeapon weapon;
     [SerializeField] private ScriptableArmor armor;
     [SerializeField] public InventorySlot[] activeConsumables;
-    [SerializeField]private int _activeConsumableIndex = 0;
+    [SerializeField] private int _activeConsumableIndex = 0;
     public int ActiveConsumableIndex
     {
         get => _activeConsumableIndex;
@@ -37,7 +39,7 @@ public class DummyPlayerManager : MonoBehaviour
 
     [HideInInspector] public UnityEvent weaponEvent;
     [HideInInspector] public UnityEvent armorEvent;
-     public UnityEvent[] consumableEvents;
+    public UnityEvent[] consumableEvents;
 
     void Awake()
     {
@@ -81,14 +83,14 @@ public class DummyPlayerManager : MonoBehaviour
         {
             Destroy(armorComponent);
         }
-        for(int i =0; i<consumableComponents.Length; ++i)
+        for (int i = 0; i < consumableComponents.Length; ++i)
         {
             Destroy(consumableComponents[i]);
         }
 
         for (int i = 0; i < activeConsumables.Length; ++i)
         {
-            if (activeConsumables[i].GetSample() != ItemManager.instance.emptyItem&&activeConsumables[i].GetSample().action!=null)
+            if (activeConsumables[i].GetSample() != ItemManager.instance.emptyItem && activeConsumables[i].GetSample().action != null)
             {
                 consumableComponents[i] = activeConsumables[i].GetSample().action.SetUp(gameObject, consumableEvents[i]);
             }

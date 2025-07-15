@@ -1,10 +1,8 @@
+using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Text;
-using UnityEngine;
 
-
-
+[Serializable]
 public class Station
 {
     public int Id { get; }
@@ -12,6 +10,9 @@ public class Station
     public string Description { get; }
     public float Wealth { get; set; }
     public List<Station> Neighbours { get; }
+
+    public int StationTier = 0;
+
 
     public Station(StationObj obj)
     {
@@ -29,6 +30,18 @@ public class Station
     public void RecieveGoods(float recievedGoods)
     {
         Wealth += recievedGoods;
+    }
+
+    public void LoadData(float w, float[] tierReqs)
+    {
+        for (int i = 0; i < tierReqs.Length; ++i)
+        {
+            if (Wealth < tierReqs[i])
+            {
+                StationTier = i - 1;
+                break;
+            }
+        }
     }
 
     public override string ToString()

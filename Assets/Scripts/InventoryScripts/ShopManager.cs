@@ -5,17 +5,25 @@ using System.Linq;
 
 public class ShopManager : MonoBehaviour
 {
+    public static ShopManager instance;
     private GameObject player;
     private PlayerInventory inventory;
 
-    public ScriptableItemBase extacyDrink;
+    private Station currentStation;
 
-    [SerializeField]private List<ScriptableItemBase> stock;
+    [SerializeField] private List<ScriptableItemBase> stock;
+
+    void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         player = GameObject.Find("Player");
         inventory = player.GetComponent<PlayerInventory>();
         stock = ItemManager.instance.GetAll();
+        currentStation = WorldMapController.instance.currentStation;
+        UIMasterController.instance.RebuildShop();
     }
 
     public void SellRandomItem()
@@ -34,15 +42,32 @@ public class ShopManager : MonoBehaviour
         inventory.AddItem(weapons?[Random.Range(0, weapons.Count)]);
     }
 
-      public void SellRandomConsumable()
+    public void SellRandomConsumable()
     {
         List<ScriptableItemBase> consumables = (stock ?? new List<ScriptableItemBase>()).Where(a => a != null && a is ScriptableConsumable).ToList();
         inventory.AddItem(consumables?[Random.Range(0, consumables.Count)]);
     }
 
-    public void SellExtacy()
+    public void InitShopForStation(Station station)
     {
-        inventory.AddItem(extacyDrink);
+        currentStation = station;
+        stock = ItemManager.instance.GetAll(currentStation.StationTier);
     }
+
+    public void SellItem(ScriptableItemBase item)
+    {
+        if (inventory.MoneySpend(item.price))
+        {
+            inventory.AddItem(item);
+        }
+        else
+        {
+            Debug.Log("No dope for you lil shit");
+        }
+    }
+
+
+    
+
 
 }

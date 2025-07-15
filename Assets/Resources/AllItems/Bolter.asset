@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fefdbe746f011f36a5bbd1074c3d66a, type: 3}
   m_Name: Bolter
   m_EditorClassIdentifier: 
+  id: 1
   title: Bolter
   description: To crash the filthy xenos
   maxStackSize: 1
-  isPassive: 0
+  tier: 2
+  sprite: {fileID: 0}
+  price: 700
+  action: {fileID: 0}
   damage: 69
   cooldown: 3
   range: 7

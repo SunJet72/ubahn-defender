@@ -1,15 +1,17 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public UnityEvent InventoryChanged;
-    public UnityEvent EquipmentChanged;
+    [HideInInspector]public UnityEvent InventoryChanged;
+    [HideInInspector]public UnityEvent EquipmentChanged;
 
-    [SerializeField] private List<InventorySlot> inventoryStash = new List<InventorySlot>();
+    [SerializeField] private int playerMoney = 0;
+
+
+    private List<InventorySlot> inventoryStash = new List<InventorySlot>();
     [SerializeField] private ScriptableArmor currentArmor;
     [SerializeField] private ScriptableWeapon currentWeapon;
     [SerializeField] private int maxActiveConsumables;
@@ -27,7 +29,8 @@ public class PlayerInventory : MonoBehaviour
 
     void Start()
     {
-        for(int i =0; i< maxActiveConsumables;++i){
+        for (int i = 0; i < maxActiveConsumables; ++i)
+        {
             if (activeConsumables[i] == null)
             {
                 activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
@@ -134,13 +137,19 @@ public class PlayerInventory : MonoBehaviour
         EquipmentChanged.Invoke();
     }
 
+    public PlayerInventory AddSlot(InventorySlot slot)
+    {
+        inventoryStash.Add(slot);
+        return this;
+    }
+
     public void AddToActiveCosumables(InventorySlot slot, int slotIndex)
     {
         if (slot.GetSample() is not ScriptableConsumable)
         {
             return;
         }
-        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem&& activeConsumables[slotIndex].Count!=0)
+        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem && activeConsumables[slotIndex].Count != 0)
         {
             inventoryStash.Add(activeConsumables[slotIndex]);
         }
@@ -165,6 +174,19 @@ public class PlayerInventory : MonoBehaviour
         return bld.ToString();
     }
 
+    public int GetAmountOf(int id)
+    {
+        int count = 0;
+        foreach (InventorySlot slot in inventoryStash)
+        {
+            if (slot.GetSample().id == id)
+            {
+                count += slot.Count;
+            }
+        }
+        return count;
+    }
+
 
     public ScriptableArmor GetCurrentArmor()
     {
@@ -184,5 +206,21 @@ public class PlayerInventory : MonoBehaviour
     public int GetMaxActiveConsumables()
     {
         return maxActiveConsumables;
+    }
+    
+        public bool MoneySpend(int price)
+    {
+        if (price > playerMoney)
+        {
+            Debug.Log("Sorry Card Declined");
+            return false;
+        }
+        playerMoney -= price;
+        return true;
+    }
+
+    public void GetMoney(int gain)
+    {
+        playerMoney += gain;
     }
 }
