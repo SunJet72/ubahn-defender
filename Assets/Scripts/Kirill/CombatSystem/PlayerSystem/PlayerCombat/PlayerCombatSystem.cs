@@ -12,9 +12,16 @@ public class PlayerCombatSystem : UnitController
     private List<ScriptableConsumable> consumables;
     private GameCombatManager gameCombatManager;
 
+    private float curAttackCooldown = 0f;
+    private List<Transform> potentialTargets;
+    private List<PlayerCombatSystem> nearestPlayers;
+    private List<EnemyCombatBehaviourSystem> nearestEnemies;
+    private List<VehicleCombatBehaviourSystem> nearestVehicles;
+
     void Awake()
     {
         gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
+        potentialTargets = new List<Transform>();
         base.Init();
     }
 
@@ -45,6 +52,93 @@ public class PlayerCombatSystem : UnitController
         gameCombatManager.SetSpells(spellArmor, spellWeapon);
 
         //TODO Handle Consumables
+    }
+
+    void OnBecameVisible()
+    {
+
+        /*float distance = (transform.position - target.position).magnitude;
+        if (data.detectionRange < distance)
+        {
+            LoseTarget();
+        }
+        else if (data.attackRange < distance)
+        {
+            Chaise();
+        }
+        else
+        {
+            if (curAttackCooldown <= 0)
+            {
+                Attack();
+            }
+        }*/
+    }
+
+    void FixedUpdate()
+    {
+        curAttackCooldown -= Time.fixedDeltaTime * AttackSpeed;
+        if (curAttackCooldown <= 0)
+            Attack();
+
+    }
+
+    private void Attack()
+    {
+        switch (data.playerClass)
+        {
+            case PlayerClass.WARRIOR:
+                break;
+        } 
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        var unit = collision.gameObject.GetComponent<UnitController>();
+        if (unit != null)
+        {
+            unit.OnDieEvent += UnitInRangeDied;
+            if (unit is PlayerCombatSystem otherPlayer)
+            {
+                nearestPlayers.Add(otherPlayer);
+                // TODO: For mothers arm and other interaction with players
+            }
+            if (unit is EnemyCombatBehaviourSystem enemy)
+            {
+                nearestEnemies.Add(enemy);
+            }
+            if (unit is VehicleCombatBehaviourSystem vehicle)
+            {
+                nearestVehicles.Add(vehicle);
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        var unit = collision.gameObject.GetComponent<UnitController>();
+        if (unit != null)
+        {
+            unit.OnDieEvent -= UnitInRangeDied;
+            if (unit is PlayerCombatSystem otherPlayer)
+            {
+                nearestPlayers.Remove(otherPlayer);
+                // TODO: For mothers arm and other interaction with players
+            }
+            if (unit is EnemyCombatBehaviourSystem enemy)
+            {
+                nearestEnemies.Remove(enemy);
+            }
+            if (unit is VehicleCombatBehaviourSystem vehicle)
+            {
+                nearestVehicles.Remove(vehicle);
+            }
+        }
+    }
+
+    private void UnitInRangeDied(UnitController unit)
+    {
+        
     }
     protected override void Die()
     {

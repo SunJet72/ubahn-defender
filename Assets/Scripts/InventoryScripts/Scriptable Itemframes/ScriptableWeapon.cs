@@ -10,6 +10,10 @@ public class ScriptableWeapon : ScriptableItemBase
     public float range;
 
     public UnitData unitData;
+    public bool canShoot;
+    public GameObject projectile;
+    public bool canDealSplashDamage;
+    public float fov;
 
 
     public void Use(GameObject player)

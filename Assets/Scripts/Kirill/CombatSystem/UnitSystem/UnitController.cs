@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class UnitController : MonoBehaviour
 {
     protected abstract UnitData UnitData { get; }
+    public event Action<UnitController> OnDieEvent;
 
     private float health;
     private float armor;
@@ -119,5 +120,5 @@ public abstract class UnitController : MonoBehaviour
         }
     }
 
-    protected abstract void Die();
+    protected abstract void Die(); // In all Fällen OnDieEvent shooten
 }
