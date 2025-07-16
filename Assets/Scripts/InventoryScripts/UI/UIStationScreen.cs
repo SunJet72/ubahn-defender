@@ -22,17 +22,11 @@ public class UIStationScreen : MonoBehaviour
     public void Rebuild()
     {
         StringBuilder str = new StringBuilder();
-        str.Append("Welcome to ").Append(currentStation.StationName);
         welcomeText.text = str.Append("Welcome to ").Append(currentStation.StationName).ToString();
         stationStats.text = str.Clear().Append("Station wealth: ").Append(currentStation.Wealth).Append(" $\n").Append("Station tier: ").Append(currentStation.StationTier).ToString();
         //playerStats.text = str.Clear().Append()
-        uiInventory.Rebuild();
+        //uiInventory.Rebuild();
         uiShop.Rebuild(currentStation);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

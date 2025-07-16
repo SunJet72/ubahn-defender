@@ -11,10 +11,11 @@ public abstract class ScriptableActionBase : ScriptableObject
     public bool isPassive;
 
 
-    public MonoScript ComponentSkript;
+    //public MonoScript ComponentSkript;
 
     public Component SetUp(GameObject player, UnityEvent actionEvent)
     {
+        /*
         //Debug.Log("trying to configure stuff");
         Type ComponentType = ComponentSkript.GetClass();
         if (ComponentType == null)
@@ -42,6 +43,8 @@ public abstract class ScriptableActionBase : ScriptableObject
 
         ((IActionable)action).SetUp(player, this, actionEvent);
         return action;
+        */
+        return null;
     }
 
 }

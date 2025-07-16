@@ -75,7 +75,7 @@ public class WorldMapController : MonoBehaviour
             if (stationScores.TryGetValue(station.Id, out stationValue))
             {
                 station.LoadData(stationValue, tierConfig.tierReqs);
-                Debug.Log(stationValue);
+                //Debug.Log(stationValue);
             }
             else
             {
@@ -116,7 +116,7 @@ public class WorldMapController : MonoBehaviour
 
     private Station CheckCurrentStation()
     {
-        Debug.Log("Bros loading");
+        //Debug.Log("Bros loading");
         //Mock
         return map.FirstOrDefault(st => st.Id == 0);
     }

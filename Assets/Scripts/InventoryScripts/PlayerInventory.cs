@@ -27,26 +27,6 @@ public class PlayerInventory : MonoBehaviour
         activeConsumables = new InventorySlot[maxActiveConsumables];
     }
 
-    void OnEnable()
-    {
-        for (int i = 0; i < maxActiveConsumables; ++i)
-        {
-            if (activeConsumables[i] == null)
-            {
-                activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
-            }
-        }
-        if (currentArmor == null)
-        {
-            currentArmor = ItemManager.instance.emptyArmor;
-        }
-        if (currentWeapon == null)
-        {
-            currentWeapon = ItemManager.instance.emptyWeapon;
-        }
-
-    }
-
     void Start()
     {
         for (int i = 0; i < maxActiveConsumables; ++i)
@@ -65,8 +45,8 @@ public class PlayerInventory : MonoBehaviour
             currentWeapon = ItemManager.instance.emptyWeapon;
         }
 
-        InventoryChanged.Invoke();
-        EquipmentChanged.Invoke();
+         InventoryChanged.Invoke();
+         EquipmentChanged.Invoke();
     }
 
     public PlayerInventory AddItem(ScriptableItemBase item)

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor.AI;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour

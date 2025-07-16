@@ -12,6 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/InventoryTestScene.unity
     guid: 1305a91316f69021d9a61e94c5bbe28c
   m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 631c117f965191c84aad035dfeb542a5, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 2858dceb9d3fb8b628be74effe0114d4, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: b959c4ea83699964d850677fc06f6140, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 943dcca11416bf7bc98c7249ab2ee2da, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
