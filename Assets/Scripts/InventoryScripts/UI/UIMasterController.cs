@@ -8,6 +8,7 @@ public class UIMasterController : MonoBehaviour
     private UIConsumableSelector consumableSelector;
     private UIShopManager uiShop;
     private UIInventoryController inventoryController;
+    private UIDescriptionWindow descWindow;
 
     public DummyPlayerManager player;
     void Awake()
@@ -21,6 +22,7 @@ public class UIMasterController : MonoBehaviour
         inventoryController = GetComponentInChildren<UIInventoryController>();
         player = GameObject.Find("Player").GetComponent<DummyPlayerManager>();
         uiShop = GetComponentInChildren<UIShopManager>();
+        descWindow = GetComponentInChildren<UIDescriptionWindow>();
     }
 
     public void RebuildConsumableSelector()
@@ -44,5 +46,10 @@ public class UIMasterController : MonoBehaviour
         uiShop?.Rebuild(station);
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+    }
+
+    public void ShowDescription(ScriptableItemBase item)
+    {
+        descWindow?.ShowPanel(item);
     }
 }

@@ -3,19 +3,26 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System;
 using System.Collections.Generic;
+using System.Collections;
+using Unity.VisualScripting;
 
-public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
+public class UIInventorySlector : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
 
     [SerializeField] TMP_Text selectorText;
     [SerializeField] UIItemSlot selectedSlot;
     [SerializeField] UIInventorySlot selectedInventorySlot;
+    [SerializeField] UIDescriptionWindow descriotionPanel;
     public SelectorState state = SelectorState.NoSelection;
 
     private GameObject player;
     private PlayerInventory inventory;
 
     private UIInventoryController controller;
+
+    public float longPressThreshold = 0.6f;
+
+    private Coroutine _holdRoutine;
 
     public void Awake()
     {
@@ -29,7 +36,6 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
         UIInventoryController uiinvcontroller;
         if (!TryGetComponentFromList<UIInventoryController>(eventData.hovered, out uiinvcontroller))
         {
-            Debug.Log("Noclickin` on inventory");
             return;
         }
 
@@ -172,7 +178,49 @@ public class UIInventorySlector : MonoBehaviour, IPointerClickHandler
         }
         found = null;
         return false;
-    } 
+    }
+
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (state != SelectorState.NoSelection)
+        {
+            return;
+        }
+        UIInventorySlot uislot;
+        if (TryGetComponentFromList<UIInventorySlot>(eventData.hovered, out uislot))
+        {
+            Cancel();
+            _holdRoutine = StartCoroutine(HoldCheck(uislot.realSlot.GetSample()));
+        }
+        UIShopSlot uishopslot;
+        if (TryGetComponentFromList<UIShopSlot>(eventData.hovered, out uishopslot))
+        {
+            Cancel();
+            _holdRoutine = StartCoroutine(HoldCheck(ItemManager.instance.getItem(uishopslot.itemId)));
+        }
+
+
+    }
+
+    IEnumerator HoldCheck(ScriptableItemBase item)
+    {
+        yield return new WaitForSecondsRealtime(longPressThreshold);
+        UIMasterController.instance.ShowDescription(item);
+    }
+
+    public void OnPointerUp(PointerEventData data) => Cancel();
+    public void OnPointerExit(PointerEventData data) => Cancel();
+
+    private void Cancel()
+    {
+        if (_holdRoutine != null)
+        {
+            StopCoroutine(_holdRoutine);
+        }
+        _holdRoutine = null;
+    }
+
 
     public enum SelectorState
     {

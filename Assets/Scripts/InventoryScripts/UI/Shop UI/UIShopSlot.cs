@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIShopSlot : MonoBehaviour
 {
-    [SerializeField] public int itemId;// { get; private set; }
+    [SerializeField] public int itemId { get; private set; }
     [SerializeField] private Image itemSprite;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text priceText;

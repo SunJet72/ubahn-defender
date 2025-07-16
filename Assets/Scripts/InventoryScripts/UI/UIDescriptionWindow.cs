@@ -12,9 +12,9 @@ public class UIDescriptionWindow : MonoBehaviour
     [SerializeField] TMP_Text spellDescription;
     [SerializeField] Image spellSprite;
     [SerializeField] GameObject content;
-    public void Rebuild(ScriptableItemBase item)
+    [SerializeField]ScriptableItemBase item;
+    public void Rebuild()
     {
-        /*
         content.SetActive(true);
         itemTitle.text = item.title;
         itemSprite.sprite = item.sprite;
@@ -35,7 +35,7 @@ public class UIDescriptionWindow : MonoBehaviour
         {
             Debug.LogError("How? How did you get here, you sick bastard. There are only three types of items!");
         }
-        str.Append("\n").Append(item.description);
+        str.Append("\nDescription:\n").Append(item.description);
         itemDescription.text = str.ToString();
         str.Clear();
         if (item.action == null)
@@ -50,14 +50,14 @@ public class UIDescriptionWindow : MonoBehaviour
             spellSprite.sprite = item.action.actionSprite;
             spellDescription.text = str.Append(item.action.description).ToString();
         }
-        */
+        
     }
 
     private void BuildWeponDescription(StringBuilder str, ScriptableWeapon weapon)
     {
-        str.Append("Weapon Damadge: ").Append(weapon.damage).Append("\nWeapon Attackspeed: ").Append(weapon.attackSpeed).Append("Weapon Armor Penetration: ").Append(weapon.armorPenetration);
+        str.Append("Weapon Damadge: ").Append(weapon.damage).Append("\nWeapon Attackspeed: ").Append(weapon.attackSpeed).Append("\nWeapon Armor Penetration: ").Append(weapon.armorPenetration);
     }
-    
+
     private void BuildArmorDescription(StringBuilder str, ScriptableArmor armor)
     {
         str.Append("Armor additional Health: ").Append(armor.additionalHealth).Append("\nArmor Resistance").Append(armor.armor);
@@ -66,5 +66,12 @@ public class UIDescriptionWindow : MonoBehaviour
     public void HidePanel()
     {
         content.SetActive(false);
+    }
+
+    public void ShowPanel(ScriptableItemBase newItem)
+    {
+        item = newItem;
+        Rebuild();
+        content.SetActive(true);
     }
 }
