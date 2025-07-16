@@ -34,13 +34,14 @@ public class UIMasterController : MonoBehaviour
     {
         consumableSelector?.Rebuild(player);
         inventoryController?.Rebuild();
+        uiShop?.Rebuild(WorldMapController.instance.currentStation);
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
     }
 
-    public void RebuildShop()
+    public void RebuildShop(Station station)
     {
-        uiShop?.Rebuild();
+        uiShop?.Rebuild(station);
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
     }

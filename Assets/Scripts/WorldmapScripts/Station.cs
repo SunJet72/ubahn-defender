@@ -5,10 +5,10 @@ using System.Text;
 [Serializable]
 public class Station
 {
-    public int Id { get; }
-    public string StationName { get; }
+    public int Id;
+    public string StationName;
     public string Description { get; }
-    public float Wealth { get; set; }
+    public float Wealth;
     public List<Station> Neighbours { get; }
 
     public int StationTier = 0;
@@ -34,14 +34,17 @@ public class Station
 
     public void LoadData(float w, float[] tierReqs)
     {
+        Wealth = w;
         for (int i = 0; i < tierReqs.Length; ++i)
         {
+            StationTier = i;
             if (Wealth < tierReqs[i])
             {
                 StationTier = i - 1;
                 break;
             }
         }
+            Wealth = w;
     }
 
     public override string ToString()

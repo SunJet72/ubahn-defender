@@ -56,7 +56,7 @@ public class WorldMapController : MonoBehaviour
 
     }
 
-    private async void LoadMapData()
+    private void LoadMapData()
     {
         //Load data from server
         // Warning mock shit ahead
@@ -75,6 +75,7 @@ public class WorldMapController : MonoBehaviour
             if (stationScores.TryGetValue(station.Id, out stationValue))
             {
                 station.LoadData(stationValue, tierConfig.tierReqs);
+                Debug.Log(stationValue);
             }
             else
             {
@@ -115,6 +116,7 @@ public class WorldMapController : MonoBehaviour
 
     private Station CheckCurrentStation()
     {
+        Debug.Log("Bros loading");
         //Mock
         return map.FirstOrDefault(st => st.Id == 0);
     }

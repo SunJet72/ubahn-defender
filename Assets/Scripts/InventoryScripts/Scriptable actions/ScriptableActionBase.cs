@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public abstract class ScriptableActionBase : ScriptableObject
 {
     public string actionName;
-
+    public Sprite actionSprite;
     public string description;
     public bool isPassive;
 

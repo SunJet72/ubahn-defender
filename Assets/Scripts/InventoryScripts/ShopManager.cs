@@ -17,13 +17,16 @@ public class ShopManager : MonoBehaviour
     {
         instance = this;
     }
-    void Start()
+    void OnEnable()
     {
         player = GameObject.Find("Player");
         inventory = player.GetComponent<PlayerInventory>();
-        stock = ItemManager.instance.GetAll();
+    }
+    void Start()
+    {
         currentStation = WorldMapController.instance.currentStation;
-        UIMasterController.instance.RebuildShop();
+        InitShopForStation(currentStation);
+        //UIMasterController.instance.RebuildShop();
     }
 
     public void SellRandomItem()
@@ -51,7 +54,12 @@ public class ShopManager : MonoBehaviour
     public void InitShopForStation(Station station)
     {
         currentStation = station;
-        stock = ItemManager.instance.GetAll(currentStation.StationTier);
+        stock = ItemManager.instance.GetAll(0);
+        for (int i = 1; i <= currentStation.StationTier; ++i)
+        {
+            stock.AddRange(ItemManager.instance.GetAll(i));
+        }
+        UIMasterController.instance.RebuildShop(currentStation);
     }
 
     public void SellItem(ScriptableItemBase item)
@@ -67,7 +75,15 @@ public class ShopManager : MonoBehaviour
     }
 
 
-    
+    public List<ScriptableItemBase> GetStock()
+    {
+        return stock;
+    }
+
+    public int GetTier()
+    {
+        return currentStation.StationTier;
+    }
 
 
 }
