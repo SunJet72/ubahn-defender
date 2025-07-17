@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class TrainSystem : MonoBehaviour
+public class TrainSystem : NetworkBehaviour
 {
     [SerializeField] private int playerAmount; // Has to be determined by Server
 
@@ -15,7 +16,7 @@ public class TrainSystem : MonoBehaviour
 
     private System.Random rand;
 
-    void Awake()
+    public override void Spawned()
     {
         rand = new System.Random();
         DetermineTrainParameters();
@@ -39,7 +40,7 @@ public class TrainSystem : MonoBehaviour
 
         for (int i = 0; i < containersAmount; i++)
         {
-            var containerGO = Instantiate(ectsContainerPrefab);
+            var containerGO = Runner.Spawn(ectsContainerPrefab);
             containerGO.transform.parent = transform;
             containerGO.transform.position = transform.position - new Vector3(0, trainLength / 2)
                  + new Vector3(0, _distanceBetweenContainers * (i + 1));

@@ -1,7 +1,8 @@
 using System;
+using Fusion;
 using UnityEngine;
 
-public abstract class Reload : MonoBehaviour
+public abstract class Reload : NetworkBehaviour
 {
     public event Action OnReloadedEvent;
     public abstract float ReloadPercentage { get; }

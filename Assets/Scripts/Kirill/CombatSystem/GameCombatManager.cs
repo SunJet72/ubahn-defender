@@ -1,19 +1,20 @@
+using Fusion;
 using UnityEngine;
 
-public class GameCombatManager : MonoBehaviour
+public class GameCombatManager : NetworkBehaviour
 {
     [SerializeField] private TrainSystem trainSystem;
 
-    [SerializeField] private PlayerMock playerMock; // Mock!
+    // [SerializeField] private PlayerMock playerMock; // Mock!
 
-    void Start()
+    public override void Spawned()
     {
         trainSystem.Setup();
     }
 
     public PlayerMock GetNearestPlayer(Transform vehicleTransform) // Mock!
     {
-        return playerMock;
+        return NetworkManager.Instance.GetPlayers()[0].GetComponent<PlayerMock>();
     }
 
     public EctsContainer GetNearestContainer(Transform enemyTransform)

@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e6a6f2ca3c31944a8e0df7de28a773e, type: 3}
   m_Name: VehicleData_AbordagingCar_System
   m_EditorClassIdentifier: 
+  health: 200
+  armor: 30
+  strength: 0
+  speed: 3
+  attackSpeed: 0
+  armorPenetration: 0
   isVehicleToRangers: 0
   passangersAmount: 4
   _passengersList:
@@ -19,4 +25,3 @@ MonoBehaviour:
   - {fileID: 2123645137045426753, guid: ec3872f60a0007d41a179dda2890b594, type: 3}
   - {fileID: 254810059634397315, guid: 36fc37e9a82059d4a855a9b6cbdd10f8, type: 3}
   - {fileID: 2123645137045426753, guid: ec3872f60a0007d41a179dda2890b594, type: 3}
-  health: 200

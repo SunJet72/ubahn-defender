@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ProjectileSpellData", menuName = "Scriptable Objects/ProjectileSpellData")]
-public class ProjectileSpellData : ScriptableObject
+public class ProjectileSpellData : SpellData
 {
     public TargetType targetType; // Has to be the same with the Projectile!
 

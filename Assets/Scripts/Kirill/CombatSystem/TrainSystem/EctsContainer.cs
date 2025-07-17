@@ -1,8 +1,9 @@
+using Fusion;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EctsContainer : MonoBehaviour
+public class EctsContainer : NetworkBehaviour
 {
     [SerializeField] private TextMeshProUGUI boxesAmountIndicator;
     private int boxesAmount;

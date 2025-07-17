@@ -1,10 +1,11 @@
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "ProjectileSpell", menuName = "Scriptable Objects/ProjectileSpell")]
 public class ProjectileSpell : ActiveSpell
 {
     [SerializeField] private ProjectileSpellData data;
+
+    public override SpellData SpellData => data;
+
     protected override void Execute(PlayerMock playerMock, Transform start, Vector2 end)
     {
         ProjectileSpellExecutor executor = playerMock.gameObject.AddComponent<ProjectileSpellExecutor>();

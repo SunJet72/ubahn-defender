@@ -4,5 +4,4 @@ using UnityEngine;
 public class AbordagingVehicleControllerData : ScriptableObject
 {
     public float timeForAbordage;
-    public float vehicleSpeed;
 }

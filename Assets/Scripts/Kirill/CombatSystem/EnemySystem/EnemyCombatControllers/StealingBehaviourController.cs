@@ -19,7 +19,7 @@ public class StealingBehaviourController : CombatBehaviourController
 
     public override void OnFixedUpdateBehave()
     {
-        timeSpent += Time.fixedDeltaTime;
+        timeSpent += Runner.DeltaTime;
         if (timeSpent >= data.stealTime)
         {
             BoxWasStolen();

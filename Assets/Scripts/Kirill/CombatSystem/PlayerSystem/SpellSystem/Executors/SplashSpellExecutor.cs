@@ -1,0 +1,57 @@
+using System.Collections;
+using Fusion;
+using UnityEngine;
+
+public class SplashSpellExecutor : NetworkBehaviour
+{
+    private SplashSpellData data;
+    private Transform castTransform;
+    private Vector2 direction;
+
+    [Networked]
+    private TickTimer spellTimer { get; set; }
+
+
+    public void Initialize(SplashSpellData spellData, Transform castTransform, Vector2 castedPoint)
+    {
+        data = spellData;
+        this.castTransform = castTransform;
+        direction = castedPoint - (Vector2)castTransform.position;
+        spellTimer = TickTimer.CreateFromSeconds(Runner, data.executionDelay);
+    }
+    private int i = 0;
+    public override void FixedUpdateNetwork()
+    {
+        if (!spellTimer.Expired(Runner)) return;
+
+        float interval = data.executionTime / data.executionAmount;
+
+        if(i < data.executionAmount)
+        {
+            DealDamage();
+            spellTimer = TickTimer.CreateFromSeconds(Runner, interval);
+            i++;
+        }
+        else Destroy(this);
+    }
+
+    private void DealDamage()
+    {
+        Collider[] hits = Physics.OverlapSphere(castTransform.position, data.radius);
+        foreach (var hit in hits)
+        {
+            Vector3 toTarget = (hit.transform.position - castTransform.position);
+            toTarget.y = 0;
+
+            float angle = Vector3.Angle(direction, toTarget.normalized);
+            if (angle <= data.fov / 2f)
+            {
+                Debug.Log("I hit the enemy with splash: " + hit.gameObject);
+                /*if (hit.TryGetComponent(out IEnemy enemy))
+                {
+                    enemy.TakeDamage(data.damageProExecution);
+                }*/
+            }
+        }
+    }
+}

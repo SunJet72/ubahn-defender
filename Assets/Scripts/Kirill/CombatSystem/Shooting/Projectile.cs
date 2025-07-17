@@ -1,6 +1,7 @@
+using Fusion;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : NetworkBehaviour
 {
     [SerializeField] private ProjectileData data;
     Transform target;
@@ -38,7 +39,7 @@ public class Projectile : MonoBehaviour
         isFlying = true;
     }
 
-    void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         if (isFlying)
         {
@@ -47,7 +48,7 @@ public class Projectile : MonoBehaviour
                 UpdateFlyingDirection(target.position);
             }
             transform.up = new Vector3(flyingDirection.x, flyingDirection.y, 0);
-            transform.Translate(Vector2.up * data.speed * Time.fixedDeltaTime);
+            transform.Translate(Vector2.up * data.speed * Runner.DeltaTime);
         }
     }
 

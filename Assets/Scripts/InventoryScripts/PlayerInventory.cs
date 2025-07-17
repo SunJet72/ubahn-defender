@@ -1,9 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Android;
 using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
@@ -14,11 +12,27 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private List<InventorySlot> inventoryStash = new List<InventorySlot>();
     [SerializeField] private ScriptableArmor currentArmor;
     [SerializeField] private ScriptableWeapon currentWeapon;
-    [SerializeField] private List<ScriptableBuff> Consumables = new List<ScriptableBuff>();
+    [SerializeField] private int maxActiveConsumables;
+    [SerializeField] private InventorySlot[] activeConsumables;
 
+
+    void Awake()
+    {
+        if (maxActiveConsumables == 0)
+        {
+            maxActiveConsumables = 1;
+        }
+        activeConsumables = new InventorySlot[maxActiveConsumables];
+    }
 
     void Start()
     {
+        for(int i =0; i< maxActiveConsumables;++i){
+            if (activeConsumables[i] == null)
+            {
+                activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
+            }
+        }
         if (currentArmor == null)
         {
             currentArmor = ItemManager.instance.emptyArmor;
@@ -36,11 +50,10 @@ public class PlayerInventory : MonoBehaviour
     {
         foreach (InventorySlot slot in inventoryStash)
         {
-            if (slot.Sample.name == item.name && slot.Sample.maxStackSize > slot.Count)
+            if (slot.GetSample().name == item.name && slot.GetSample().maxStackSize > slot.Count)
             {
                 slot.AddItem(item);
                 InventoryChanged.Invoke();
-                Debug.Log(slot.Sample.maxStackSize);
                 return this;
             }
         }
@@ -53,7 +66,7 @@ public class PlayerInventory : MonoBehaviour
     {
         foreach (InventorySlot slot in inventoryStash)
         {
-            if (slot.Sample.name == item.name)
+            if (slot.GetSample().name == item.name)
             {
                 slot.RemoveItem();
                 if (slot.Count == 0)
@@ -69,11 +82,17 @@ public class PlayerInventory : MonoBehaviour
         return this;
     }
 
+    public PlayerInventory RemoveSlot(InventorySlot slot)
+    {
+        inventoryStash.Remove(slot);
+        return this;
+    }
+
     public bool Contains(ScriptableItemBase item)
     {
         foreach (InventorySlot slot in inventoryStash)
         {
-            if (slot.Sample.name == item.name)
+            if (slot.GetSample().name == item.name)
             {
                 return true;
             }
@@ -85,7 +104,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (currentArmor is not ScriptableArmor)
         {
-            Debug.Log("Bro is trying to wear not currentArmor and dies from cringe");
+            Debug.LogError("Bro is trying to wear not currentArmor and dies from cringe");
             return;
         }
         if (currentArmor != ItemManager.instance.emptyArmor)
@@ -102,7 +121,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (weapon is not ScriptableWeapon)
         {
-            Debug.Log("Bro is trying to equip not a weapon and dies from cringe");
+            Debug.LogError("Bro is trying to equip not a weapon and dies from cringe");
             return;
         }
         if (currentWeapon != ItemManager.instance.emptyWeapon)
@@ -111,6 +130,22 @@ public class PlayerInventory : MonoBehaviour
         }
         RemoveItem(weapon);
         currentWeapon = (ScriptableWeapon)weapon;
+        InventoryChanged.Invoke();
+        EquipmentChanged.Invoke();
+    }
+
+    public void AddToActiveCosumables(InventorySlot slot, int slotIndex)
+    {
+        if (slot.GetSample() is not ScriptableConsumable)
+        {
+            return;
+        }
+        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem&& activeConsumables[slotIndex].Count!=0)
+        {
+            inventoryStash.Add(activeConsumables[slotIndex]);
+        }
+        RemoveSlot(slot);
+        activeConsumables[slotIndex] = slot;
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();
     }
@@ -139,5 +174,15 @@ public class PlayerInventory : MonoBehaviour
     public ScriptableWeapon GetCurrentWeapon()
     {
         return currentWeapon;
+    }
+
+    public InventorySlot[] GetActiveConsumables()
+    {
+        return activeConsumables;
+    }
+
+    public int GetMaxActiveConsumables()
+    {
+        return maxActiveConsumables;
     }
 }

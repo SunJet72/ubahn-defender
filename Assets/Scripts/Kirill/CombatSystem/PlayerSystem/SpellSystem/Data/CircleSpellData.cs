@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CircleSpellData", menuName = "Scriptable Objects/Circle Spell Data")]
-public class CircleSpellData : ScriptableObject
+public class CircleSpellData : SpellData
 {
     public float radius;
 

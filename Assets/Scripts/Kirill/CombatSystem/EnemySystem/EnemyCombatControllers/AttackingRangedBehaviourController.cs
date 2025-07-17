@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Fusion;
 
 public class AttackingRangedBehaviourController : CombatBehaviourController
 {
@@ -28,7 +29,7 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
 
     public override void OnFixedUpdateBehave()
     {
-        curAttackCooldown -= Time.fixedDeltaTime;
+        curAttackCooldown -= Runner.DeltaTime * Controller.AttackSpeed;
 
         if (curAttackCooldown <= 0)
         {
@@ -38,10 +39,10 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
 
     private void Attack()
     {
-        var projectile = Instantiate(data._projectile);
+        NetworkObject projectile = Runner.Spawn(data._projectile);
         projectile.transform.position = transform.position;
         projectile.GetComponent<Projectile>().SetTarget((target.position - transform.position).normalized);
-        curAttackCooldown = data.timeBetweenAttacks;
+        curAttackCooldown = 1f;
     }
 
     private void OnPlayerKilled(System.Object obj, EventArgs e)
@@ -61,6 +62,6 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
     {
         chaisedPlayer = null;
         target = null;
-        curAttackCooldown = data.timeBetweenAttacks;
+        curAttackCooldown = 1f;
     }
 }

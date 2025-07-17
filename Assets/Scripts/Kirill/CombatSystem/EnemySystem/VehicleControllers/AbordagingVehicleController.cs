@@ -30,7 +30,7 @@ public class AbordagingVehicleController : VehicleBehaviourController
         }
         else
         {
-            curTimeforAbordagingLeft -= Time.fixedDeltaTime;
+            curTimeforAbordagingLeft -= Runner.DeltaTime;
             if (curTimeforAbordagingLeft <= 0)
             {
                 Abordage();
@@ -41,7 +41,7 @@ public class AbordagingVehicleController : VehicleBehaviourController
 
     private void Move()
     {
-        transform.Translate((abordagingPoint - (Vector2)transform.position).normalized * data.vehicleSpeed * Time.fixedDeltaTime);
+        transform.Translate((abordagingPoint - (Vector2)transform.position).normalized * Controller.Speed * Time.fixedDeltaTime);
     }
 
     private void Abordage()

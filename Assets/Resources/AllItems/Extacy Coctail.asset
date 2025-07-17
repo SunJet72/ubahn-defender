@@ -15,6 +15,6 @@ MonoBehaviour:
   title: ECTS cocktail
   description: Makes you cyan
   maxStackSize: 2
-  isPassive: 0
-  amount: 0
-  buffType: 3
+  sprite: {fileID: 0}
+  action: {fileID: 11400000, guid: 11b1b2be928e94f4b86b96e1f8c9aad8, type: 2}
+  power: 10

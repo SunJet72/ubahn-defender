@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 3061607595153265057}
   - component: {fileID: 8062630115545188261}
   - component: {fileID: -1190071743961502200}
+  - component: {fileID: -8398013681723092176}
+  - component: {fileID: 2253973893156967363}
   m_Layer: 0
   m_Name: Scoundrel
   m_TagString: Enemy
@@ -104,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0fdbe2e84acdf4281983a601fcb819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 2
+  data: {fileID: 11400000, guid: b6e20398d56b46b4d8c28e72227d42e7, type: 2}
   useRidingController: 1
   useAttackingMeleeController: 0
   useAttackingRangedController: 0
@@ -142,7 +144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820c19fbb7a04a54399a338681301330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 92301dd36de3d494b8629159fc90293c, type: 2}
 --- !u!114 &8062630115545188261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,3 +170,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 6a0cdabdc23b3aa4aa8a37f3c9483b58, type: 2}
+--- !u!114 &-8398013681723092176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254810059634397315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 1
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
+--- !u!114 &2253973893156967363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 254810059634397315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1259731795
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 2251800972395563557}
+  - {fileID: 5192602821860240866}
+  - {fileID: 3061607595153265057}
+  - {fileID: 8062630115545188261}
+  - {fileID: -1190071743961502200}
+  - {fileID: -8398013681723092176}
+  ForceRemoteRenderTimeframe: 0

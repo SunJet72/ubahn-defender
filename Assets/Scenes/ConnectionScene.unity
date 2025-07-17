@@ -127,6 +127,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3819591239550715611, guid: 09571130bfc04444aaf04b38aef046d7, type: 3}
+      propertyPath: playerSpell
+      value: 
+      objectReference: {fileID: 3059330847231248218, guid: 57473fafa503a8c458525be489345df8, type: 3}
+    - target: {fileID: 3819591239550715611, guid: 09571130bfc04444aaf04b38aef046d7, type: 3}
+      propertyPath: '_playerPrefab.RawGuidValue.Array.data[0]'
+      value: -6558162744513218293
+      objectReference: {fileID: 0}
+    - target: {fileID: 3819591239550715611, guid: 09571130bfc04444aaf04b38aef046d7, type: 3}
+      propertyPath: '_playerPrefab.RawGuidValue.Array.data[1]'
+      value: 2932789873758280137
+      objectReference: {fileID: 0}
     - target: {fileID: 7500759831524119372, guid: 09571130bfc04444aaf04b38aef046d7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.7444549

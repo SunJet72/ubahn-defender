@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fusion;
 using Fusion.Sockets;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +29,8 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     #endregion
 
+    public static NetworkManager Instance { get; private set; }
+
     private NetworkRunner _runner;
     [SerializeField]
     private NetworkPrefabRef _playerPrefab;
@@ -37,8 +40,14 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     private Color[] colorPool = { Color.blue, Color.yellow, Color.magenta };
 
+
+    [SerializeField]
+    private GameObject playerSpell; //TODO: this is Mock
+
     async void StartGame(GameMode mode)
     {
+        Instance = this;
+
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
 
@@ -60,33 +69,37 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
-        
+
     }
 
-
-    
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef playerRef)
     {
         Debug.Log("Player Joined!");
         if (runner.IsServer)
         {
             parentTransform = GameObject.FindGameObjectsWithTag("Train").First().transform;
             int size = _spawnedPlayers.Count;
-            NetworkObject playerObj = runner.Spawn(_playerPrefab, new Vector3(0, 9 - (size * 3), 0), Quaternion.identity, player,
+            NetworkObject playerObj = runner.Spawn(_playerPrefab, new Vector3(0, 9 - (size * 3), 0), Quaternion.identity, playerRef,
             onBeforeSpawned: (runner, spawned) =>
             {
                 Color color = colorPool[size % colorPool.Length];
-                Player player = spawned.GetComponent<Player>();
+                PlayerMock player = spawned.GetComponent<PlayerMock>();
                 player.SpriteColor = color;
                 spawned.transform.SetParent(parentTransform, false);
                 spawned.transform.localScale = Vector3.one * 2;
+
+                NetworkObject spell = runner.Spawn(playerSpell, player.transform.position, Quaternion.identity, playerRef,
+                onBeforeSpawned: (runner, spellSpawned) =>
+                {
+                    spellSpawned.transform.SetParent(player.transform);
+                });
             });
 
-            _spawnedPlayers.Add(player, playerObj);
+            _spawnedPlayers.Add(playerRef, playerObj);
         }
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
-    { 
+    {
         if (_spawnedPlayers.TryGetValue(player, out NetworkObject networkObject))
         {
             runner.Despawn(networkObject);
@@ -101,7 +114,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     {
         _xPressed = _xPressed || Input.GetKey(KeyCode.X);
         _cPressed = _cPressed || Input.GetKey(KeyCode.C);
-        
+
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -132,4 +145,18 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    public PlayerMock GetCurrentPlayer()
+    {
+        return _spawnedPlayers.Where(p => p.Key.Equals(Runner.LocalPlayer)).First().Value.GetComponent<PlayerMock>();
+    }
+
+    public ActiveSpell[] GetCurrentPlayerActiveSpells()
+    {
+        return _spawnedPlayers.Where(p => p.Key.Equals(Runner.LocalPlayer)).First().Value.GetComponentsInChildren<ActiveSpell>();
+    }
+
+    public List<NetworkObject> GetPlayers()
+    {
+        return _spawnedPlayers.Values.ToList();
+    }
 }

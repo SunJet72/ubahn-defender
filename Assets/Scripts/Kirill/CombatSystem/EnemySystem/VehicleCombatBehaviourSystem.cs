@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class VehicleCombatBehaviourSystem : MonoBehaviour
+public class VehicleCombatBehaviourSystem : UnitController, IAfterSpawned
 {
     [SerializeField] private VehicleCombatSystemData data;
+    protected override UnitData UnitData => data;
 
     public bool useAbordagingController;
     public bool useChasingController;
@@ -20,8 +22,10 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
     private VehicleBehaviourController curController;
     private EnemyCombatBehaviourSystem[] enemies;
 
-    void Start()
+    public void AfterSpawned()
     {
+        base.Init();
+
         gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
         if (data._passengersList == null || data.passangersAmount != data._passengersList.Count || passengerSeats == null || passengerSeats.Count != data.passangersAmount)
         {
@@ -34,7 +38,7 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
 
         for (int i = 0; i < data.passangersAmount; i++)
         {
-            GameObject go = Instantiate(data._passengersList[i]);
+            NetworkObject go = Runner.Spawn(data._passengersList[i]);
             go.transform.SetParent(passengerSeats[i]);
             go.transform.localPosition = Vector3.zero;
             enemies[i] = go.GetComponent<EnemyCombatBehaviourSystem>();
@@ -64,7 +68,7 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
         controller.OnStartBehaviour();
     }
 
-    void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         if (curController == null)
         {
@@ -79,7 +83,7 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
     {
         for (int i = 0; i < enemies.Length; i++)
         {
-            if (enemies[i] != null && (enemies[i].enemyType == EnemyType.MELEE || enemies[i].enemyType == EnemyType.SCOUNDREL))
+            if (enemies[i] != null && (enemies[i].EnemyType == EnemyType.MELEE || enemies[i].EnemyType == EnemyType.SCOUNDREL))
             {
                 enemies[i].gameObject.transform.SetParent(null);
                 enemies[i].VehicleEndedTheAbordageProcess();
@@ -94,10 +98,15 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
         Debug.Log("I am trying to tell the ranger, so that they could attack");
         for (int i = 0; i < enemies.Length; i++)
         {
-            if (enemies[i] != null && enemies[i].enemyType == EnemyType.RANGED)
+            if (enemies[i] != null && enemies[i].EnemyType == EnemyType.RANGED)
             {
                 enemies[i].VehicleToldTheRangerToAttack(playerMock);
             }
         }
+    }
+
+    protected override void Die()
+    {
+        throw new System.NotImplementedException();
     }
 }

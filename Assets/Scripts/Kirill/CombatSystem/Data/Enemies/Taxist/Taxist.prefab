@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 905987657322769634}
   - component: {fileID: 6654390039102537633}
   - component: {fileID: 8369651379959869519}
+  - component: {fileID: 6714504803994458636}
+  - component: {fileID: -160976258229219340}
   m_Layer: 0
   m_Name: Taxist
   m_TagString: Enemy
@@ -101,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0fdbe2e84acdf4281983a601fcb819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 3
+  data: {fileID: 11400000, guid: e10f9becd528dcb47a795bca9f907c7d, type: 2}
   useRidingController: 1
   useAttackingMeleeController: 0
   useAttackingRangedController: 0
@@ -127,3 +129,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbda06225cee14042aa13001c0f4bda4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6714504803994458636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126362956245030133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 1
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
+--- !u!114 &-160976258229219340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126362956245030133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 199734298
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 6654390039102537633}
+  - {fileID: 8369651379959869519}
+  - {fileID: 6714504803994458636}
+  ForceRemoteRenderTimeframe: 0

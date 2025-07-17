@@ -5,35 +5,9 @@ using UnityEngine.UI;
 
 public class UIInventoryStash : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    private PlayerInventory inventory;
     [SerializeField] private GameObject UISlotPrefab;
-    private RectTransform rt;
-    private RectTransform slotRT;
-    [SerializeField] private RectTransform parentRT;
-    private GridLayoutGroup gl;
-    void Awake()
-    {
-        rt = GetComponent<RectTransform>();
-        slotRT = UISlotPrefab.GetComponent<RectTransform>();
-        parentRT = transform.parent.gameObject.GetComponent<RectTransform>();
-        gl = GetComponent<GridLayoutGroup>();
-    }
+    [SerializeField] private GameObject content;
 
-    void Start()
-    {
-        parentRT = GetComponentInParent<RectTransform>();
-    }
-
-    void OnValidate()
-    {
-        //Rebuild();
-    }
-
-    void OnEnable()
-    {
-        //Rebuild();       
-    }
     public void Rebuild(List<InventorySlot> slots)
     {
 
@@ -41,32 +15,36 @@ public class UIInventoryStash : MonoBehaviour
         //float rowCount = Mathf.Ceil(slots.Count / rowSlotCount);
         // Debug.Log(rowCount+" "+ rowSlotCount);
         //rt.sizeDelta = new Vector2(parentRT.rect.width, gl.cellSize.y*rowCount);
-        
-        for(int diff = transform.childCount -1; diff>= slots.Count; --diff)
+
+        for (int diff = content.transform.childCount - 1; diff >= slots.Count; --diff)
         {
-            Destroy(transform.GetChild(diff).gameObject);
+            Destroy(content.transform.GetChild(diff).gameObject);
         }
-        
-        for (int diff = transform.childCount;diff<slots.Count;diff++)
+
+        for (int diff = content.transform.childCount; diff < slots.Count; diff++)
         {
-            GameObject obj = Instantiate(UISlotPrefab, transform);
+            GameObject obj = Instantiate(UISlotPrefab, content.transform);
         }
-        
+
         for (int i = 0; i < slots.Count; ++i)
         {
-            UIInventorySlot UIslot = transform.GetChild(i).gameObject.GetComponent<UIInventorySlot>();
+            UIInventorySlot UIslot = content.transform.GetChild(i).gameObject.GetComponent<UIInventorySlot>();
             UIslot.realSlot = slots[i];
             UIslot.RefreshSlot();
-        } 
+        }
     }
 
     public void ShowArmorOptions(List<InventorySlot> slots)
     {
-        Rebuild((slots??new List<InventorySlot>()).Where(a => a != null && a.Sample is ScriptableArmor).ToList());
+        Rebuild((slots ?? new List<InventorySlot>()).Where(a => a != null && a.GetSample() is ScriptableArmor).ToList());
     }
 
     public void ShowWeaponOptions(List<InventorySlot> slots)
     {
-        Rebuild((slots??new List<InventorySlot>()).Where(a => a != null && a.Sample is ScriptableWeapon).ToList());
+        Rebuild((slots ?? new List<InventorySlot>()).Where(a => a != null && a.GetSample() is ScriptableWeapon).ToList());
+    }
+    public void ShowConsumableOptions(List<InventorySlot> slots)
+    {
+        Rebuild((slots??new List<InventorySlot>()).Where(a => a != null && a.GetSample() is ScriptableConsumable).ToList());
     }
 }
