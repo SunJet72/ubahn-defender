@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5
   title: leather armor
+  itemClass: 1
   description: Previously worn... by cow (your mother)
   maxStackSize: 1
   tier: 0
   sprite: {fileID: 21300000, guid: 1379cbe1beb724ba596213c38e5c278b, type: 3}
   price: 69
   action: {fileID: 11400000, guid: c4cebefa318ae7da3a5cb38a5e6aa0ee, type: 2}
-  durability: 23232
-  coolness: 1313
+  additionalHealth: 0
+  armor: 0

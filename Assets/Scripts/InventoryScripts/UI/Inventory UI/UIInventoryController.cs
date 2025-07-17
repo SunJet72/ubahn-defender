@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class UIInventoryController : MonoBehaviour
@@ -36,13 +37,13 @@ public class UIInventoryController : MonoBehaviour
         switch (selector.state)
         {
             case UIInventorySlector.SelectorState.SelectingArmor:
-                stash.ShowArmorOptions(inventory.GetInventory());
+                stash.ShowArmorOptions(inventory.GetInventory().Where(item => item.GetSample().itemClass == inventory.GetClass()||item.GetSample().itemClass == PlayerInventory.PlayerClass.None).ToList());
                 break;
             case UIInventorySlector.SelectorState.SelectingWeapon:
-                stash.ShowWeaponOptions(inventory.GetInventory());
+                stash.ShowWeaponOptions(inventory.GetInventory().Where(item => item.GetSample().itemClass == inventory.GetClass()||item.GetSample().itemClass == PlayerInventory.PlayerClass.None).ToList());
                 break;
             case UIInventorySlector.SelectorState.SelectingConsumable:
-                stash.ShowConsumableOptions(inventory.GetInventory());
+                stash.ShowConsumableOptions(inventory.GetInventory().Where(item => item.GetSample().itemClass == inventory.GetClass()||item.GetSample().itemClass == PlayerInventory.PlayerClass.None).ToList());
                 break;
             default:
                 stash.Rebuild(inventory.GetInventory());

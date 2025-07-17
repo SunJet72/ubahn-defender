@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7
   title: Uncle`s moonshine
+  itemClass: 3
   description: Hits stronger than Mike T
   maxStackSize: 4
   tier: 1

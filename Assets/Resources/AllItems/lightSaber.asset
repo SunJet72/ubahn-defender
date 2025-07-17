@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 6
   title: light
+  itemClass: 1
   description: saber
   maxStackSize: 1
   tier: 1
@@ -21,5 +22,5 @@ MonoBehaviour:
   price: 0
   action: {fileID: 11400000, guid: 56a3c3728a8ac9a44933c3d43e8ffa60, type: 2}
   damage: 0
-  cooldown: 0
-  range: 0
+  attackSpeed: 0
+  armorPenetration: 0

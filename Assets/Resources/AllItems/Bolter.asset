@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   title: Bolter
+  itemClass: 2
   description: To crash the filthy xenos
   maxStackSize: 1
   tier: 2
@@ -21,5 +22,5 @@ MonoBehaviour:
   price: 700
   action: {fileID: 0}
   damage: 69
-  cooldown: 3
-  range: 7
+  attackSpeed: 0
+  armorPenetration: 0

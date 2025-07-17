@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
 {
+    //public static PlayerInventory instance;
     [HideInInspector] public UnityEvent InventoryChanged;
     [HideInInspector] public UnityEvent EquipmentChanged;
 
@@ -22,6 +23,15 @@ public class PlayerInventory : MonoBehaviour
 
     void Awake()
     {
+        // if (instance == null)
+        // {
+        //     instance = this;
+        // }
+        // else
+        // {
+        //     Destroy(this);
+        // }
+        // DontDestroyOnLoad(this);
         if (maxActiveConsumables == 0)
         {
             maxActiveConsumables = 1;
@@ -236,29 +246,38 @@ public class PlayerInventory : MonoBehaviour
         {
             AddItem(currentArmor);
             currentArmor = ItemManager.instance.emptyArmor;
+            //EquipmentChanged.Invoke();
         }
         if (currentWeapon.itemClass != newClass && currentWeapon != ItemManager.instance.emptyWeapon)
         {
             AddItem(currentWeapon);
             currentWeapon = ItemManager.instance.emptyWeapon;
+            //EquipmentChanged.Invoke();
         }
         for (int i = 0; i < activeConsumables.Length; ++i)
         {
             if (activeConsumables[i].GetSample().itemClass != newClass && activeConsumables[i].GetSample().itemClass != PlayerClass.None && activeConsumables[i].GetSample() != ItemManager.instance.emptyItem)
             {
                 AddSlot(activeConsumables[i]);
+                activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
             }
+            //EquipmentChanged.Invoke();
         }
         currentClass = newClass;
+        InventoryChanged.Invoke();
 
-        EquipmentChanged.Invoke();
+    }
+
+    public PlayerClass GetClass()
+    {
+        return currentClass;
     }
     
     public enum PlayerClass
     {
-        None =0,
-        Warrior= 1,
-        Ranger =2,
-        Ingeniur =3
+        None = 0,
+        Warrior = 1,
+        Ranger = 2,
+        Ingeniur = 3
     }
 }

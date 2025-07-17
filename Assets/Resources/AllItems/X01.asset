@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10
   title: X01
+  itemClass: 3
   description: Looks fire
   maxStackSize: 1
   tier: 2
   sprite: {fileID: 21300000, guid: d3ea3e59de57b4973b90868b06ae16f8, type: 3}
   price: 999
   action: {fileID: 11400000, guid: 5838b47b2a49ea0e29ade348bd9bc545, type: 2}
-  durability: 323
-  coolness: 2323
+  additionalHealth: 0
+  armor: 0

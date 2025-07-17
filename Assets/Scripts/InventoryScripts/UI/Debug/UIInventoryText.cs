@@ -21,7 +21,7 @@ public class UIInventoryText : MonoBehaviour
         inventory.InventoryChanged.AddListener(ChangeText);
     }
 
-    void Oisable()
+    void OnDisable()
     {
         inventory.InventoryChanged.RemoveListener(ChangeText);        
    }
