@@ -5,6 +5,8 @@ public abstract class ScriptableItemBase : ScriptableObject
 {
     public int id;
     public string title;
+
+    public PlayerInventory.PlayerClass itemClass;
     public string description;
 
     public int maxStackSize;

@@ -5,8 +5,8 @@ using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [HideInInspector]public UnityEvent InventoryChanged;
-    [HideInInspector]public UnityEvent EquipmentChanged;
+    [HideInInspector] public UnityEvent InventoryChanged;
+    [HideInInspector] public UnityEvent EquipmentChanged;
 
     [SerializeField] private int playerMoney = 0;
 
@@ -16,6 +16,8 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private ScriptableWeapon currentWeapon;
     [SerializeField] private int maxActiveConsumables;
     [SerializeField] private InventorySlot[] activeConsumables;
+
+    [SerializeField] private PlayerClass currentClass = PlayerClass.Warrior;
 
 
     void Awake()
@@ -45,8 +47,8 @@ public class PlayerInventory : MonoBehaviour
             currentWeapon = ItemManager.instance.emptyWeapon;
         }
 
-         InventoryChanged.Invoke();
-         EquipmentChanged.Invoke();
+        InventoryChanged.Invoke();
+        EquipmentChanged.Invoke();
     }
 
     public PlayerInventory AddItem(ScriptableItemBase item)
@@ -207,8 +209,8 @@ public class PlayerInventory : MonoBehaviour
     {
         return maxActiveConsumables;
     }
-    
-        public bool MoneySpend(int price)
+
+    public bool MoneySpend(int price)
     {
         if (price > playerMoney)
         {
@@ -222,5 +224,41 @@ public class PlayerInventory : MonoBehaviour
     public void GetMoney(int gain)
     {
         playerMoney += gain;
+    }
+
+    public void ChangeClass(PlayerClass newClass)
+    {
+        if (newClass == PlayerClass.None)
+        {
+            Debug.LogError("Trying to assign None class");
+        }
+        if (currentArmor.itemClass != newClass && currentArmor != ItemManager.instance.emptyArmor)
+        {
+            AddItem(currentArmor);
+            currentArmor = ItemManager.instance.emptyArmor;
+        }
+        if (currentWeapon.itemClass != newClass && currentWeapon != ItemManager.instance.emptyWeapon)
+        {
+            AddItem(currentWeapon);
+            currentWeapon = ItemManager.instance.emptyWeapon;
+        }
+        for (int i = 0; i < activeConsumables.Length; ++i)
+        {
+            if (activeConsumables[i].GetSample().itemClass != newClass && activeConsumables[i].GetSample().itemClass != PlayerClass.None && activeConsumables[i].GetSample() != ItemManager.instance.emptyItem)
+            {
+                AddSlot(activeConsumables[i]);
+            }
+        }
+        currentClass = newClass;
+
+        EquipmentChanged.Invoke();
+    }
+    
+    public enum PlayerClass
+    {
+        None =0,
+        Warrior= 1,
+        Ranger =2,
+        Ingeniur =3
     }
 }

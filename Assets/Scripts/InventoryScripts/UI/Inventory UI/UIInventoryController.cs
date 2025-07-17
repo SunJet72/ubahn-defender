@@ -26,7 +26,8 @@ public class UIInventoryController : MonoBehaviour
     {
         stash.ShowWeaponOptions(inventory.GetInventory());
     }
-    public void RebuildArmor() {
+    public void RebuildArmor()
+    {
         stash.ShowArmorOptions(inventory.GetInventory());
     }
 
@@ -51,5 +52,10 @@ public class UIInventoryController : MonoBehaviour
         UIweapon.RefreshSlot(inventory.GetCurrentWeapon());
         UIConsumable.Rebuild(inventory.GetActiveConsumables());
     }
+
+    public void ChangeClass(int newClass){
+        inventory.ChangeClass((PlayerInventory.PlayerClass)(newClass + 1));
+    }
+    
 
 }
