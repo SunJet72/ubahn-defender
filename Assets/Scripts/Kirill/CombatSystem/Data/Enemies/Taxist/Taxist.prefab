@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8369651379959869519}
   m_Layer: 0
   m_Name: Taxist
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,7 +115,6 @@ MonoBehaviour:
   hauntingBehaviourController: {fileID: 0}
   stealingBehaviourController: {fileID: 0}
   playerMock: {fileID: 0}
-  gameCombatManager: {fileID: 0}
 --- !u!114 &8369651379959869519
 MonoBehaviour:
   m_ObjectHideFlags: 0
