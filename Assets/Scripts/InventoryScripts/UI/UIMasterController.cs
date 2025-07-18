@@ -19,12 +19,11 @@ public class UIMasterController : MonoBehaviour
         }
         instance = this;
         consumableSelector = GetComponentInChildren<UIConsumableSelector>();
-        inventoryController = GetComponentInChildren<UIInventoryController>();
+        //inventoryController = GetComponentInChildren<UIInventoryController>();
         player = GameObject.Find("Player").GetComponent<DummyPlayerManager>();
         uiShop = GetComponentInChildren<UIShopManager>();
         descWindow = GetComponentInChildren<UIDescriptionWindow>();
     }
-
     public void RebuildConsumableSelector()
     {
         consumableSelector?.Rebuild(player);

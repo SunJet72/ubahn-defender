@@ -17,13 +17,10 @@ public class ShopManager : MonoBehaviour
     {
         instance = this;
     }
-    void OnEnable()
-    {
-        player = GameObject.Find("Player");
-        inventory = player.GetComponent<PlayerInventory>();
-    }
+
     void Start()
     {
+        inventory = PlayerInventory.instance;
         currentStation = WorldMapController.instance.currentStation;
         InitShopForStation(currentStation);
         //UIMasterController.instance.RebuildShop();

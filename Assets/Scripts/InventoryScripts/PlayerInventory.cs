@@ -5,9 +5,10 @@ using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
 {
-    //public static PlayerInventory instance;
+    public static PlayerInventory instance;
     [HideInInspector] public UnityEvent InventoryChanged;
     [HideInInspector] public UnityEvent EquipmentChanged;
+    [HideInInspector] public UnityEvent MoneyChanged;
 
     [SerializeField] private int playerMoney = 0;
 
@@ -19,24 +20,26 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private InventorySlot[] activeConsumables;
 
     [SerializeField] private PlayerClass currentClass = PlayerClass.Warrior;
+    [SerializeField] private string nickname = "Roflopafl";
 
 
     void Awake()
     {
-        // if (instance == null)
-        // {
-        //     instance = this;
-        // }
-        // else
-        // {
-        //     Destroy(this);
-        // }
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
         // DontDestroyOnLoad(this);
         if (maxActiveConsumables == 0)
         {
             maxActiveConsumables = 1;
         }
         activeConsumables = new InventorySlot[maxActiveConsumables];
+        LoadInventory();
     }
 
     void Start()
@@ -75,6 +78,11 @@ public class PlayerInventory : MonoBehaviour
         inventoryStash.Add(new InventorySlot(item).AddItem(item));
         InventoryChanged.Invoke();
         return this;
+    }
+
+    private void LoadInventory()
+    {
+        // Loading inventory from Server
     }
 
     public PlayerInventory RemoveItem(ScriptableItemBase item)
@@ -220,6 +228,11 @@ public class PlayerInventory : MonoBehaviour
         return maxActiveConsumables;
     }
 
+    public string GetNickname()
+    {
+        return nickname;
+    }
+
     public bool MoneySpend(int price)
     {
         if (price > playerMoney)
@@ -228,12 +241,18 @@ public class PlayerInventory : MonoBehaviour
             return false;
         }
         playerMoney -= price;
+        MoneyChanged.Invoke();
         return true;
     }
 
-    public void GetMoney(int gain)
+    public void GainMoney(int gain)
     {
         playerMoney += gain;
+    }
+
+    public int GetMoney()
+    {
+        return playerMoney;
     }
 
     public void ChangeClass(PlayerClass newClass)

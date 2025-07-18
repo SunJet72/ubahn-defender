@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class UIInventoryController : MonoBehaviour
 {
-
-    [SerializeField] private GameObject player;
     private PlayerInventory inventory;
 
     [SerializeField] private UIInventoryStash stash;
@@ -17,10 +15,14 @@ public class UIInventoryController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        player = GameObject.Find("Player");
-        inventory = player.GetComponent<PlayerInventory>();
+        inventory = PlayerInventory.instance;
         inventory.InventoryChanged.AddListener(Rebuild);
         selector = GetComponent<UIInventorySlector>();
+    }
+
+    public void SetInventory(PlayerInventory pInv)
+    {
+        inventory = pInv;
     }
 
     public void RebuildWeapon()
