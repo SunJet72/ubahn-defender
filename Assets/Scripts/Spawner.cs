@@ -1,73 +1,72 @@
-using System;
 using System.Collections;
-using ExitGames.Client.Photon.StructWrapping;
-using Fusion;
 using UnityEngine;
 
-public class Spawner : NetworkBehaviour
+public class Spawner : MonoBehaviour
 {
-    [SerializeField]
+  [SerializeField]
     private EnemySpawnType[] enemyTypes; // Array of enemy configs
 
     [SerializeField]
-    private Transform parentTransform;
+    private GameObject parentTransform;
 
     [Tooltip("If true, spawner will start spawning on Awake().")]
     [SerializeField]
     private bool startOnAwake = true;
 
     private int[] _spawnedCounts;
-    TickTimer _nextSpawn;
+    private Coroutine _spawnRoutine;
 
-    public override void Spawned()
+    private void Awake()
     {
         _spawnedCounts = new int[enemyTypes.Length];
 
-        if(Runner.IsServer)
+        if (startOnAwake)
             StartSpawning();
     }
 
     public void StartSpawning()
     {
-        if (_nextSpawn.ExpiredOrNotRunning(Runner))
-            _nextSpawn = TickTimer.CreateFromSeconds(Runner, 1);
+        if (_spawnRoutine == null)
+            _spawnRoutine = StartCoroutine(SpawnLoop());
     }
 
     public void StopSpawning()
     {
-        _nextSpawn = TickTimer.None;
-    }
-    private int i = 0;
-    public override void FixedUpdateNetwork()
-    {
-        if (!Runner.IsServer || !_nextSpawn.Expired(Runner)) return;
-        bool allMaxed = true;
-
-        if (i >= enemyTypes.Length) i = 0;
-        for (; i < enemyTypes.Length; i++)
+        if (_spawnRoutine != null)
         {
-            EnemySpawnType type = enemyTypes[i];
+            StopCoroutine(_spawnRoutine);
+            _spawnRoutine = null;
+        }
+    }
 
-            // Check max spawn count per type
-            if (type.maxCount > 0 && _spawnedCounts[i] >= type.maxCount)
-                continue;
+    private IEnumerator SpawnLoop()
+    {
+        while (true) // Infinite loop; exit condition below
+        {
+            bool allMaxed = true;
 
-            allMaxed = false;
-
-            // Spawn enemy
-            NetworkObject obj = Runner.Spawn(type.prefab, transform.position, transform.rotation,
-            onBeforeSpawned: (runner, spawned) =>
+            for (int i = 0; i < enemyTypes.Length; i++)
             {
-                spawned.transform.SetParent(parentTransform);
-                spawned.transform.localScale = Vector3.one;
-            });
-            _spawnedCounts[i]++;
+                var type = enemyTypes[i];
 
-            // Wait for that type's cooldown
-            _nextSpawn = TickTimer.CreateFromSeconds(Runner, type.spawnCooldown);
+                // Check max spawn count per type
+                if (type.maxCount > 0 && _spawnedCounts[i] >= type.maxCount)
+                    continue;
+
+                allMaxed = false;
+
+                // Spawn enemy
+                Instantiate(type.prefab, transform.position, transform.rotation, parentTransform?.transform);
+                _spawnedCounts[i]++;
+
+                // Wait for that type's cooldown
+                yield return new WaitForSeconds(type.spawnCooldown);
+            }
+
+            if (allMaxed)
+                break; // All max counts reached, exit loop
         }
 
-        if (allMaxed)
-            StopSpawning();
+        _spawnRoutine = null;
     }
 }

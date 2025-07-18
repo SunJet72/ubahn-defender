@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3699963763044277826}
   m_Layer: 0
   m_Name: Ranged_Easy
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0fdbe2e84acdf4281983a601fcb819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 0
   useRidingController: 1
   useAttackingMeleeController: 0
   useAttackingRangedController: 1
@@ -116,6 +115,7 @@ MonoBehaviour:
   hauntingBehaviourController: {fileID: 0}
   stealingBehaviourController: {fileID: 0}
   playerMock: {fileID: 0}
+  gameCombatManager: {fileID: 0}
 --- !u!114 &949833059420832505
 MonoBehaviour:
   m_ObjectHideFlags: 0

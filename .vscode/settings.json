@@ -13,6 +13,23 @@
         "**/*.unityproj": true,
         "**/*.dll": true,
         "**/*.exe": true,
+        "**/*.pdf": true,
+        "**/*.mid": true,
+        "**/*.midi": true,
+        "**/*.wav": true,
+        "**/*.gif": true,
+        "**/*.ico": true,
+        "**/*.jpg": true,
+        "**/*.jpeg": true,
+        "**/*.png": true,
+        "**/*.psd": true,
+        "**/*.tga": true,
+        "**/*.tif": true,
+        "**/*.tiff": true,
+        "**/*.3ds": true,
+        "**/*.3DS": true,
+        "**/*.fbx": true,
+        "**/*.FBX": true,
         "**/*.lxo": true,
         "**/*.LXO": true,
         "**/*.ma": true,
@@ -25,6 +42,7 @@
         "**/*.mat": true,
         "**/*.meta": true,
         "**/*.prefab": true,
+        "**/*.unity": true,
         "build/": true,
         "Build/": true,
         "Library/": true,
@@ -38,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "U-Bahn prototype.sln"
+    "dotnet.defaultSolution": "U-Bahn-prototype.sln"
 }

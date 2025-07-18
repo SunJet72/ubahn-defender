@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using Fusion;
-using Unity.Cinemachine;
 using UnityEngine;
 
-public class Player : NetworkBehaviour
+public class Player : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -13,8 +10,8 @@ public class Player : NetworkBehaviour
     [SerializeField] private float attackRange = 50.0f;
     [SerializeField] private float attackRate = 1.0f;
 
-    [Header("Ability C: AOE Damage")]
-
+   [Header("Ability C: AOE Damage")]
+    
     [SerializeField] private int aoeDamage = 25;
     [SerializeField] private float aoeDamageRadius = 3f;
     [SerializeField] private float aoeCooldown = 6f;
@@ -27,56 +24,25 @@ public class Player : NetworkBehaviour
     [SerializeField] private float slowDuration = 4f;
     [SerializeField] private float slowRadius = 3f;
     [SerializeField] private float slowCooldown = 8f;
+    private float _nextSlowTime = 0f;
 
-    [Networked] private TickTimer autoAttackCooldown { get; set; }
-    [Networked] private TickTimer xAbilityCooldown { get; set; }
+    private float _nextAttackTime = 0f;
 
-    [Networked] private TickTimer cAbilityCooldown { get; set; }
 
-    [Networked, OnChangedRender(nameof(OnColorChanged))] public Color SpriteColor { get; set; }
-
-    [Networked] public NetworkButtons ButtonsPrevious { get; set; }
-
-    public SpriteRenderer _spriteRenderer;
-
-    private void Awake()
+    private void Update()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        AutoAttackNearestEnemy();
 
-    public override void Spawned()
-    {
-        OnColorChanged();
-        if (HasInputAuthority)
-        {
-            FindFirstObjectByType<CinemachineCamera>().Target.TrackingTarget = transform;
-        }
-    }
+        if (Input.GetKeyDown(KeyCode.X))
+            TryUseAbilityX();
 
-    public override void FixedUpdateNetwork()
-    {
-        if (HasStateAuthority)
-        {
-            if (GetInput(out NetworkInputData data))
-            {
-                // store latest input as 'previous' state we had
-                if (data.Buttons.WasPressed(ButtonsPrevious, NetworkInputData.X))
-                {
-                    TryUseAbilityX();
-                }
-                if (data.Buttons.WasPressed(ButtonsPrevious, NetworkInputData.C))
-                {
-                    TryUseAbilityC();
-                }
-                ButtonsPrevious = data.Buttons;
-            }
-            AutoAttackNearestEnemy();
-        }
+        if (Input.GetKeyDown(KeyCode.C))
+            TryUseAbilityC();
     }
 
     private void AutoAttackNearestEnemy()
     {
-        if (!autoAttackCooldown.ExpiredOrNotRunning(Runner))
+        if (Time.time < _nextAttackTime)
             return;
 
         // Find all enemies in the scene
@@ -92,7 +58,7 @@ public class Player : NetworkBehaviour
         foreach (GameObject e in enemies)
         {
             float distSqr = ((Vector2)e.transform.position - currentPos).sqrMagnitude;
-            if (distSqr < minDistSqr && e.GetComponent<Enemy>().HasSpawned)
+            if (distSqr < minDistSqr)
             {
                 minDistSqr = distSqr;
                 nearest = e;
@@ -108,36 +74,28 @@ public class Player : NetworkBehaviour
         {
             // Attempt to deal damage to the enemy’s health component
             Enemy enemyHealth = nearest.GetComponent<Enemy>();
-            if (!enemyHealth.HasSpawned)
-                Debug.Log("Enemy didnt spawn yet");
-            if (enemyHealth != null && enemyHealth.HasSpawned)
-                {
-                    enemyHealth.TakeDamage(attackDamage);
-                }
-                else
-                {
-                    Debug.LogWarning($"Nearest enemy '{nearest.name}' has no EnemyHealth component.");
-                }
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(attackDamage);
+            }
+            else
+            {
+                Debug.LogWarning($"Nearest enemy '{nearest.name}' has no EnemyHealth component.");
+            }
 
             // Schedule next attack
-            // _nextAttackTime = Time.time + (1f / attackRate);
-            autoAttackCooldown = TickTimer.CreateFromSeconds(Runner, 1f / attackRate);
+            _nextAttackTime = Time.time + (1f / attackRate);
         }
     }
 
     private void TryUseAbilityX()
     {
-        if (!xAbilityCooldown.ExpiredOrNotRunning(Runner))
-        {
-            Debug.Log("Ability X is in cooldown");
-            return;
-        }
         Debug.Log("Ability X used: AOE Damage");
         AoeDamage();
-        xAbilityCooldown = TickTimer.CreateFromSeconds(Runner, aoeCooldown);
+        _nextAoeTime = Time.time + aoeCooldown;
     }
 
-    private void AoeDamage()
+     private void AoeDamage()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, aoeDamageRadius);
         foreach (Collider2D col in hits)
@@ -145,7 +103,7 @@ public class Player : NetworkBehaviour
             if (col.CompareTag("Enemy"))
             {
                 Enemy eh = col.GetComponent<Enemy>();
-                if (eh != null && eh.HasSpawned)
+                if (eh != null)
                     eh.TakeDamage(aoeDamage);
             }
         }
@@ -168,14 +126,9 @@ public class Player : NetworkBehaviour
 
     private void TryUseAbilityC()
     {
-        if (!cAbilityCooldown.ExpiredOrNotRunning(Runner))
-        {
-            Debug.Log("Ability C is in cooldown");
-            return;
-        }
         Debug.Log("Ability C used: Icing (Slow)");
-        IcingSlow();
-        cAbilityCooldown = TickTimer.CreateFromSeconds(Runner, slowCooldown);
+         IcingSlow();
+        _nextSlowTime = Time.time + slowCooldown;
     }
 
     private void IcingSlow()
@@ -196,7 +149,7 @@ public class Player : NetworkBehaviour
         // Optional: Visual feedback for slow radius (blue circle)
         StartCoroutine(ShowAoeFlash(slowRadius, Color.cyan, 0.2f));
     }
-
+    
 
     private void OnDrawGizmosSelected()
     {
@@ -210,12 +163,6 @@ public class Player : NetworkBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, slowRadius);
     }
-    
-    private void OnColorChanged()
-    {
-        _spriteRenderer.color = SpriteColor;
-    }
-
 }
 
 
