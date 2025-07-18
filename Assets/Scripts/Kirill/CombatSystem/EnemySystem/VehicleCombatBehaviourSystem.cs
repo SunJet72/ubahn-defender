@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
-public class VehicleCombatBehaviourSystem : UnitController, IAfterSpawned
+public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
 {
     [SerializeField] private VehicleCombatSystemData data;
     protected override UnitData UnitData => data;
@@ -22,7 +22,7 @@ public class VehicleCombatBehaviourSystem : UnitController, IAfterSpawned
     private VehicleBehaviourController curController;
     private EnemyCombatBehaviourSystem[] enemies;
 
-    public void AfterSpawned()
+    public void Hey()
     {
         base.Init();
 
@@ -36,26 +36,19 @@ public class VehicleCombatBehaviourSystem : UnitController, IAfterSpawned
 
         enemies = new EnemyCombatBehaviourSystem[data.passangersAmount];
 
-        for (int i = 0; i < data.passangersAmount; i++)
+        if (Runner.IsServer)
         {
-            NetworkObject go = Runner.Spawn(data._passengersList[i]);
-            go.transform.SetParent(passengerSeats[i]);
-            go.transform.localPosition = Vector3.zero;
-            enemies[i] = go.GetComponent<EnemyCombatBehaviourSystem>();
+            for (int i = 0; i < data.passangersAmount; i++)
+            {
+                NetworkObject go = Runner.Spawn(data._passengersList[i], onBeforeSpawned: (runner, spawned) => {
+                    spawned.transform.SetParent(passengerSeats[i], false);
+                    spawned.transform.localPosition = Vector3.zero;
+                });
+                enemies[i] = go.GetComponent<EnemyCombatBehaviourSystem>();
+            }
         }
 
-        if (data.isVehicleToRangers)
-        {
-            PlayerMock playerMock = gameCombatManager.GetNearestPlayer(transform);
-            chasingVehicleController.SetTarget(playerMock);
-            ChangeCurrentBehaviour(chasingVehicleController);
-        }
-        else
-        {
-            Transform abordagePoint = gameCombatManager.GetApplicableAbordagePoint(transform);
-            abordagingVehicleController.SetTarget(abordagePoint);
-            ChangeCurrentBehaviour(abordagingVehicleController);
-        }
+        InitBehaviour();
     }
 
     private void ChangeCurrentBehaviour(VehicleBehaviourController controller)
@@ -68,12 +61,39 @@ public class VehicleCombatBehaviourSystem : UnitController, IAfterSpawned
         controller.OnStartBehaviour();
     }
 
+    private void InitBehaviour()
+    {
+        if (data.isVehicleToRangers)
+        {
+            PlayerMock playerMock = gameCombatManager.GetNearestPlayer(transform);
+            if (playerMock == null) return;
+            chasingVehicleController.SetTarget(playerMock);
+            ChangeCurrentBehaviour(chasingVehicleController);
+        }
+        else
+        {
+            Transform abordagePoint = gameCombatManager.GetApplicableAbordagePoint(transform);
+            abordagingVehicleController.SetTarget(abordagePoint);
+            ChangeCurrentBehaviour(abordagingVehicleController);
+        }
+    }
+    private TickTimer timer;
+    private bool started = false;
     public override void FixedUpdateNetwork()
     {
+        if (!timer.IsRunning) timer = TickTimer.CreateFromSeconds(Runner, 7);
+
+        if (!timer.Expired(Runner)) return;
+
+        if (!started)
+        {
+            Hey();
+            started = true;
+        }
+
         if (curController == null)
         {
-            Debug.LogError("I dont have needed behaviour controller, or I didnt get one yet");
-            return;
+            InitBehaviour();
         }
         curController.OnFixedUpdateBehave();
     }

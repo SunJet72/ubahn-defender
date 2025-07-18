@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7346596142568654632}
   - component: {fileID: 8416492976722764753}
   - component: {fileID: 6426352638830161686}
+  - component: {fileID: 853785753197244475}
+  - component: {fileID: 8637338553788046324}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -102,7 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 980e20c63aac1e043bef7166034112ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Health: 0
+  _SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  _Health: 100
+  _spriteRenderer: {fileID: 0}
 --- !u!61 &8416492976722764753
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -167,4 +171,36 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 7346596142568654632}
+  - {fileID: 853785753197244475}
+  - {fileID: 8637338553788046324}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &853785753197244475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092291019584661508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7953ccae8ab55d249be7170c47916bf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: a65b53dc47773844b8ee183d29a67fa6, type: 2}
+--- !u!114 &8637338553788046324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092291019584661508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 1
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

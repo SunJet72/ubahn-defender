@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: 
   description: 
-  maxStackSize: 0
+  maxStackSize: 1
   sprite: {fileID: 0}
   action: {fileID: 0}
+  spell: {fileID: 0}
   durability: 0
   coolness: 0
+  unitData: {fileID: 0}

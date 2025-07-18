@@ -6,24 +6,26 @@ using UnityEngine.AI;
 public class EctsContainer : NetworkBehaviour
 {
     [SerializeField] private TextMeshProUGUI boxesAmountIndicator;
-    private int boxesAmount;
-    public int BoxesAmount
+
+    [Networked, OnChangedRender(nameof(OnBoxesAmountChanged))]
+    public int BoxesAmount{ get; set; }
+
+    public override void Spawned()
     {
-        get { return boxesAmount; }
-        set
-        {
-            boxesAmount = value;
-            boxesAmountIndicator.text = "" + boxesAmount;
-        }
+        OnBoxesAmountChanged();
     }
 
+    private void OnBoxesAmountChanged()
+    {
+        boxesAmountIndicator.text = "" + BoxesAmount;
+    }
     public void Steal()
     {
         BoxesAmount--;
         if (BoxesAmount <= 0)
         {
             Debug.Log("I lost all boxes");
-            Destroy(gameObject);
+            Runner.Despawn(Object);
         }
     }
 }

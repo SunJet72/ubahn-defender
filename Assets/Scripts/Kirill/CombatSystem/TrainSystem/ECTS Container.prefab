@@ -147,6 +147,8 @@ GameObject:
   - component: {fileID: 3762857041008403781}
   - component: {fileID: 9037323925071438655}
   - component: {fileID: 1449958965945540148}
+  - component: {fileID: -1838578021849079491}
+  - component: {fileID: -9212209965600598416}
   m_Layer: 0
   m_Name: ECTS Container
   m_TagString: Untagged
@@ -242,6 +244,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxesAmountIndicator: {fileID: 866572381036667483}
+--- !u!114 &-1838578021849079491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3648830886669865955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2589260942
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1449958965945540148}
+  - {fileID: -9212209965600598416}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &-9212209965600598416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3648830886669865955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 1
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &8497193924656316675
 GameObject:
   m_ObjectHideFlags: 0

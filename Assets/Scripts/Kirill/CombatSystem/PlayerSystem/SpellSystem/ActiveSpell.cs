@@ -1,17 +1,18 @@
+using Fusion;
 using UnityEngine;
 
 public abstract class ActiveSpell : Spell
 {
     public Reload Reload { get => reload; }
     [SerializeField] private Reload reload;
-    public void Activate(PlayerMock playerMock, Transform start, Vector2 end)
+    public void Activate(NetworkObject playerNO, NetworkObject nStart, Vector2 end)
     {
         if (!reload.IsReady())
             return;
-        Execute(playerMock, start, end);
+        ExecuteRpc(playerNO, nStart, end);
         reload.SpellWasUsed();
     }
 
-    protected abstract void Execute(PlayerMock playerMock, Transform start, Vector2 end);
+    protected abstract void ExecuteRpc(NetworkObject playerNO, NetworkObject nStart, Vector2 end);
 
 }

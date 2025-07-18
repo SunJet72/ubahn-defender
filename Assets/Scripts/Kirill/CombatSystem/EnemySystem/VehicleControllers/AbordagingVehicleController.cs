@@ -41,7 +41,7 @@ public class AbordagingVehicleController : VehicleBehaviourController
 
     private void Move()
     {
-        transform.Translate((abordagingPoint - (Vector2)transform.position).normalized * Controller.Speed * Time.fixedDeltaTime);
+        transform.Translate((abordagingPoint - (Vector2)transform.position).normalized * Controller.Speed * Runner.DeltaTime);
     }
 
     private void Abordage()

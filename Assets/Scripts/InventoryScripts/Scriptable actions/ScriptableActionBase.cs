@@ -1,7 +1,10 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public abstract class ScriptableActionBase : ScriptableObject
 {
@@ -11,12 +14,16 @@ public abstract class ScriptableActionBase : ScriptableObject
     public bool isPassive;
 
 
+#if UNITY_EDITOR
     public MonoScript ComponentSkript;
+#endif
 
     public Component SetUp(GameObject player, UnityEvent actionEvent)
     {
         //Debug.Log("trying to configure stuff");
+#if UNITY_EDITOR
         Type ComponentType = ComponentSkript.GetClass();
+
         if (ComponentType == null)
         {
             Debug.LogError($"{name}: ComponentType is null.");   // `name` is the SO’s name
@@ -42,6 +49,9 @@ public abstract class ScriptableActionBase : ScriptableObject
 
         ((IActionable)action).SetUp(player, this, actionEvent);
         return action;
+#else
+        return null;
+#endif
     }
 
 }

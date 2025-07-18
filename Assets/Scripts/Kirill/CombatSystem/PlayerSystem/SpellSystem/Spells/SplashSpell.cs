@@ -8,12 +8,17 @@ public class SplashSpell : ActiveSpell
 
     public override SpellData SpellData => data;
 
-    protected override void Execute(PlayerMock playerMock, Transform start, Vector2 end)
+    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.StateAuthority)]
+    protected override void ExecuteRpc(NetworkObject playerNO, NetworkObject nStart, Vector2 end)
     {
-        NetworkObject go = Runner.Spawn(_splashSpellExecutor);
-        go.transform.parent = transform;
-        go.transform.localPosition = Vector2.zero;
-        go.transform.up = (end - (Vector2)start.position).normalized;
+        PlayerMock playerMock = playerNO.GetComponent<PlayerMock>();
+        Transform start = nStart.transform;
+        NetworkObject go = Runner.Spawn(_splashSpellExecutor, onBeforeSpawned: (runner, spawned) =>
+        {
+            spawned.transform.SetParent(transform);
+            spawned.transform.localPosition = Vector2.zero;
+            spawned.transform.up = (end - (Vector2)start.position).normalized;
+        });
 
         SplashSpellExecutor executor = go.GetComponent<SplashSpellExecutor>();
         executor.Initialize(data, start, end);

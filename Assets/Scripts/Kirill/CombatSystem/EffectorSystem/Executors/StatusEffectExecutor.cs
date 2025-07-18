@@ -13,14 +13,17 @@ public class StatusEffectExecutor : MonoBehaviour
         this.effect = effect;
         if (effect.hasEffectRadius)
         {
-            ApplyWithingRadius();
+            ApplyWithinRadius();
         }
         else
         {
             transform.TryGetComponent<UnitController>(out unitController);
             if (unitController != null) // it stil can be null, if we want to apply e.g. on a random point with area
             {
-                unitController.ApplyStatusEffect(effect, OnEffectEnd, effect.isPermanent);
+                Debug.Log("I apply status effect: " + effect);
+                unitController.ApplyStatusEffect(effect);
+                if (!effect.isPermanent)
+                    OnEffectEnd += unitController.RemoveStatusEffect;
             }
         }
         if (effect.hasDuration)
@@ -32,11 +35,13 @@ public class StatusEffectExecutor : MonoBehaviour
     private IEnumerator EndEffect(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        OnEffectEnd.Invoke(effect);
+        Debug.Log(OnEffectEnd);
+        Debug.Log(effect);
+        OnEffectEnd?.Invoke(effect);
         Destroy(this);
     }
 
-    private void ApplyWithingRadius()
+    private void ApplyWithinRadius()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, effect.effectRadius); // Potentially adding LayerMask
 
@@ -45,7 +50,9 @@ public class StatusEffectExecutor : MonoBehaviour
             UnitController unit = col.GetComponent<UnitController>();
             if (unit != null) // Apply effect only on enemies
             {
-                unit.ApplyStatusEffect(effect, OnEffectEnd, effect.isPermanent);
+                unit.ApplyStatusEffect(effect);
+                if (!effect.isPermanent)
+                    OnEffectEnd += unitController.RemoveStatusEffect;
             }
         }
     }

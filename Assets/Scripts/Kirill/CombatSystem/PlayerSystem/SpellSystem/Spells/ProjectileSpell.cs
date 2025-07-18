@@ -1,3 +1,4 @@
+using Fusion;
 using UnityEngine;
 
 public class ProjectileSpell : ActiveSpell
@@ -5,9 +6,12 @@ public class ProjectileSpell : ActiveSpell
     [SerializeField] private ProjectileSpellData data;
 
     public override SpellData SpellData => data;
-
-    protected override void Execute(PlayerMock playerMock, Transform start, Vector2 end)
+    
+    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.StateAuthority)]
+    protected override void ExecuteRpc(NetworkObject playerNO, NetworkObject nStart, Vector2 end)
     {
+        PlayerMock playerMock = playerNO.GetComponent<PlayerMock>();
+        Transform start = nStart.transform;
         ProjectileSpellExecutor executor = playerMock.gameObject.AddComponent<ProjectileSpellExecutor>();
         if (data.targetType == TargetType.CURRENT_TARGET)
         {

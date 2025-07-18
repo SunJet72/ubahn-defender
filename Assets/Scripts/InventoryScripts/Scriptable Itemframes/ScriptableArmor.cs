@@ -9,9 +9,6 @@ public class ScriptableArmor : ScriptableItemBase
     public float coolness;
 
     public UnitData unitData;
-    public GameObject spell;
-
-
     public void Use(GameObject player)
     {
         Debug.Log(player.name + " is equipped with " + name + " and it looks cool as " + coolness);

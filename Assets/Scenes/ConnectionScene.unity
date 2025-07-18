@@ -132,6 +132,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3059330847231248218, guid: 57473fafa503a8c458525be489345df8, type: 3}
     - target: {fileID: 3819591239550715611, guid: 09571130bfc04444aaf04b38aef046d7, type: 3}
+      propertyPath: scriptableArmorBuffer
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f95015e862325f4aa8eff081b4c728c, type: 2}
+    - target: {fileID: 3819591239550715611, guid: 09571130bfc04444aaf04b38aef046d7, type: 3}
+      propertyPath: scriptableWeaponBuffer
+      value: 
+      objectReference: {fileID: 11400000, guid: ca3223beeb326c440b4d099c505112a0, type: 2}
+    - target: {fileID: 3819591239550715611, guid: 09571130bfc04444aaf04b38aef046d7, type: 3}
       propertyPath: '_playerPrefab.RawGuidValue.Array.data[0]'
       value: -6558162744513218293
       objectReference: {fileID: 0}

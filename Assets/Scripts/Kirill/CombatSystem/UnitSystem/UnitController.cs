@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class UnitController : NetworkBehaviour
 {
     protected abstract UnitData UnitData { get; }
+    public event Action<UnitController> OnDieEvent;
 
     [Networked]
     private float health { get; set; }
@@ -45,15 +46,15 @@ public abstract class UnitController : NetworkBehaviour
 
     protected void ApplyUnitDataStats(UnitData unitData)
     {
-        health += UnitData.health;
-        armor += UnitData.armor;
-        strength += UnitData.strength;
-        speed += UnitData.speed;
-        attackSpeed += UnitData.attackSpeed;
-        armorPenetration += UnitData.armorPenetration;
+        health += unitData.health;
+        armor += unitData.armor;
+        strength += unitData.strength;
+        speed += unitData.speed;
+        attackSpeed += unitData.attackSpeed;
+        armorPenetration += unitData.armorPenetration;
     }
 
-    public void ApplyStatusEffect(StatusEffect statusEffect, Action<StatusEffect> onEndAction, bool isPermanent)
+    public void ApplyStatusEffect(StatusEffect statusEffect)
     {
         // Applying effect
         switch (statusEffect.paramToEffect)
@@ -82,13 +83,11 @@ public abstract class UnitController : NetworkBehaviour
                 attackSpeedMultiplex += statusEffect.value;
                 break;
         }
-        // Subscribe on event in effector to then cleanse the effect
-        if (!isPermanent)
-            onEndAction += RemoveStatusEffect;
     }
 
-    private void RemoveStatusEffect(StatusEffect statusEffect)
+    public void RemoveStatusEffect(StatusEffect statusEffect)
     {
+        Debug.Log("I remove effect: " + statusEffect);
         // Reverting application of an effect
         switch (statusEffect.paramToEffect)
         {
@@ -128,5 +127,5 @@ public abstract class UnitController : NetworkBehaviour
         }
     }
 
-    protected abstract void Die();
+    protected abstract void Die(); // In all Fällen OnDieEvent shooten
 }

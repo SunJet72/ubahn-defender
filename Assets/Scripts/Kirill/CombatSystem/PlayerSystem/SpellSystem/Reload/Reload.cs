@@ -10,7 +10,7 @@ public abstract class Reload : NetworkBehaviour
     public abstract bool IsReady();
     protected void Trigger()
     {
-        OnReloadedEvent.Invoke();
+        OnReloadedEvent?.Invoke();
     }
     
 }

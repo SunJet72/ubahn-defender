@@ -16,7 +16,7 @@ public class EscapingVehicleController : VehicleBehaviourController
 
     public override void OnFixedUpdateBehave()
     {
-        transform.Translate(escapeDirection * Controller.Speed * Time.fixedDeltaTime);
+        transform.Translate(escapeDirection * Controller.Speed * Runner.DeltaTime);
     }
 
     public override void OnEndBehaviour()

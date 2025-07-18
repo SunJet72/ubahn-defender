@@ -157,8 +157,8 @@ public class Player : NetworkBehaviour
     private IEnumerator ShowAoeFlash(float radius, Color color, float duration)
     {
         // Simple gizmo‐like flash: draw a circle for "duration" seconds
-        float startTime = Time.time;
-        while (Time.time < startTime + duration)
+        float startTime = Runner.LocalRenderTime;
+        while (Runner.LocalRenderTime < startTime + duration)
         {
             Debug.DrawLine(transform.position, transform.position + Vector3.right * radius, color);
             Debug.DrawLine(transform.position, transform.position + Vector3.up * radius, color);

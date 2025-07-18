@@ -8,11 +8,12 @@ public class SpellButton : NetworkBehaviour, IPointerDownHandler, IPointerUpHand
     private bool isPreparingSpell = false;
 
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private ActiveSpell spell;
     [SerializeField] private Image cooldownOverlay;
     [SerializeField] private Image icon;
     private PlayerMock playerMock;
 
+
+    private ActiveSpell spell;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -21,28 +22,45 @@ public class SpellButton : NetworkBehaviour, IPointerDownHandler, IPointerUpHand
         // TODO: Visual Adjustment of spell preparation
     }
 
-    public override void Spawned()
+    // public override void Spawned()
+    // {
+    //     
+    //     spell = NetworkManager.Instance.GetCurrentPlayerActiveSpells()[0]; // TODO: this is Mock
+    //     icon.sprite = spell.SpellData.icon;
+    //     //icon.sprite = spell.SpellData.icon;
+    // }
+
+    public void SetSpell(Spell spell)
     {
-        this.playerMock = NetworkManager.Instance.GetCurrentPlayer();
-        spell = NetworkManager.Instance.GetCurrentPlayerActiveSpells()[0]; // TODO: this is Mock
-        icon.sprite = spell.SpellData.icon;
+        if (spell is ActiveSpell activeSpell)
+        {
+            this.spell = activeSpell;
+            icon.sprite = activeSpell.SpellData.icon;
+        }
     }
 
     void FixedUpdate()
     {
         if (spell == null) return;
         cooldownOverlay.fillAmount = 1f - spell.Reload.ReloadPercentage;
-        Debug.Log(spell.Reload.ReloadPercentage);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         if (!isPreparingSpell) return;
 
+        
+        playerMock = NetworkManager.Instance.GetCurrentPlayer();
+        if (playerMock == null)
+        {
+            Debug.Log("SpellButton: Player is null");
+            return;
+        }
+
         Vector3 mouseScreenPosition = Input.mousePosition;
         Vector2 worldMousePosition = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPosition.x, mouseScreenPosition.y));
 
-        spell.Activate(playerMock, playerMock.gameObject.transform, worldMousePosition);
+        spell.Activate(playerMock.Object, playerMock.Object, worldMousePosition);
 
         Debug.Log("Spell cast toward: " + worldMousePosition);
 

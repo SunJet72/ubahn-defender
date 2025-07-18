@@ -11,20 +11,28 @@ public class TrainSystem : NetworkBehaviour
     [SerializeField] private const float START_TRAIN_LENGTH = 5;
     [SerializeField] private GameObject ectsContainerPrefab;
     private float trainLength;
-    private int containersAmount;
+
+    [Networked]
+    private int containersAmount { get; set; }
     private EctsContainer[] containers;
 
     private System.Random rand;
 
     public override void Spawned()
     {
-        rand = new System.Random();
-        DetermineTrainParameters();
+        if (Runner.IsServer)
+        {
+            rand = new System.Random();
+            DetermineTrainParameters();
+        }
     }
 
     public void Setup()
     {
-        DetermineAndPlaceContainers();
+        if (Runner.IsServer)
+        {
+            DetermineAndPlaceContainers();
+        }
     }
 
     private void DetermineTrainParameters() // just watch description on the miro board
@@ -40,13 +48,14 @@ public class TrainSystem : NetworkBehaviour
 
         for (int i = 0; i < containersAmount; i++)
         {
-            var containerGO = Runner.Spawn(ectsContainerPrefab);
-            containerGO.transform.parent = transform;
-            containerGO.transform.position = transform.position - new Vector3(0, trainLength / 2)
+            NetworkObject containerGO = Runner.Spawn(ectsContainerPrefab, onBeforeSpawned: (runner, spawned) =>
+            {
+                spawned.transform.parent = transform;
+                spawned.transform.position = transform.position - new Vector3(0, trainLength / 2)
                  + new Vector3(0, _distanceBetweenContainers * (i + 1));
-
-            containers[i] = containerGO.GetComponent<EctsContainer>();
-            containers[i].BoxesAmount = BOXES_PRO_PLAYER * 3;
+                containers[i] = spawned.GetComponent<EctsContainer>();
+                containers[i].BoxesAmount = BOXES_PRO_PLAYER * 3;
+            });
         }
 
         for (int i = 0; i < 2 - ((playerAmount - 1) % 3); i++)

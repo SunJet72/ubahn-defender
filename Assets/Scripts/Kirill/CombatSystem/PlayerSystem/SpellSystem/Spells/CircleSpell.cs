@@ -1,3 +1,5 @@
+
+using Fusion;
 using UnityEngine;
 
 public class CircleSpell : ActiveSpell
@@ -6,8 +8,11 @@ public class CircleSpell : ActiveSpell
 
     public override SpellData SpellData => data;
 
-    protected override void Execute(PlayerMock playerMock, Transform start, Vector2 end) // end is not used
+    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.StateAuthority)]
+    protected override void ExecuteRpc(NetworkObject playerNO, NetworkObject nStart, Vector2 end) // end is not used
     {
+        PlayerMock playerMock = playerNO.GetComponent<PlayerMock>();
+        Transform start = nStart.transform;
         CircleSpellExecutor executor = playerMock.gameObject.AddComponent<CircleSpellExecutor>();
         executor.Initialize(data, start);
     }

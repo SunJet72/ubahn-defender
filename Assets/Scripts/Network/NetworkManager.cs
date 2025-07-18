@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Fusion;
 using Fusion.Sockets;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -31,25 +30,26 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     public static NetworkManager Instance { get; private set; }
 
-    private NetworkRunner _runner;
+    private NetworkRunner _myrunner;
     [SerializeField]
     private NetworkPrefabRef _playerPrefab;
     private Transform parentTransform;
 
-    private Dictionary<PlayerRef, NetworkObject> _spawnedPlayers = new Dictionary<PlayerRef, NetworkObject>();
+    // [Networked]
+    // private NetworkDictionary<PlayerRef, NetworkObject> _spawnedPlayers { get; } = new();
 
     private Color[] colorPool = { Color.blue, Color.yellow, Color.magenta };
 
-
-    [SerializeField]
-    private GameObject playerSpell; //TODO: this is Mock
+    [SerializeField] private ScriptableWeapon scriptableWeaponBuffer;
+    [SerializeField] private ScriptableArmor scriptableArmorBuffer;
+    [SerializeField] private List<ScriptableConsumable> consumables;
 
     async void StartGame(GameMode mode)
     {
         Instance = this;
 
-        _runner = gameObject.AddComponent<NetworkRunner>();
-        _runner.ProvideInput = true;
+        _myrunner = gameObject.AddComponent<NetworkRunner>();
+        _myrunner.ProvideInput = true;
 
         // string sceneName = "SampleScene";
         // await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -62,7 +62,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
         }
 
-        await _runner.StartGame(new StartGameArgs()
+        await _myrunner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
             SessionName = "TestRoom",
@@ -78,7 +78,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         if (runner.IsServer)
         {
             parentTransform = GameObject.FindGameObjectsWithTag("Train").First().transform;
-            int size = _spawnedPlayers.Count;
+            int size = runner.ActivePlayers.Count();
             NetworkObject playerObj = runner.Spawn(_playerPrefab, new Vector3(0, 9 - (size * 3), 0), Quaternion.identity, playerRef,
             onBeforeSpawned: (runner, spawned) =>
             {
@@ -88,22 +88,20 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 spawned.transform.SetParent(parentTransform, false);
                 spawned.transform.localScale = Vector3.one * 2;
 
-                NetworkObject spell = runner.Spawn(playerSpell, player.transform.position, Quaternion.identity, playerRef,
-                onBeforeSpawned: (runner, spellSpawned) =>
-                {
-                    spellSpawned.transform.SetParent(player.transform);
-                });
+                PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
+                playerCombatSystem.Init(scriptableArmorBuffer, scriptableWeaponBuffer, consumables);
             });
 
-            _spawnedPlayers.Add(playerRef, playerObj);
+            // _spawnedPlayers.Add(playerRef, playerObj);
+            runner.SetPlayerObject(playerRef, playerObj);
         }
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        if (_spawnedPlayers.TryGetValue(player, out NetworkObject networkObject))
+        NetworkObject obj = runner.GetPlayerObject(player);
+        if (obj != null)
         {
-            runner.Despawn(networkObject);
-            _spawnedPlayers.Remove(player);
+            runner.Despawn(obj);
         }
     }
 
@@ -132,7 +130,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     private void OnGUI()
     {
-        if (_runner == null)
+        if (_myrunner == null)
         {
             if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
             {
@@ -147,16 +145,24 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     public PlayerMock GetCurrentPlayer()
     {
-        return _spawnedPlayers.Where(p => p.Key.Equals(Runner.LocalPlayer)).First().Value.GetComponent<PlayerMock>();
+        // return _spawnedPlayers.Where(p => p.Key.Equals(Runner.LocalPlayer)).First().Value.GetComponent<PlayerMock>();
+        return Runner.GetPlayerObject(Runner.LocalPlayer).GetComponent<PlayerMock>();
     }
 
     public ActiveSpell[] GetCurrentPlayerActiveSpells()
     {
-        return _spawnedPlayers.Where(p => p.Key.Equals(Runner.LocalPlayer)).First().Value.GetComponentsInChildren<ActiveSpell>();
+        // return _spawnedPlayers.Where(p => p.Key.Equals(Runner.LocalPlayer)).First().Value.GetComponentsInChildren<ActiveSpell>();
+        return Runner.GetPlayerObject(Runner.LocalPlayer).GetComponentsInChildren<ActiveSpell>();
     }
 
-    public List<NetworkObject> GetPlayers()
+    public List<NetworkObject> GetPlayerObjects()
     {
-        return _spawnedPlayers.Values.ToList();
+        return Runner.ActivePlayers.Select(p => Runner.GetPlayerObject(p)).ToList();
+    }
+
+    public bool AnyPlayerSpawned()
+    {
+        // return _spawnedPlayers.Count > 0;
+        return Runner.ActivePlayers.Count() > 0;
     }
 }

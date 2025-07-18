@@ -11,6 +11,8 @@ public abstract class ScriptableItemBase : ScriptableObject
     public Sprite sprite;
 
     public ScriptableActionBase action;
+    
+    public GameObject spell;
 
 
     public override string ToString()

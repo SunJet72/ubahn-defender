@@ -1,20 +1,27 @@
 using Fusion;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameCombatManager : NetworkBehaviour
 {
     [SerializeField] private TrainSystem trainSystem;
+    [SerializeField] private GameCombatUIManager ui;
 
-    // [SerializeField] private PlayerMock playerMock; // Mock!
+    [SerializeField] private PlayerCombatSystem playerCombatSystem;
 
     public override void Spawned()
     {
-        trainSystem.Setup();
+        if (Runner.IsServer)
+        {
+            trainSystem.Setup();
+        }
     }
 
     public PlayerMock GetNearestPlayer(Transform vehicleTransform) // Mock!
     {
-        return NetworkManager.Instance.GetPlayers()[0].GetComponent<PlayerMock>();
+        List<NetworkObject> players = NetworkManager.Instance.GetPlayerObjects();
+        if (players.Count <= 0) return null;
+        return players[0].GetComponent<PlayerMock>();
     }
 
     public EctsContainer GetNearestContainer(Transform enemyTransform)
@@ -29,5 +36,10 @@ public class GameCombatManager : NetworkBehaviour
     public void IncrementEnemyScore()
     {
 
+    }
+
+    public void SetSpells(Spell spellArmor, Spell spellWeapon)
+    {
+        ui.SetSpells(spellArmor, spellWeapon);
     }
 }
