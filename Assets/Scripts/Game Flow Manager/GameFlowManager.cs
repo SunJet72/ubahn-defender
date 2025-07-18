@@ -29,7 +29,7 @@ public class GameFlowManager : MonoBehaviour
     {
         while (true)
         {
-            yield
+            //yield new Wait
         }
     }
 }
