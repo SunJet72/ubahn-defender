@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -1190071743961502200}
   m_Layer: 0
   m_Name: Scoundrel
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,6 @@ MonoBehaviour:
   hauntingBehaviourController: {fileID: 8062630115545188261}
   stealingBehaviourController: {fileID: -1190071743961502200}
   playerMock: {fileID: 0}
-  gameCombatManager: {fileID: 0}
 --- !u!114 &5192602821860240866
 MonoBehaviour:
   m_ObjectHideFlags: 0

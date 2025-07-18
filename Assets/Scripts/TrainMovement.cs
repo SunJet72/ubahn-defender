@@ -1,12 +1,13 @@
+using Fusion;
 using UnityEngine;
 
-public class TrainMovement : MonoBehaviour
+public class TrainMovement : NetworkBehaviour
 {
    public Vector2 moveDirection = Vector2.right; // Only forward!
-    public float maxSpeed = 5f;
+    public float maxSpeed = 2f;
     public float acceleration = 2f;
     public float deceleration = 3f;
-    public float distanceToTravel = 10f;
+    public float distanceToTravel = 9f;
 
     private float _currentSpeed = 0f;
     private float _distanceTravelled = 0f;
@@ -20,13 +21,13 @@ public class TrainMovement : MonoBehaviour
         _lastPosition = transform.position;
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         if (!_isMoving) return;
 
         float remainingDistance = distanceToTravel - _distanceTravelled;
-        float stopDistance = (deceleration > 0) 
-            ? (_currentSpeed * _currentSpeed) / (2f * deceleration) 
+        float stopDistance = (deceleration > 0)
+            ? (_currentSpeed * _currentSpeed) / (2f * deceleration)
             : 0f;
 
         // Start decelerating if needed
@@ -35,15 +36,15 @@ public class TrainMovement : MonoBehaviour
 
         // Accelerate or decelerate
         if (_isDecelerating && deceleration > 0)
-            _currentSpeed -= deceleration * Time.deltaTime;
+            _currentSpeed -= deceleration * Runner.DeltaTime;
         else if (_currentSpeed < maxSpeed)
-            _currentSpeed += acceleration * Time.deltaTime;
+            _currentSpeed += acceleration * Runner.DeltaTime;
 
         // Clamp speed
         _currentSpeed = Mathf.Clamp(_currentSpeed, 0f, maxSpeed);
 
         // Move
-        Vector3 moveStep = (Vector3)(moveDirection * _currentSpeed * Time.deltaTime);
+        Vector3 moveStep = (Vector3)(moveDirection * _currentSpeed * Runner.DeltaTime);
         transform.position += moveStep;
 
         // Update distance travelled

@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
+using Fusion;
+using Unity.Cinemachine;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -10,8 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float attackRange = 50.0f;
     [SerializeField] private float attackRate = 1.0f;
 
-   [Header("Ability C: AOE Damage")]
-    
+    [Header("Ability C: AOE Damage")]
+
     [SerializeField] private int aoeDamage = 25;
     [SerializeField] private float aoeDamageRadius = 3f;
     [SerializeField] private float aoeCooldown = 6f;
@@ -24,25 +27,56 @@ public class Player : MonoBehaviour
     [SerializeField] private float slowDuration = 4f;
     [SerializeField] private float slowRadius = 3f;
     [SerializeField] private float slowCooldown = 8f;
-    private float _nextSlowTime = 0f;
 
-    private float _nextAttackTime = 0f;
+    [Networked] private TickTimer autoAttackCooldown { get; set; }
+    [Networked] private TickTimer xAbilityCooldown { get; set; }
 
+    [Networked] private TickTimer cAbilityCooldown { get; set; }
 
-    private void Update()
+    [Networked, OnChangedRender(nameof(OnColorChanged))] public Color SpriteColor { get; set; }
+
+    [Networked] public NetworkButtons ButtonsPrevious { get; set; }
+
+    public SpriteRenderer _spriteRenderer;
+
+    private void Awake()
     {
-        AutoAttackNearestEnemy();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
-        if (Input.GetKeyDown(KeyCode.X))
-            TryUseAbilityX();
+    public override void Spawned()
+    {
+        OnColorChanged();
+        if (HasInputAuthority)
+        {
+            FindFirstObjectByType<CinemachineCamera>().Target.TrackingTarget = transform;
+        }
+    }
 
-        if (Input.GetKeyDown(KeyCode.C))
-            TryUseAbilityC();
+    public override void FixedUpdateNetwork()
+    {
+        if (HasStateAuthority)
+        {
+            if (GetInput(out NetworkInputData data))
+            {
+                // store latest input as 'previous' state we had
+                if (data.Buttons.WasPressed(ButtonsPrevious, NetworkInputData.X))
+                {
+                    TryUseAbilityX();
+                }
+                if (data.Buttons.WasPressed(ButtonsPrevious, NetworkInputData.C))
+                {
+                    TryUseAbilityC();
+                }
+                ButtonsPrevious = data.Buttons;
+            }
+            AutoAttackNearestEnemy();
+        }
     }
 
     private void AutoAttackNearestEnemy()
     {
-        if (Time.time < _nextAttackTime)
+        if (!autoAttackCooldown.ExpiredOrNotRunning(Runner))
             return;
 
         // Find all enemies in the scene
@@ -58,7 +92,7 @@ public class Player : MonoBehaviour
         foreach (GameObject e in enemies)
         {
             float distSqr = ((Vector2)e.transform.position - currentPos).sqrMagnitude;
-            if (distSqr < minDistSqr)
+            if (distSqr < minDistSqr && e.GetComponent<Enemy>().HasSpawned)
             {
                 minDistSqr = distSqr;
                 nearest = e;
@@ -74,28 +108,36 @@ public class Player : MonoBehaviour
         {
             // Attempt to deal damage to the enemy’s health component
             Enemy enemyHealth = nearest.GetComponent<Enemy>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.TakeDamage(attackDamage);
-            }
-            else
-            {
-                Debug.LogWarning($"Nearest enemy '{nearest.name}' has no EnemyHealth component.");
-            }
+            if (!enemyHealth.HasSpawned)
+                Debug.Log("Enemy didnt spawn yet");
+            if (enemyHealth != null && enemyHealth.HasSpawned)
+                {
+                    enemyHealth.TakeDamage(attackDamage);
+                }
+                else
+                {
+                    Debug.LogWarning($"Nearest enemy '{nearest.name}' has no EnemyHealth component.");
+                }
 
             // Schedule next attack
-            _nextAttackTime = Time.time + (1f / attackRate);
+            // _nextAttackTime = Time.time + (1f / attackRate);
+            autoAttackCooldown = TickTimer.CreateFromSeconds(Runner, 1f / attackRate);
         }
     }
 
     private void TryUseAbilityX()
     {
+        if (!xAbilityCooldown.ExpiredOrNotRunning(Runner))
+        {
+            Debug.Log("Ability X is in cooldown");
+            return;
+        }
         Debug.Log("Ability X used: AOE Damage");
         AoeDamage();
-        _nextAoeTime = Time.time + aoeCooldown;
+        xAbilityCooldown = TickTimer.CreateFromSeconds(Runner, aoeCooldown);
     }
 
-     private void AoeDamage()
+    private void AoeDamage()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, aoeDamageRadius);
         foreach (Collider2D col in hits)
@@ -103,7 +145,7 @@ public class Player : MonoBehaviour
             if (col.CompareTag("Enemy"))
             {
                 Enemy eh = col.GetComponent<Enemy>();
-                if (eh != null)
+                if (eh != null && eh.HasSpawned)
                     eh.TakeDamage(aoeDamage);
             }
         }
@@ -126,9 +168,14 @@ public class Player : MonoBehaviour
 
     private void TryUseAbilityC()
     {
+        if (!cAbilityCooldown.ExpiredOrNotRunning(Runner))
+        {
+            Debug.Log("Ability C is in cooldown");
+            return;
+        }
         Debug.Log("Ability C used: Icing (Slow)");
-         IcingSlow();
-        _nextSlowTime = Time.time + slowCooldown;
+        IcingSlow();
+        cAbilityCooldown = TickTimer.CreateFromSeconds(Runner, slowCooldown);
     }
 
     private void IcingSlow()
@@ -149,7 +196,7 @@ public class Player : MonoBehaviour
         // Optional: Visual feedback for slow radius (blue circle)
         StartCoroutine(ShowAoeFlash(slowRadius, Color.cyan, 0.2f));
     }
-    
+
 
     private void OnDrawGizmosSelected()
     {
@@ -163,6 +210,12 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, slowRadius);
     }
+    
+    private void OnColorChanged()
+    {
+        _spriteRenderer.color = SpriteColor;
+    }
+
 }
 
 
