@@ -5,7 +5,7 @@ using UnityEngine;
 public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
 {
     [SerializeField] private VehicleCombatSystemData data;
-    protected override UnitData UnitData => data;
+    public override UnitData UnitData => data;
 
     public bool useAbordagingController;
     public bool useChasingController;
@@ -22,7 +22,7 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
     private VehicleBehaviourController curController;
     private EnemyCombatBehaviourSystem[] enemies;
 
-    public void Hey()
+    public void Initialize()
     {
         base.Init();
 
@@ -87,7 +87,7 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
 
         if (!started)
         {
-            Hey();
+            Initialize();
             started = true;
         }
 

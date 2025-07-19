@@ -6,13 +6,16 @@ public class ProjectileSpellExecutor : NetworkBehaviour
 {
     private ProjectileSpellData data;
     private Transform castTransform;
+    private PlayerCombatSystem player;
 
     [Networked]
     private TickTimer spellTimer { get; set; }
 
-    public void Initialize(ProjectileSpellData spellData, Transform castTransform, Vector2 castedPoint)
+    public void Initialize(ProjectileSpellData spellData, Transform castTransform, Vector2 castedPoint, PlayerCombatSystem player)
     {
         data = spellData;
+        this.player = player;
+        this.castTransform = castTransform;
         if (data.targetType == TargetType.CURRENT_TARGET)
         {
             Debug.LogError("Projectile has wrong target type, or the wrong function was called");
@@ -36,9 +39,11 @@ public class ProjectileSpellExecutor : NetworkBehaviour
 
     }
 
-    public void Initialize(ProjectileSpellData spellData, Transform castTransform, Transform targetTransform)
+    public void Initialize(ProjectileSpellData spellData, Transform castTransform, Transform targetTransform, PlayerCombatSystem player)
     {
         data = spellData;
+        this.player = player;
+        this.castTransform = castTransform;
         if (data.targetType != TargetType.CURRENT_TARGET)
         {
             Debug.LogError("Projectile has wrong target type, or the wrong function was called");
@@ -97,14 +102,21 @@ public class ProjectileSpellExecutor : NetworkBehaviour
 
     private void SpawnProjectile(Vector2 castedPointOrDirection)
     {
-        NetworkObject projectile = Runner.Spawn(data._projectile);
-        projectile.transform.position = transform.position;
-        projectile.GetComponent<Projectile>().SetTarget(castedPointOrDirection);
+        Runner.Spawn(data._projectile, onBeforeSpawned: (runner, spawned) =>
+        {
+            spawned.transform.parent = castTransform;
+            spawned.transform.position = castTransform.position;
+            spawned.GetComponent<Projectile>().SetTarget(castedPointOrDirection, player, data.damageProExecution, data.targetTypes);
+        });
     }
     private void SpawnProjectile(Transform targetTransform)
     {
-        NetworkObject projectile = Runner.Spawn(data._projectile);
-        projectile.transform.position = transform.position;
-        projectile.GetComponent<Projectile>().SetTarget(targetTransform);
+        Runner.Spawn(data._projectile, onBeforeSpawned: (runner, spawned) =>
+        {
+            spawned.transform.parent = castTransform;
+            spawned.transform.position = castTransform.position;
+            spawned.GetComponent<Projectile>().SetTarget(targetTransform, player, data.damageProExecution, data.targetTypes);
+        });
+       
     }
 }

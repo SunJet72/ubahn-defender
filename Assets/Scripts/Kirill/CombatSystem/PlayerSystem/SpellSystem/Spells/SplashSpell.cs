@@ -11,7 +11,7 @@ public class SplashSpell : ActiveSpell
     [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.StateAuthority)]
     protected override void ExecuteRpc(NetworkObject playerNO, NetworkObject nStart, Vector2 end)
     {
-        PlayerMock playerMock = playerNO.GetComponent<PlayerMock>();
+        PlayerCombatSystem player = playerNO.GetComponent<PlayerCombatSystem>();
         Transform start = nStart.transform;
         NetworkObject go = Runner.Spawn(_splashSpellExecutor, onBeforeSpawned: (runner, spawned) =>
         {
@@ -21,6 +21,6 @@ public class SplashSpell : ActiveSpell
         });
 
         SplashSpellExecutor executor = go.GetComponent<SplashSpellExecutor>();
-        executor.Initialize(data, start, end);
+        executor.Initialize(data, player, start, end);
     }
 }

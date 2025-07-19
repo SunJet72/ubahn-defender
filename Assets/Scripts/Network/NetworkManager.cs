@@ -42,6 +42,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     [SerializeField] private ScriptableWeapon scriptableWeaponBuffer;
     [SerializeField] private ScriptableArmor scriptableArmorBuffer;
+    [SerializeField] private PlayerCombatSystemData playerCombatSystemData;
     [SerializeField] private List<ScriptableConsumable> consumables;
 
     async void StartGame(GameMode mode)
@@ -89,7 +90,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 spawned.transform.localScale = Vector3.one * 2;
 
                 PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
-                playerCombatSystem.Init(scriptableArmorBuffer, scriptableWeaponBuffer, consumables);
+                playerCombatSystem.Init(playerCombatSystemData, scriptableArmorBuffer, scriptableWeaponBuffer, consumables);
             });
 
             // _spawnedPlayers.Add(playerRef, playerObj);
@@ -143,10 +144,10 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    public PlayerMock GetCurrentPlayer()
+    public PlayerCombatSystem GetCurrentPlayer()
     {
         // return _spawnedPlayers.Where(p => p.Key.Equals(Runner.LocalPlayer)).First().Value.GetComponent<PlayerMock>();
-        return Runner.GetPlayerObject(Runner.LocalPlayer).GetComponent<PlayerMock>();
+        return Runner.GetPlayerObject(Runner.LocalPlayer).GetComponent<PlayerCombatSystem>();
     }
 
     public ActiveSpell[] GetCurrentPlayerActiveSpells()

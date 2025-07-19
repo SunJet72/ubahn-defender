@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class UnitController : NetworkBehaviour
 {
-    protected abstract UnitData UnitData { get; }
+    public abstract UnitData UnitData { get; }
     public event Action<UnitController> OnDieEvent;
 
     [Networked]
@@ -46,12 +46,20 @@ public abstract class UnitController : NetworkBehaviour
 
     protected void ApplyUnitDataStats(UnitData unitData)
     {
+        Debug.Log("attack speed in giver UnitData: " + unitData.attackSpeed);
+        Debug.Log("attack speed multiplex: " + speedMultiplex);
+        Debug.Log("attack speed just: " + attackSpeed);
+        Debug.Log("attack speed calculated: " + AttackSpeed);
+
         health += unitData.health;
         armor += unitData.armor;
         strength += unitData.strength;
         speed += unitData.speed;
         attackSpeed += unitData.attackSpeed;
         armorPenetration += unitData.armorPenetration;
+
+        Debug.Log("Attack Speed after adding just: " + attackSpeed);
+        Debug.Log("Current attack speed:" + AttackSpeed); 
     }
 
     public void ApplyStatusEffect(StatusEffect statusEffect)
@@ -117,9 +125,10 @@ public abstract class UnitController : NetworkBehaviour
         }
     }
 
-    public void Hurt(float damage, float enemyPenetration)
+    public virtual void Hurt(float damage, UnitController attacker)
     {
-        health -= damage * (100f / (100f + this.armor - enemyPenetration));
+        Debug.Log("Unit was hurt " + gameObject);
+        health -= damage * (100f / (100f + this.armor - attacker.UnitData.armorPenetration));
         if (health <= 0)
         {
             health = 0;

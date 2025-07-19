@@ -3,15 +3,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SpellButton : NetworkBehaviour, IPointerDownHandler, IPointerUpHandler
+public class SpellButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     private bool isPreparingSpell = false;
 
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Image cooldownOverlay;
     [SerializeField] private Image icon;
-    private PlayerMock playerMock;
-
+    private PlayerCombatSystem player;
 
     private ActiveSpell spell;
 
@@ -30,8 +29,11 @@ public class SpellButton : NetworkBehaviour, IPointerDownHandler, IPointerUpHand
     //     //icon.sprite = spell.SpellData.icon;
     // }
 
-    public void SetSpell(Spell spell)
+    public void SetSpell(PlayerCombatSystem player, Spell spell)
     {
+        this.player = player;
+
+        Debug.Log("I AM SETTING SPELL: " + spell);
         if (spell is ActiveSpell activeSpell)
         {
             this.spell = activeSpell;
@@ -49,18 +51,13 @@ public class SpellButton : NetworkBehaviour, IPointerDownHandler, IPointerUpHand
     {
         if (!isPreparingSpell) return;
 
-        
-        playerMock = NetworkManager.Instance.GetCurrentPlayer();
-        if (playerMock == null)
-        {
-            Debug.Log("SpellButton: Player is null");
-            return;
-        }
+        Debug.Log(spell);
+        Debug.Log(player);
 
         Vector3 mouseScreenPosition = Input.mousePosition;
         Vector2 worldMousePosition = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPosition.x, mouseScreenPosition.y));
 
-        spell.Activate(playerMock.Object, playerMock.Object, worldMousePosition);
+        spell.Activate(player.Object, player.Object, worldMousePosition);
 
         Debug.Log("Spell cast toward: " + worldMousePosition);
 

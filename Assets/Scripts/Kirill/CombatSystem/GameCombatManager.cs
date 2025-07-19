@@ -38,8 +38,8 @@ public class GameCombatManager : NetworkBehaviour
 
     }
 
-    public void SetSpells(Spell spellArmor, Spell spellWeapon)
+    public void SetSpells(PlayerCombatSystem player, Spell spellArmor, Spell spellWeapon)
     {
-        ui.SetSpells(spellArmor, spellWeapon);
+        ui.SetSpells(player, spellArmor, spellWeapon);
     }
 }

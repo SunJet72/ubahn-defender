@@ -2,7 +2,7 @@ using Fusion;
 using UnityEngine;
 public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
 {
-    protected override UnitData UnitData => data;
+    public override UnitData UnitData => data;
     [SerializeField] private EnemyCombatSystemData data;
     public bool useRidingController;
     public bool useAttackingMeleeController;
@@ -112,6 +112,12 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
 
     protected override void Die()
     {
-        throw new System.NotImplementedException();
+        Destroy(gameObject);
+    }
+
+    public override void Hurt(float damage, UnitController attacker)
+    {
+        base.Hurt(damage, attacker);
+        transform.Translate((transform.position - attacker.transform.position) * 0.3f);
     }
 }

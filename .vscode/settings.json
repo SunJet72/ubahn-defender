@@ -24,7 +24,7 @@
         "**/*.flare": true,
         "**/*.mat": true,
         "**/*.meta": true,
-        "**/*.prefab": true,
+        "**/*.prefab": false,
         "build/": true,
         "Build/": true,
         "Library/": true,

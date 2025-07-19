@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: EnemyData_Ranged_RangedAttack
   m_EditorClassIdentifier: 
   _projectile: {fileID: 7353867467715640069, guid: cfffab99b3b64f44ca9588e8c07be05d, type: 3}
-  timeBetweenAttacks: 3.05
+  damage: 2
