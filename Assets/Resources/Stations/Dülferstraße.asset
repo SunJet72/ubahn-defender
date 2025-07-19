@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: "D\xFClferstra\xDFe"
+  m_EditorClassIdentifier: 
+  id: de:09162:780
+  stationName: "D\xFClferstra\xDFe"
+  description: 'Neighbours: Hasenbergl, Harthof'
+  neigbours:
+  - {fileID: 11400000, guid: 1796ae408fbc400cca8176bfc829c5b9, type: 2}
+  - {fileID: 11400000, guid: 7f33382cf23b18dd7bfbfb82fcb59867, type: 2}
+  lon: 11.56326069839
+  lat: 48.212349294882

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Therese-Giehse-Allee
+  m_EditorClassIdentifier: 
+  id: de:09162:1020
+  stationName: Therese-Giehse-Allee
+  description: "Neighbours: Quiddestra\xDFe, Neuperlach Zentrum"
+  neigbours:
+  - {fileID: 11400000, guid: c2710a65e161b65319ff3bb2594cbe1f, type: 2}
+  - {fileID: 11400000, guid: 82c8d9f333d71acd18dfc457b221f049, type: 2}
+  lon: 11.642666098379
+  lat: 48.094796294886

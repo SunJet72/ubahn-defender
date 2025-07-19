@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Harras
+  m_EditorClassIdentifier: 
+  id: de:09162:1130
+  stationName: Harras
+  description: "Neighbours: Implerstra\xDFe, Partnachplatz"
+  neigbours:
+  - {fileID: 11400000, guid: 84044554f68cc403cbb1007121a37ee4, type: 2}
+  - {fileID: 11400000, guid: b365b9d71ff7268979e2edfc5af8390d, type: 2}
+  lon: 11.536123398394
+  lat: 48.116940194886

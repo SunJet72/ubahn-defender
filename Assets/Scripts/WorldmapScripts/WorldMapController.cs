@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WorldMapController : MonoBehaviour
 {
@@ -9,11 +10,15 @@ public class WorldMapController : MonoBehaviour
 
     public TrainController currTrain = null;
 
-    public Station currentStation;
+    public Station currentStation = null;
 
     [SerializeField] private StationTierData tierConfig;
 
     public HashSet<Station> map = new HashSet<Station>();
+    private Coroutine _stationChecker;
+
+    [SerializeField] private float CheckStationDelay;
+    public bool isOnStation { get; private set; } = false;
     void Awake()
     {
         if (instance == null)
@@ -52,7 +57,6 @@ public class WorldMapController : MonoBehaviour
         // {
         //     Debug.Log(station);
         // }
-        currentStation = CheckCurrentStation();
 
     }
 
@@ -60,10 +64,10 @@ public class WorldMapController : MonoBehaviour
     {
         //Load data from server
         // Warning mock shit ahead
-        List<int> ids = map.Select(station => station.Id).ToList();
-        Dictionary<int, float> stationScores = new Dictionary<int, float>();
+        List<string> ids = map.Select(station => station.Id).ToList();
+        Dictionary<string, float> stationScores = new Dictionary<string, float>();
 
-        foreach (int id in ids)
+        foreach (string id in ids)
         {
             stationScores.Add(id, Random.Range(0, 1000));
         }
@@ -114,13 +118,69 @@ public class WorldMapController : MonoBehaviour
         currTrain = new TrainController(realRoute, realCurrentStation);
     }
 
-    private Station CheckCurrentStation()
+    public Station GetStationById(string id)
     {
-        //Debug.Log("Bros loading");
-        //Mock
-        return map.FirstOrDefault(st => st.Id == 0);
+        return map.FirstOrDefault(station => station.Id == id);
     }
 
-    
+
+    public void StartChecking()
+    {
+        if (_stationChecker != null)
+        {
+            Debug.LogError("Someone is still checking(in silence)");
+        }
+        _stationChecker = StartCoroutine(CheckForStation());
+    }
+
+    public void StopChecking()
+    {
+        if (_stationChecker != null)
+        {
+            StopCoroutine(_stationChecker);
+        }
+        _stationChecker = null;
+    }
+
+    IEnumerator CheckForStation()
+    {
+        while (true)
+        {
+            // if check for station 
+            string nearestStationId = "";
+            if (nearestStationId != "") // if station is near
+            {
+                if (!isOnStation)
+                {
+                    //mock
+                    isOnStation = true;
+                    ConnectToStation(instance.GetStationById(nearestStationId));
+                }
+            }
+            else
+            {
+                if (isOnStation)
+                {
+                    isOnStation = false;
+                    DisconnectFromStation();
+                }
+            }
+            yield return new WaitForSecondsRealtime(CheckStationDelay);
+        }
+    }
+    private void ConnectToStation(Station nearStation)
+    {
+        currentStation = nearStation;
+        ShopManager.instance?.InitShopForStation(nearStation);
+        UIMasterController.instance.RebuildAll();
+    }
+
+    private void DisconnectFromStation()
+    {
+        currentStation = null;
+        ShopManager.instance?.InitShopForStation(null);
+        UIMasterController.instance.RebuildAll();
+
+    }
 
 }

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Giesing
+  m_EditorClassIdentifier: 
+  id: de:09162:1110
+  stationName: Giesing
+  description: "Neighbours: Untersbergstra\xDFe, Karl-Preis-Platz"
+  neigbours:
+  - {fileID: 11400000, guid: 373e72ccdfd4dd5b88859f5a7dcead42, type: 2}
+  - {fileID: 11400000, guid: 1417ac611f14a502782a9931e54a711c, type: 2}
+  lon: 11.595733198386
+  lat: 48.110963094886

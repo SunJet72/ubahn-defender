@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: St.-Quirin-Platz
+  m_EditorClassIdentifier: 
+  id: de:09162:1200
+  stationName: St.-Quirin-Platz
+  description: 'Neighbours: Wettersteinplatz, Mangfallplatz'
+  neigbours:
+  - {fileID: 11400000, guid: d20359e1f7222e493b44eeb6fc95cd52, type: 2}
+  - {fileID: 11400000, guid: 3154a076d1ca7075e96270e4d8fb483a, type: 2}
+  lon: 11.581495298388
+  lat: 48.104234694886

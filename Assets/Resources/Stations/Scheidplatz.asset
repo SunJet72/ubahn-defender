@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Scheidplatz
+  m_EditorClassIdentifier: 
+  id: de:09162:400
+  stationName: Scheidplatz
+  description: 'Neighbours: Milbertshofen, Hohenzollernplatz, Petuelring, Bonner
+    Platz'
+  neigbours:
+  - {fileID: 11400000, guid: 1b2e56ad1dc11624abd9bd0ef6c53be7, type: 2}
+  - {fileID: 11400000, guid: 5fa03b7fd9547b525ad6edda9c637d19, type: 2}
+  - {fileID: 11400000, guid: cdfa90375dc170b97afa1c37366139e2, type: 2}
+  - {fileID: 11400000, guid: e881d24b92ac82fbb8e4350f58b6fb37, type: 2}
+  lon: 11.572653098389
+  lat: 48.17154959488301

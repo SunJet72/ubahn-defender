@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: "M\xFCnchner_Freiheit"
+  m_EditorClassIdentifier: 
+  id: de:09162:500
+  stationName: "M\xFCnchner Freiheit"
+  description: "Neighbours: Bonner Platz, Giselastra\xDFe, Dietlindenstra\xDFe, Giselastra\xDFe"
+  neigbours:
+  - {fileID: 11400000, guid: e881d24b92ac82fbb8e4350f58b6fb37, type: 2}
+  - {fileID: 11400000, guid: 378496371395515efac9bfb95584c85e, type: 2}
+  - {fileID: 11400000, guid: 1ef0de1dd1686f6b1a2481dd7f47a97a, type: 2}
+  - {fileID: 11400000, guid: 378496371395515efac9bfb95584c85e, type: 2}
+  lon: 11.586513098387
+  lat: 48.162196494884

@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 using System;
 using System.Collections.Generic;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class UIInventorySlector : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {

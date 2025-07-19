@@ -5,8 +5,9 @@ public class GameFlowManager : MonoBehaviour
 {
     public static GameFlowManager instance;
 
-    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool isReady = false;
+    [SerializeField] private float locationRefreshTime;
 
     void Awake()
     {
@@ -20,16 +21,26 @@ public class GameFlowManager : MonoBehaviour
         }
         DontDestroyOnLoad(this);
     }
-    void Start()
+
+    public void StartGame()
     {
         
     }
 
-    IEnumerator CheckForStation()
+    public void StopGame()
     {
-        while (true)
-        {
-            //yield new Wait
-        }
+
+    }
+
+    public void GetReady()
+    {
+        isReady = true;
+        //....
+    }
+
+    public void GetUnready()
+    {
+        isReady = false;
+        //...
     }
 }

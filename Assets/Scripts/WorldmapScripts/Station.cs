@@ -5,7 +5,7 @@ using System.Text;
 [Serializable]
 public class Station
 {
-    public int Id;
+    public string Id;
     public string StationName;
     public string Description { get; }
     public float Wealth;
@@ -13,13 +13,17 @@ public class Station
 
     public int StationTier = 0;
 
+    public double lon = 0;
 
+    public double lat = 0;
     public Station(StationObj obj)
     {
         Neighbours = new List<Station>();
         Id = obj.id;
         StationName = obj.stationName;
         Description = obj.description;
+        lon = obj.lon;
+        lat = obj.lat;
     }
 
     public float SendGoods()

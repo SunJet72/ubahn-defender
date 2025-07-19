@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Lehel
+  m_EditorClassIdentifier: 
+  id: de:09162:590
+  stationName: Lehel
+  description: 'Neighbours: Odeonsplatz, Kolumbusplatz, Max-Weber-Platz'
+  neigbours:
+  - {fileID: 11400000, guid: d146177294ba43d1d811226b8010e1cc, type: 2}
+  - {fileID: 11400000, guid: 211d39ac1f08a65a69538e20cbc21863, type: 2}
+  - {fileID: 11400000, guid: d3ce9bee3135e459bac02de963edd523, type: 2}
+  lon: 11.587943498387
+  lat: 48.13978939488501

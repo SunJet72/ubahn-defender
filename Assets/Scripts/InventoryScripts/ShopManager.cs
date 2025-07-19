@@ -21,8 +21,8 @@ public class ShopManager : MonoBehaviour
     void Start()
     {
         inventory = PlayerInventory.instance;
-        currentStation = WorldMapController.instance.currentStation;
-        InitShopForStation(currentStation);
+        //currentStation = WorldMapController.instance.currentStation;
+        //InitShopForStation(currentStation);
         //UIMasterController.instance.RebuildShop();
     }
 

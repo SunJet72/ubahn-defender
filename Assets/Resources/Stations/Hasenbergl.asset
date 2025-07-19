@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
   m_Name: Hasenbergl
   m_EditorClassIdentifier: 
-  id: 1
+  id: de:09162:790
   stationName: Hasenbergl
-  description: Many hares
-  neigbours: []
+  description: "Neighbours: Feldmoching, D\xFClferstra\xDFe"
+  neigbours:
+  - {fileID: 11400000, guid: c7f9e65407ce1288fba0f139134ed810, type: 2}
+  - {fileID: 11400000, guid: 0ba54aea7f07d20ad89c38fc1384392b, type: 2}
+  lon: 11.556207898391
+  lat: 48.213202294882

@@ -10,6 +10,8 @@ public class UIMasterController : MonoBehaviour
     private UIInventoryController inventoryController;
     private UIDescriptionWindow descWindow;
 
+    private UILobbyScreen lobbyScreen;
+
     public DummyPlayerManager player;
     void Awake()
     {
@@ -22,6 +24,7 @@ public class UIMasterController : MonoBehaviour
         //inventoryController = GetComponentInChildren<UIInventoryController>();
         player = GameObject.Find("Player").GetComponent<DummyPlayerManager>();
         uiShop = GetComponentInChildren<UIShopManager>();
+        lobbyScreen = GetComponentInChildren<UILobbyScreen>();
         descWindow = GetComponentInChildren<UIDescriptionWindow>();
     }
     public void RebuildConsumableSelector()
@@ -34,8 +37,7 @@ public class UIMasterController : MonoBehaviour
     public void RebuildAll()
     {
         consumableSelector?.Rebuild(player);
-        inventoryController?.Rebuild();
-        uiShop?.Rebuild(WorldMapController.instance.currentStation);
+        lobbyScreen?.Rebuild();
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
     }
@@ -51,4 +53,10 @@ public class UIMasterController : MonoBehaviour
     {
         descWindow?.ShowPanel(item);
     }
+
+    public UILobbyScreen GetLobbyScreen()
+    {
+        return lobbyScreen;
+    }
+    
 }
