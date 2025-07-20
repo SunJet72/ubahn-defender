@@ -15,6 +15,8 @@ public class WorldMapController : MonoBehaviour
     [SerializeField] private StationTierData tierConfig;
 
     public HashSet<Station> map = new HashSet<Station>();
+
+
     private Coroutine _stationChecker;
 
     public bool temp = false;
@@ -145,6 +147,11 @@ public class WorldMapController : MonoBehaviour
             StopCoroutine(_stationChecker);
         }
         _stationChecker = null;
+    }
+
+    public HashSet<Station> getMap()
+    {
+        return map;
     }
 
     IEnumerator CheckForStation()
