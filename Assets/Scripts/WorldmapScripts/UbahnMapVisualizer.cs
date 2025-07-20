@@ -15,20 +15,6 @@ public class UbahnMapVisualizer : MonoBehaviour
     public float mapWidth = 10000f;
     public float mapHeight = 10000f;
 
-    [Header("Zoom Settings")]
-    public float minZoom = 0.5f;
-    public float maxZoom = 2f;
-    public float pinchZoomSpeed = 0.005f;
-
-    private Camera cam;
-    private float lastPinchDistance;
-
-    void Awake()
-    {
-        cam = Camera.main;
-        if (cam == null) Debug.LogError("UbahnMapVisualizer: No camera tagged MainCamera in scene!");
-    }
-
     void Start()
     {
         BuildMap();
@@ -94,62 +80,5 @@ public class UbahnMapVisualizer : MonoBehaviour
 
         Debug.Log($"Map built: {stationNodes.Count} stations, {drawn.Count} edges");
     }
-
-    void Update()
-    {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(0))
-            return;
-
-        if (Input.touchCount == 1)
-            PanTouch(Input.GetTouch(0));
-        else if (Input.touchCount == 2)
-            PinchZoom(Input.GetTouch(0), Input.GetTouch(1));
-    }
-
-    private Plane mapPlane = new Plane(Vector3.forward, Vector3.zero);
-
-
-    private float lastTouchDistance = 0;
-
-
-    private void PanTouch(Touch touch)
-    {
-        if (touch.phase != TouchPhase.Moved) return;
-
-        // Raycast prev & current finger into map plane
-        Ray prevRay = cam.ScreenPointToRay(touch.position - touch.deltaPosition);
-        Ray currRay = cam.ScreenPointToRay(touch.position);
-
-        if (mapPlane.Raycast(prevRay, out float enterPrev) &&
-            mapPlane.Raycast(currRay, out float enterCurr))
-        {
-            Vector3 prevWorld = prevRay.GetPoint(enterPrev);
-            Vector3 currWorld = currRay.GetPoint(enterCurr);
-            Vector3 delta = currWorld - prevWorld;
-
-            // Move camera opposite to finger drag
-            cam.transform.position -= delta;
-        }
-    }
-
-    private void PinchZoom(Touch t0, Touch t1)
-    {
-        // Current and previous distance between touches
-        float currentDistance = Vector2.Distance(t0.position, t1.position);
-
-        if (t0.phase == TouchPhase.Began || t1.phase == TouchPhase.Began)
-        {
-            lastTouchDistance = currentDistance;
-            return;
-        }
-
-        float delta = currentDistance - lastTouchDistance;
-        lastTouchDistance = currentDistance;
-
-        // Invert so pinching closed zooms in, pinching open zooms out
-        float newSize = cam.orthographicSize - delta * pinchZoomSpeed;
-        cam.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
-    }
-
 
 }
