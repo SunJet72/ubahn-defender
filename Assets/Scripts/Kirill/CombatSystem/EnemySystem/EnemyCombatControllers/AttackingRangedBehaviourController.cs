@@ -8,16 +8,16 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
     [SerializeField] private EnemyRangedAttackData data;
 
     private Transform target;
-    private PlayerMock chaisedPlayer;
+    private PlayerCombatSystem chaisedPlayer;
     private float curAttackCooldown = 0f;
 
     List<UnitType> unitTypes = new List<UnitType>();
 
-    public void SetTarget(PlayerMock player)
+    public void SetTarget(PlayerCombatSystem player)
     {
         chaisedPlayer = player;
         target = chaisedPlayer.gameObject.transform;
-        player.onDieEvent += OnPlayerKilled;
+        player.OnDieEvent += OnPlayerKilled;
 
         if (unitTypes.Count == 0)
             unitTypes.Add(UnitType.PLAYER);
@@ -58,14 +58,14 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
         }
     }
 
-    private void OnPlayerKilled(System.Object obj, EventArgs e)
+    private void OnPlayerKilled(UnitController unit)
     {
         LoseTarget();
     }
 
     private void LoseTarget()
     {
-        chaisedPlayer.onDieEvent -= OnPlayerKilled;
+        chaisedPlayer.OnDieEvent -= OnPlayerKilled;
         chaisedPlayer = null;
         target = null;
         Controller.RangedLoseTarget();

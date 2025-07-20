@@ -23,9 +23,9 @@ public abstract class UnitController : NetworkBehaviour
     public float Health { get => health; }
     public float Armor { get => armor; }
     public float Strength { get => strength; }
-    public float Speed { get => speed * (speedMultiplex <= 0.1 ? 0.1f: speedMultiplex); }
-    public float AttackSpeed { get => attackSpeed * (attackSpeedMultiplex <= 0.1 ? 0.1f: attackSpeedMultiplex); }
-    public float ArmorPenetration { get => armorPenetration >= 90f? 90f: armorPenetration; }
+    public float Speed { get => speed * (speedMultiplex <= 0.1 ? 0.1f : speedMultiplex); }
+    public float AttackSpeed { get => attackSpeed * (attackSpeedMultiplex <= 0.1 ? 0.1f : attackSpeedMultiplex); }
+    public float ArmorPenetration { get => armorPenetration >= 90f ? 90f : armorPenetration; }
 
     private float speedMultiplex;
     private float attackSpeedMultiplex;
@@ -59,7 +59,7 @@ public abstract class UnitController : NetworkBehaviour
         armorPenetration += unitData.armorPenetration;
 
         Debug.Log("Attack Speed after adding just: " + attackSpeed);
-        Debug.Log("Current attack speed:" + AttackSpeed); 
+        Debug.Log("Current attack speed:" + AttackSpeed);
     }
 
     public void ApplyStatusEffect(StatusEffect statusEffect)
@@ -139,4 +139,9 @@ public abstract class UnitController : NetworkBehaviour
     }
 
     protected abstract void Die(); // In all Fällen OnDieEvent shooten
+
+    protected void TriggerDeathEvent()
+    {
+        OnDieEvent?.Invoke(this);
+    }
 }

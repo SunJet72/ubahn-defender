@@ -15,7 +15,7 @@ public class HauntingBehaviourController : CombatBehaviourController
 
     public override void OnStartBehaviour()
     {
-        
+        ectsContainer.OnDieEvent += OnHauntedContainerFullyStolen;
     }
 
     public override void OnFixedUpdateBehave()
@@ -41,8 +41,19 @@ public class HauntingBehaviourController : CombatBehaviourController
         Controller.StartStealing(ectsContainer);
     }
 
+    private void OnHauntedContainerFullyStolen(EctsContainer container)
+    {
+        if (ectsContainer != container)
+        {
+            Debug.LogWarning("Wrong Container. Probably forgot to unsubscribe or smth else happened wrong");
+            return;
+        }
+        
+    }
+
     public override void OnEndBehaviour()
     {
+        ectsContainer.OnDieEvent -= OnHauntedContainerFullyStolen;
         ectsContainer = null;
         target = null;
     }

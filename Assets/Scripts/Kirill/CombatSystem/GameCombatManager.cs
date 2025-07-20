@@ -17,11 +17,25 @@ public class GameCombatManager : NetworkBehaviour
         }
     }
 
-    public PlayerMock GetNearestPlayer(Transform vehicleTransform) // Mock!
+    public PlayerCombatSystem GetNearestPlayer(Transform vehicleTransform) // Mock!
     {
         List<NetworkObject> players = NetworkManager.Instance.GetPlayerObjects();
+
         if (players.Count <= 0) return null;
-        return players[0].GetComponent<PlayerMock>();
+
+        PlayerCombatSystem nearestPlayer = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (var playerNO in players)
+        {
+            float distance = (vehicleTransform.position - playerNO.transform.position).magnitude;
+            if (nearestDistance > distance)
+            {
+                nearestDistance = distance;
+                nearestPlayer = playerNO.GetComponent<PlayerCombatSystem>();
+            }
+        }
+        return nearestPlayer;
     }
 
     public EctsContainer GetNearestContainer(Transform enemyTransform)

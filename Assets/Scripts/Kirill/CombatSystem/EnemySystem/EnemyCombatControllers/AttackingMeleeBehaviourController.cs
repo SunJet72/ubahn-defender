@@ -6,20 +6,20 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
     [SerializeField] private EnemyMeleeAttackData data;
 
     private Transform target;
-    private PlayerMock chaisedPlayer;
+    private PlayerCombatSystem player;
     private float curAttackCooldown = 0f;
 
-    public void SetTarget(PlayerMock player)
+    public void SetTarget(PlayerCombatSystem player)
     {
-        chaisedPlayer = player;
-        target = chaisedPlayer.gameObject.transform;
-        player.onDieEvent += OnPlayerKilled;
+        this.player = player;
+        target = this.player.gameObject.transform;
+        player.OnDieEvent += OnPlayerKilled;
     }
 
     //---// Behaviour //---//
     public override void OnStartBehaviour()
     {
-        if (target == null || chaisedPlayer == null)
+        if (target == null || player == null)
         {
             Debug.LogError("I dont have a target to attack");
             return;
@@ -55,28 +55,33 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
 
     private void Attack()
     {
-        chaisedPlayer.Hurt(data.attackDamage);
+        player.Hurt(CalculateDamage(data.attackDamage), Controller);
         curAttackCooldown = 1f;
     }
 
-    private void OnPlayerKilled(System.Object obj, EventArgs e)
+    private void OnPlayerKilled(UnitController unit)
     {
         LoseTarget();
     }
 
     private void LoseTarget()
     {
-        chaisedPlayer.onDieEvent -= OnPlayerKilled;
-        chaisedPlayer = null;
+        player.OnDieEvent -= OnPlayerKilled;
+        player = null;
         target = null;
         Controller.MeleeLoseTarget();
     }
 
     public override void OnEndBehaviour()
     {
-        chaisedPlayer = null;
+        player = null;
         target = null;
         curAttackCooldown = 1f;
+    }
+
+    private float CalculateDamage(float damage)
+    {
+        return damage * ((100f + player.Strength) / 100f);
     }
 
     private void OnDrawGizmosSelected()

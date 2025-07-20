@@ -1,3 +1,4 @@
+using System;
 using Fusion;
 using TMPro;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.AI;
 
 public class EctsContainer : NetworkBehaviour
 {
+    public event Action<EctsContainer> OnDieEvent;
     [SerializeField] private TextMeshProUGUI boxesAmountIndicator;
 
     [Networked, OnChangedRender(nameof(OnBoxesAmountChanged))]
@@ -25,6 +27,7 @@ public class EctsContainer : NetworkBehaviour
         if (BoxesAmount <= 0)
         {
             Debug.Log("I lost all boxes");
+            OnDieEvent?.Invoke(this);
             Runner.Despawn(Object);
         }
     }

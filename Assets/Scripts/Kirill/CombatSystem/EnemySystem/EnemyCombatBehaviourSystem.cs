@@ -66,31 +66,54 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
 
 
     //---//RidingBehaviourController //---//
-    public void VehicleToldTheRangerToAttack(PlayerMock target) // Applicable only to Rangers
+    public void VehicleToldTheRangerToAttack(PlayerCombatSystem target) // Applicable only to Rangers
     {
-        Debug.Log("I set a ranger to attack");
-        attackingRangedBehaviourController.SetTarget(target);
-        ChangeCurrentBehaviour(attackingRangedBehaviourController);
+        SetAttackingRangedBehaviour(target);
     }
 
     public void VehicleEndedTheAbordageProcess() // Applicable only to Melee and Scoundrels
     {
-        EctsContainer container = gameCombatManager.GetNearestContainer(transform);
-        hauntingBehaviourController.SetTarget(container);
-        ChangeCurrentBehaviour(hauntingBehaviourController);
+        SetHauntingBehavior();
     }
 
 
     //---// AttackingMeleeBehaviourController //---//
     public void MeleeLoseTarget()
     {
-        ChangeCurrentBehaviour(hauntingBehaviourController);
+        SetHauntingBehavior();
+    }
+
+    private void SetAttackingMeleeBehaviour()
+    {
+        PlayerCombatSystem player = gameCombatManager.GetNearestPlayer(transform);
+        if (player == null)
+        {
+            SetHauntingBehavior();
+        }
+        else
+        {
+            attackingMeleeBehaviourController.SetTarget(player);
+            ChangeCurrentBehaviour(attackingRangedBehaviourController);
+        }
     }
 
     //---// AttackingRangedBehaviourController //---//
     public void RangedLoseTarget()
     {
-        ChangeCurrentBehaviour(escapingBehaviourController);
+        ChangeCurrentBehaviour(ridingBehaviourController);
+    }
+
+    private void SetAttackingRangedBehaviour(PlayerCombatSystem target)
+    {
+        if (target == null)
+        {
+            ChangeCurrentBehaviour(ridingBehaviourController);
+        }
+        else
+        {
+            attackingRangedBehaviourController.SetTarget(target);
+            ChangeCurrentBehaviour(attackingRangedBehaviourController);
+        }
     }
 
 
@@ -101,6 +124,22 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
         ChangeCurrentBehaviour(stealingBehaviourController);
     }
 
+    public void ContainerWasEmptied(EctsContainer oldContainer)
+    {
+        SetHauntingBehavior();
+    }
+
+    private void SetHauntingBehavior()
+    {
+        EctsContainer container = gameCombatManager.GetNearestContainer(transform);
+        if (container == null)
+            ChangeCurrentBehaviour(escapingBehaviourController);
+        else
+        {
+            hauntingBehaviourController.SetTarget(container);
+            ChangeCurrentBehaviour(hauntingBehaviourController);
+        }
+    }
 
     //---// StealingBehaviourController //---//
     public void BoxWasStolen(EctsContainer container)
@@ -112,6 +151,7 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
 
     protected override void Die()
     {
+        TriggerDeathEvent();
         Destroy(gameObject);
     }
 

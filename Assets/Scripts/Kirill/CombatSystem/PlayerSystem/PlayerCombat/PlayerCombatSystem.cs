@@ -296,7 +296,9 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     }
     protected override void Die()
     {
-        throw new System.NotImplementedException();
+        TriggerDeathEvent();
+
+        gameObject.SetActive(false);
     }
 
     private float CalculateDamage(float damage)
