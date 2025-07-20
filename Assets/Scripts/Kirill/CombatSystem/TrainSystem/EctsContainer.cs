@@ -24,7 +24,7 @@ public class EctsContainer : NetworkBehaviour
     private void OnBoxesAmountChanged()
     {
         boxesAmountIndicator.text = "" + BoxesAmount;
-        trainSystem.BoxesAmountChanged(BoxesAmount - previousBoxesAmount);
+        TrainSystem.Instance.BoxesAmountChanged(BoxesAmount - previousBoxesAmount);
         previousBoxesAmount = BoxesAmount;
     }
     public void Steal()

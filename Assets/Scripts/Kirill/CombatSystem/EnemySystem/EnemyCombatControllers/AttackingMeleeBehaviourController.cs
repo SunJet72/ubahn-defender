@@ -19,6 +19,7 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
     //---// Behaviour //---//
     public override void OnStartBehaviour()
     {
+        Debug.Log("Tarrget: " + target + " Player: " + player);
         if (target == null || player == null)
         {
             Debug.LogError("I dont have a target to attack");
@@ -74,6 +75,7 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
 
     public override void OnEndBehaviour()
     {
+        Debug.Log("I am ending this behaviour");
         player = null;
         target = null;
         curAttackCooldown = 1f;

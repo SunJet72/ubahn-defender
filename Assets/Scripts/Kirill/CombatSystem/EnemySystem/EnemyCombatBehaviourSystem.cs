@@ -99,8 +99,9 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
 
     private void SetAttackingMeleeBehaviour(PlayerCombatSystem target)
     {
+        Debug.Log("new target: " + target);
         attackingMeleeBehaviourController.SetTarget(target);
-        ChangeCurrentBehaviour(attackingRangedBehaviourController);
+        ChangeCurrentBehaviour(attackingMeleeBehaviourController);
     }
 
     //---// AttackingRangedBehaviourController //---//
@@ -137,6 +138,8 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
 
     public void ChangeAggro(UnitController attacker)
     {
+        Debug.Log("I am " + this);
+        Debug.Log("Changing aggro on: " + (attacker as PlayerCombatSystem));
         SetAttackingMeleeBehaviour(attacker as PlayerCombatSystem);
     }
 
@@ -170,6 +173,6 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
     {
         base.Hurt(damage, penetration, attacker);
         if (attacker != null)
-            transform.Translate((transform.position - attacker.transform.position) * 0.15f);
+            transform.Translate((transform.position - attacker.transform.position) * 0.45f);
     }
 }

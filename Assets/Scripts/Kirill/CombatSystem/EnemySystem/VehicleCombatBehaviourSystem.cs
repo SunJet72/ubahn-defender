@@ -19,6 +19,8 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
     private GameCombatManager gameCombatManager;
     [SerializeField] private List<Transform> passengerSeats; // has to be equall to passengersAmount in data
 
+    [SerializeField] private BoxCollider2D colliderToDisableHardCoded;
+
     private VehicleBehaviourController curController;
     private EnemyCombatBehaviourSystem[] enemies;
 
@@ -136,6 +138,7 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
                 enemy.Hurt(999999, 0, this);
             }
         }
+        Destroy(colliderToDisableHardCoded);
         TriggerDeathEvent();
         Runner.Despawn(Object);
     }

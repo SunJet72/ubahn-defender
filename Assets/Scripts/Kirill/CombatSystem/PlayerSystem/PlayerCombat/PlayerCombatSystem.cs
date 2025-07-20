@@ -74,7 +74,27 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         if (HasInputAuthority)
         {
             gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
+            OnHealthChanged();
         }
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.InputAuthority)]
+    public void InitRpc(PlayerNetworkStruct data, ArmorNetworkStruct armorEq, WeaponNetworkStruct weaponEq)
+    {
+        this.data = data.CopyData();
+        this.armorEq = armorEq.CopyData();
+        this.weaponEq = weaponEq.CopyData();
+        this.consumables = new List<ScriptableConsumable>();
+
+        ApplyUnitDataStats(this.armorEq.unitData);
+        ApplyUnitDataStats(this.weaponEq.unitData);
+
+        detectionCollider.radius = weaponEq.range;
+
+        //TODO Handle Consumables
+
+        //
+        isSetUp = true;
     }
 
     public void Init(PlayerCombatSystemData data, ScriptableArmor armorEq, ScriptableWeapon weaponEq, List<ScriptableConsumable> consumables)
@@ -155,6 +175,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 if (target == null || (target.transform.position - transform.position).magnitude > weaponEq.range)
                 {
                     target = FindNearestUnit(nearestVehicles);
+                    if (target == null)
+                        return;
                     AttackRanged();
                 }
                 else
@@ -168,6 +190,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 if (target == null || (target.transform.position - transform.position).magnitude > weaponEq.range)
                 {
                     target = FindNearestUnit(nearestVehicles);
+                    if (target == null)
+                        return;
                     AttackRanged();
                 }
                 else
@@ -270,7 +294,9 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         }
         if (unit is VehicleCombatBehaviourSystem vehicle)
         {
+            Debug.LogWarning("I am removing Vehicle from nearest vehicles " + vehicle);
             nearestVehicles.Remove(vehicle);
+            Debug.Log("Current amount of vehicles in nearest list: " + nearestVehicles.Count);
         }
     }
 
@@ -280,6 +306,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         UnitController choseEnemy = null;
         foreach (var unit in units)
         {
+            if (unit == null)
+                continue; // Hardcoded! It cant be null, but is.
             float distance = (unit.transform.position - transform.position).magnitude;
             if (distance < curDistance)
             {
@@ -314,7 +342,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     {
         if (Runner.GetPlayerObject(Runner.LocalPlayer).Equals(Object))
         {
-            UIEvents.ShieldChanged((int)Health, (int)data.health);
+            if (data == null) UIEvents.ShieldChanged((int)Health, 100);
+            else UIEvents.ShieldChanged((int)Health, (int)data.health);
         }
     }
 }

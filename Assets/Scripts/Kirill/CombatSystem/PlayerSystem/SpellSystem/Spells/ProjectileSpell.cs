@@ -17,7 +17,7 @@ public class ProjectileSpell : ActiveSpell
         NetworkObject no = Runner.Spawn(_projectileSpellExecutor, onBeforeSpawned: (runner, spawned) =>
         {
             spawned.transform.parent = transform;
-            spawned.transform.localPosition = Vector2.zero;
+            spawned.transform.position = Vector2.zero;
             spawned.transform.up = (end - (Vector2)start.position).normalized;
         });
 
