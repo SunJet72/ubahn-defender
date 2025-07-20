@@ -63,7 +63,7 @@ public class PlayerInventory : MonoBehaviour
             currentWeapon = ItemManager.instance.emptyWeapon;
         }
         
-        LoadInventory();
+        //LoadInventory();
         //EquipmentChanged.Invoke();
     }
 

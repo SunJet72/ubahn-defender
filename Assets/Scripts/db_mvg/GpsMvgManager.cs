@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 
 public class GpsMvgManager : MonoBehaviour
 {
+
+    public static GpsMvgManager instance;
     public static float maxDistance = 100f, minSpeed = 20f, maxTimeToGo = 2f;
     private float latitude, longitude;
     private float speed = 0.0f;
@@ -39,8 +41,17 @@ public class GpsMvgManager : MonoBehaviour
     private Station startedOriginStation;
     private Station startedDestinationStation;
 
-    void Start()
+    void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+        DontDestroyOnLoad(this);
         stations = StationFinder.LoadStationsFromJson(stationsJson.text);
 
         foreach (var s in stations)
@@ -221,7 +232,7 @@ public class GpsMvgManager : MonoBehaviour
         {
             return originStation.stationGlobalID;
         }
-        return "";
+        return String.Empty;
     }
 
     public IEnumerator FetchArrivalTime(
