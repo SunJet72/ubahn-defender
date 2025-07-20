@@ -10,6 +10,12 @@ public class TrainSystem : NetworkBehaviour
     [SerializeField] private const float LENGTH_PRO_CONTAINER = 3;
     [SerializeField] private const float START_TRAIN_LENGTH = 5;
     [SerializeField] private GameObject ectsContainerPrefab;
+
+    [Networked]
+    private int totalBoxesAmount { get; set; }
+    [Networked]
+    private int maxBoxesAmount { get; set; }
+
     private float trainLength;
 
     [Networked]
@@ -55,6 +61,8 @@ public class TrainSystem : NetworkBehaviour
                  + new Vector3(0, _distanceBetweenContainers * (i + 1));
                 containers[i] = spawned.GetComponent<EctsContainer>();
                 containers[i].BoxesAmount = BOXES_PRO_PLAYER * 3;
+                maxBoxesAmount += containers[i].BoxesAmount;
+                containers[i].trainSystem = this;
             });
         }
 
@@ -62,6 +70,7 @@ public class TrainSystem : NetworkBehaviour
         {
             int id = rand.Next(containersAmount);
             containers[id].BoxesAmount -= BOXES_PRO_PLAYER;
+            maxBoxesAmount -= BOXES_PRO_PLAYER;
         }
     }
 
@@ -80,5 +89,11 @@ public class TrainSystem : NetworkBehaviour
             }
         }
         return containerToReturn;
+    }
+
+    public void BoxesAmountChanged(int deltaAmount)
+    {
+        totalBoxesAmount += deltaAmount;
+        UIEvents.HealthChanged(totalBoxesAmount, maxBoxesAmount);
     }
 }

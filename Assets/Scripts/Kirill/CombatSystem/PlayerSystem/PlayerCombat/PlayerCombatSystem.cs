@@ -26,7 +26,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     List<UnitType> unitTypesEnemyAndVehicle;
 
     [Networked]
-    private NetworkObject spellArmor { get; set;}
+    private NetworkObject spellArmor { get; set; }
     [Networked]
     private NetworkObject spellWeapon { get; set; }
 
@@ -35,7 +35,6 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     {
         gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
 
-        
         unitTypesEnemy = new List<UnitType>
         {
             UnitType.ENEMY
@@ -212,7 +211,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
             spawned.transform.position = transform.position;
             spawned.GetComponent<Projectile>().SetTarget(target.transform, this, CalculateDamage(weaponEq.damage), unitTypesEnemyAndVehicle);
         });
-        
+
         // Later on make logic for whict type of enemies to attack
 
         curAttackCooldown = weaponEq.cooldown;
@@ -303,5 +302,10 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     public UnitController GetCurrentTargetSelected()
     {
         return target;
+    }
+
+    public override void OnHealthChanged()
+    {
+        UIEvents.ShieldChanged((int)Health, (int)data.health);
     }
 }

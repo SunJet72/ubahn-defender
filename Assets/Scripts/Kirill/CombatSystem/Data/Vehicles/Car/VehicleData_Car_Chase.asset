@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8735ab10577c893418ea6d4702955c7d, type: 3}
   m_Name: VehicleData_Car_Chase
   m_EditorClassIdentifier: 
-  vehicleSpeed: 4.73
-  lowToleranceDistance: 10
-  highToleranceDistance: 20
+  lowToleranceDistance: 5
+  highToleranceDistance: 15
