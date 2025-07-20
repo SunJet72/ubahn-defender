@@ -48,15 +48,30 @@ public class ShopManager : MonoBehaviour
         inventory.AddItem(consumables?[Random.Range(0, consumables.Count)]);
     }
 
+    public void GiveAllStaff()
+    {
+        foreach (ScriptableItemBase item in ItemManager.instance.GetAll())
+        {
+            inventory.AddItem(item);
+        }
+    }
+
     public void InitShopForStation(Station station)
     {
         currentStation = station;
-        stock = ItemManager.instance.GetAll(0);
-        for (int i = 1; i <= currentStation.StationTier; ++i)
+        if (currentStation != null)
         {
-            stock.AddRange(ItemManager.instance.GetAll(i));
+            stock = ItemManager.instance.GetAll(0);
+            for (int i = 1; i <= currentStation.StationTier; ++i)
+            {
+                stock.AddRange(ItemManager.instance.GetAll(i));
+            }
         }
-        UIMasterController.instance.RebuildShop(currentStation);
+        else
+        {
+            stock = new List<ScriptableItemBase>();
+        }
+        //UIMasterController.instance.RebuildShop(currentStation);
     }
 
     public void SellItem(ScriptableItemBase item)
