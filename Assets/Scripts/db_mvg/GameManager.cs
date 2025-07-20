@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
             try
             {
                 await db_service.enter_the_train(from, to);
+                
             }
             catch (System.Exception ex)
             {

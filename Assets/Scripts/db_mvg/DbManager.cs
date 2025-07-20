@@ -38,6 +38,9 @@ public class DbManager
     public static Identity LocalIdentity { get; private set; }
     public static DbConnection Conn { get; private set; }
 
+    // Event do powiadomień o aktualizacji rekordu Train
+    public event Action<Train> OnTrainUpdated;
+
     private void HandleConnect(DbConnection conn, Identity identity, string token)
     {
         Debug.Log("[GameManager] Connected to SpacetimeDB.");
@@ -47,6 +50,13 @@ public class DbManager
         Conn.SubscriptionBuilder()
             .OnApplied(HandleSubscriptionApplied)
             .SubscribeToAllTables();
+
+        Conn.Db.Train.OnUpdate += (EventContext ctx, Train oldTrain, Train newTrain) =>
+        {
+            Debug.Log($"[Train Updated] ID: {newTrain.Id}");
+            OnTrainUpdated?.Invoke(newTrain);
+        };
+
         Conn.Reducers.Login(player_id);
     }
 
@@ -116,7 +126,6 @@ public class DbManager
         var localStations = Conn.Db.Station.Iter().ToList();
         return localStations;
     }
-
 
     public async Task set_player_money(uint _money)
     {
