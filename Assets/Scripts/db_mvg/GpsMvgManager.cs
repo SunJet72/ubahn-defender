@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Linq;
 
 public class GpsMvgManager : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class GpsMvgManager : MonoBehaviour
     private float latitude, longitude;
     private float speed = 0.0f;
     private int loop_delay = 1;
-    private bool isMoving = false, isOnStation = false;
+    private bool isOnStation = false;
 
     public TextAsset stationsJson;
 
@@ -19,21 +19,28 @@ public class GpsMvgManager : MonoBehaviour
 
     private const string ApiUrl = "https://www.mvg.de/api/bgw-pt/v3/routes";
 
-    public event Action<bool, Station, Station> OnIsMovingChanged;
+    // Eventy do wykrywania startu i stopu
+    public event Action<bool, string, string> OnHasStartedChanged; // bool, fromStationId, toStationId
+    public event Action<bool, string, string> OnHasStoppedChanged; // bool, fromStationId, toStationId
 
     private Station originStation;
     private Station destinationStation;
 
+    private bool hasStarted = false;
+    private bool hasStopped = false;
+
+    private float prevLat;
+    private float prevLon;
+    private float prevTime;
+
+    // Dodane pola do zapamiętania stacji przy starcie
+    private Station startedOriginStation;
+    private Station startedDestinationStation;
+
     void Start()
     {
-        stationsJson = Resources.Load<TextAsset>("connections");
         stations = StationFinder.LoadStationsFromJson(stationsJson.text);
         StartCoroutine(StartLocationService());
-    }
-
-    private static string GetCurrentDateTime()
-    {
-        return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
     }
 
     IEnumerator StartLocationService()
@@ -43,123 +50,150 @@ public class GpsMvgManager : MonoBehaviour
         int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
         {
-            //Debug.Log("Initializing GPS...");
             yield return new WaitForSeconds(1);
             maxWait--;
         }
 
         if (Input.location.status == LocationServiceStatus.Failed)
         {
-            //Debug.Log("GPS failed.");
+            Debug.LogWarning("GPS failed to initialize.");
             yield break;
         }
 
-        float prevLat = Input.location.lastData.latitude;
-        float prevLon = Input.location.lastData.longitude;
-        float prevTime = Time.time;
+        prevLat = Input.location.lastData.latitude;
+        prevLon = Input.location.lastData.longitude;
+        prevTime = Time.time;
 
         while (true)
         {
-            var data = Input.location.lastData;
-            latitude = data.latitude;
-            longitude = data.longitude;
+            yield return UpdateLocationAndCheckStatus();
+            yield return new WaitForSeconds(loop_delay);
+        }
+    }
 
-            float currentTime = Time.time;
-            float deltaTime = currentTime - prevTime;
+    private IEnumerator UpdateLocationAndCheckStatus()
+    {
+        var data = Input.location.lastData;
+        latitude = data.latitude;
+        longitude = data.longitude;
 
-            float moveDistance = StationFinder.HaversineDistance(prevLat, prevLon, latitude, longitude);
-            speed = (deltaTime > 0f) ? (moveDistance / deltaTime) * 3.6f : 0f;
+        float currentTime = Time.time;
+        float deltaTime = currentTime - prevTime;
 
-            prevLat = latitude;
-            prevLon = longitude;
-            prevTime = currentTime;
+        float moveDistance = StationFinder.HaversineDistance(prevLat, prevLon, latitude, longitude);
+        speed = (deltaTime > 0f) ? (moveDistance / deltaTime) * 3.6f : 0f; // km/h
 
-            //Debug.Log($"Speed: {speed:F2} km/h");
-            //Debug.Log($"Coordinates: Lat: {latitude:F6}, Lon: {longitude:F6}");
+        prevLat = latitude;
+        prevLon = longitude;
+        prevTime = currentTime;
 
-            StationFinder finder = new StationFinder(latitude, longitude, stations);
-            var nearestStation = finder.FindNearestStation();
-            //Debug.Log($"Nearest station: {nearestStation.stationName}");
+        StationFinder finder = new StationFinder(latitude, longitude, stations);
+        var nearestStation = finder.FindNearestStation();
 
-            float distanceToStation = StationFinder.HaversineDistance(latitude, longitude, nearestStation.lat, nearestStation.@long);
+        float distanceToStation = StationFinder.HaversineDistance(latitude, longitude, nearestStation.lat, nearestStation.@long);
 
-            if (distanceToStation <= maxDistance)
+        if (distanceToStation <= maxDistance)
+        {
+            isOnStation = true;
+
+            destinationStation = stations.FirstOrDefault(s => s.stationName == nearestStation.stationName);
+
+            originStation = null;
+            if (destinationStation != null && destinationStation.connections != null && destinationStation.connections.Length > 0)
             {
-                isOnStation = true;
+                string originName = destinationStation.connections[0];
+                originStation = stations.FirstOrDefault(s => s.stationName == originName);
+            }
 
-                //Debug.Log($"In the range of station. Distance: {distanceToStation:F2} m");
-
-                bool newIsMoving = speed >= minSpeed;
-
-                destinationStation = stations.FirstOrDefault(s => s.stationName == nearestStation.stationName);
-
-                originStation = null;
-                if (destinationStation != null && destinationStation.connections != null && destinationStation.connections.Length > 0)
-                {
-                    string originName = destinationStation.connections[0];
-                    originStation = stations.FirstOrDefault(s => s.stationName == originName);
-                }
-
-                if (newIsMoving != isMoving)
-                {
-                    isMoving = newIsMoving;
-                    OnIsMovingChanged?.Invoke(isMoving, originStation, destinationStation);
-                }
-
-                if (destinationStation != null && originStation != null)
-                {
-                    StartCoroutine(FetchArrivalTime(
-                        originStationId: originStation.stationGlobalID,
-                        destinationStationId: destinationStation.stationGlobalID,
-                        routingDateTime: DateTime.UtcNow,
-                        isArrivalTime: false,
-                        transportTypes: "SCHIFF,UBAHN",
-                        onArrivalTimeReceived: (arrivalTime) =>
+            if (destinationStation != null && originStation != null)
+            {
+                yield return StartCoroutine(FetchArrivalTime(
+                    originStationId: originStation.stationGlobalID,
+                    destinationStationId: destinationStation.stationGlobalID,
+                    routingDateTime: DateTime.UtcNow,
+                    isArrivalTime: false,
+                    transportTypes: "SCHIFF,UBAHN",
+                    onArrivalTimeReceived: (arrivalTime) =>
+                    {
+                        if (arrivalTime != DateTime.MinValue)
                         {
-                            if (arrivalTime != DateTime.MinValue)
-                            {
-                                var now = DateTime.UtcNow;
-                                var minutesDiff = (arrivalTime - now).TotalMinutes;
+                            var now = DateTime.UtcNow;
+                            var minutesDiff = (arrivalTime - now).TotalMinutes;
 
-                                if (minutesDiff >= 0 && minutesDiff <= maxTimeToGo)
+                            bool newHasStarted = isOnStation && speed >= minSpeed && minutesDiff >= 0 && minutesDiff <= maxTimeToGo;
+                            if (newHasStarted != hasStarted)
+                            {
+                                hasStarted = newHasStarted;
+
+                                if (hasStarted)
                                 {
-                                    //Debug.Log($"Arrival time (≤2 min): {arrivalTime:HH:mm:ss}");
+                                    // Zapisujemy stacje przy starcie
+                                    startedOriginStation = originStation;
+                                    startedDestinationStation = destinationStation;
                                 }
                                 else
                                 {
-                                    //Debug.Log($"Next connection too late: {arrivalTime:HH:mm:ss}");
+                                    // Czyscimy przy stopie
+                                    startedOriginStation = null;
+                                    startedDestinationStation = null;
                                 }
+
+                                OnHasStartedChanged?.Invoke(hasStarted,
+                                    startedOriginStation != null ? startedOriginStation.stationGlobalID : "",
+                                    startedDestinationStation != null ? startedDestinationStation.stationGlobalID : "");
                             }
-                            else
+
+                            bool newHasStopped = isOnStation && speed < minSpeed;
+                            if (newHasStopped != hasStopped)
                             {
-                                //Debug.Log("No arrival time data received.");
+                                hasStopped = newHasStopped;
+                                OnHasStoppedChanged?.Invoke(hasStopped,
+                                    startedOriginStation != null ? startedOriginStation.stationGlobalID : "",
+                                    startedDestinationStation != null ? startedDestinationStation.stationGlobalID : "");
                             }
                         }
-                    ));
-                }
+                        else
+                        {
+                            if (hasStarted)
+                            {
+                                hasStarted = false;
+                                startedOriginStation = null;
+                                startedDestinationStation = null;
+                                OnHasStartedChanged?.Invoke(false, "", "");
+                            }
+                            if (hasStopped)
+                            {
+                                hasStopped = false;
+                                OnHasStoppedChanged?.Invoke(false, "", "");
+                            }
+                        }
+                    }
+                ));
             }
-            else
-            {
-                isOnStation = false;
-                //Debug.Log($"Not in the range of station. Distance: {distanceToStation:F2} m");
-
-                if (isMoving)
-                {
-                    isMoving = false;
-                    OnIsMovingChanged?.Invoke(isMoving, originStation, destinationStation);
-                }
-            }
-
-            //Debug.Log($"Is moving: {isMoving}");
-            //Debug.Log($"Current time: {GetCurrentDateTime()}");
-
-            yield return new WaitForSeconds(loop_delay);
         }
-        
+        else
+        {
+            isOnStation = false;
+
+            if (hasStarted)
+            {
+                hasStarted = false;
+                startedOriginStation = null;
+                startedDestinationStation = null;
+                OnHasStartedChanged?.Invoke(false, "", "");
+            }
+            if (hasStopped)
+            {
+                hasStopped = false;
+                OnHasStoppedChanged?.Invoke(false, "", "");
+            }
+        }
     }
+
     public string IsOnStation()
     {
-        if (isOnStation) {
+        if (isOnStation && originStation != null && !string.IsNullOrEmpty(originStation.stationGlobalID))
+        {
             return originStation.stationGlobalID;
         }
         return "";
@@ -194,7 +228,6 @@ public class GpsMvgManager : MonoBehaviour
         if (request.isNetworkError || request.isHttpError)
 #endif
         {
-            //Debug.LogError($"❌ Error HTTP: {request.responseCode} - {request.error}");
             onArrivalTimeReceived?.Invoke(DateTime.MinValue);
         }
         else
@@ -336,7 +369,7 @@ public class GpsMvgManager : MonoBehaviour
     private class StationInfo
     {
         public float latitude;
-        public float longitude;
+        public float lonfude;
         public string stationGlobalId;
         public int stationDivaId;
         public int platform;
