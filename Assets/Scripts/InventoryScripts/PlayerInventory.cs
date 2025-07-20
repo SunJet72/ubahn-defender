@@ -22,7 +22,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private InventorySlot[] activeConsumables;
 
     [SerializeField] private PlayerClass currentClass = PlayerClass.Warrior;
-    [SerializeField] private string nickname = "Roflopafl";
+    [SerializeField] private string nickname;
 
     [SerializeField] private PlayerCombatSystemData ingeneerData;
     [SerializeField] private PlayerCombatSystemData RangerData;
@@ -45,6 +45,8 @@ public class PlayerInventory : MonoBehaviour
             maxActiveConsumables = 1;
         }
         activeConsumables = new InventorySlot[maxActiveConsumables];
+        nickname = GameFlowManager.instance.nickname;
+
     }
 
     void Start()
@@ -64,8 +66,7 @@ public class PlayerInventory : MonoBehaviour
         {
             currentWeapon = ItemManager.instance.emptyWeapon;
         }
-        
-        //LoadInventory();
+        LoadInventory();
         //EquipmentChanged.Invoke();
     }
 
@@ -93,15 +94,15 @@ public class PlayerInventory : MonoBehaviour
         currentArmor = await db.GetCurrentArmor();
         currentWeapon = await db.GetCurrentWeapon();
         var consumables = await db.GetActiveConsumables();
-        for (int i = 0; i < activeConsumables.Length&&i<consumables.Count; ++i)
+        for (int i = 0; i < activeConsumables.Length && i < consumables.Count; ++i)
         {
             activeConsumables[i] = consumables[i];
         }
         inventoryStash = await db.GetInventory();
         playerMoney = await db.GetPlayerMoney();
         ChangeClass(await db.GetPlayerClass());
-        // Loading inventory from Server
         InventoryChanged.Invoke();
+        UIMasterController.instance.RebuildAll();
     }
 
     public PlayerInventory RemoveItem(ScriptableItemBase item)

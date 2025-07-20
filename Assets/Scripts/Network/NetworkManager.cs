@@ -60,7 +60,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         // await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         // Scene level = SceneManager.GetSceneByName(sceneName);
         // Debug.Log("Scene index: " + level.buildIndex);
-        SceneRef scene = SceneRef.FromIndex(1);
+        SceneRef scene = SceneRef.FromIndex(2);
         NetworkSceneInfo sceneInfo = new NetworkSceneInfo();
         if (scene.IsValid)
         {
