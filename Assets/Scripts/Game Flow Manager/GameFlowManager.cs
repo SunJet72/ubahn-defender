@@ -20,6 +20,7 @@ public class GameFlowManager : MonoBehaviour
             Destroy(this);
         }
         DontDestroyOnLoad(this);
+        LogIn("browski");
     }
 
     public void StartGame()
@@ -47,6 +48,6 @@ public class GameFlowManager : MonoBehaviour
 
     public void LogIn(string nickname)
     {
-        
+        GetComponent<SpacetimeDBController>().initDB(nickname);
     }
 }
