@@ -153,13 +153,14 @@ public class WorldMapController : MonoBehaviour
         {
             // if check for station 
             string nearestStationId = GpsMvgManager.instance.IsOnStation();
-            if (nearestStationId !=String.Empty) // if station is near
+            //if (nearestStationId !=String.Empty) // if station is near
+            if(temp)
             {
                 if (!isOnStation)
                 {
-                    //mock
                     isOnStation = true;
-                    ConnectToStation(instance.GetStationById(nearestStationId));
+                    //ConnectToStation(instance.GetStationById(nearestStationId));
+                    ConnectToStation(GetStationById("de:09162:1250"));
                 }
             }
             else
