@@ -106,7 +106,7 @@ public class ProjectileSpellExecutor : NetworkBehaviour
     {
         Runner.Spawn(data._projectile, onBeforeSpawned: (runner, spawned) =>
         {
-            spawned.transform.parent = castTransform;
+            spawned.transform.parent = null;
             spawned.transform.position = castTransform.position;
             spawned.GetComponent<Projectile>().SetTarget(castedPointOrDirection, player, data.damageProExecution, data.targetTypes);
         });
@@ -115,7 +115,7 @@ public class ProjectileSpellExecutor : NetworkBehaviour
     {
         Runner.Spawn(data._projectile, onBeforeSpawned: (runner, spawned) =>
         {
-            spawned.transform.parent = castTransform;
+            spawned.transform.parent = null;
             spawned.transform.position = castTransform.position;
             spawned.GetComponent<Projectile>().SetTarget(targetTransform, player, data.damageProExecution, data.targetTypes);
         });

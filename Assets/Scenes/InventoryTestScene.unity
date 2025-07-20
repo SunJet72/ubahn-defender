@@ -1597,8 +1597,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playerMoney: 1000
-  currentArmor: {fileID: 11400000, guid: 01473e98735d9ef4f874ab19a95842f3, type: 2}
-  currentWeapon: {fileID: 11400000, guid: 12c5bcfd3eda74249a1a1bccd831c898, type: 2}
+  currentArmor: {fileID: 11400000, guid: 1ceaab352fe17d141adabb8e21683884, type: 2}
+  currentWeapon: {fileID: 11400000, guid: f7255a1b0296b36469578bf08e986a54, type: 2}
   maxActiveConsumables: 4
   activeConsumables:
   - objects:
@@ -1622,9 +1622,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 11c116441f6b8c903878fa16dd4d059d, type: 2}
     - {fileID: 11400000, guid: 11c116441f6b8c903878fa16dd4d059d, type: 2}
     sample: {fileID: 11400000, guid: 11c116441f6b8c903878fa16dd4d059d, type: 2}
-  currentClass: 1
+  currentClass: 2
   nickname: Roflopafl
-  ingeneerData: {fileID: 11400000, guid: 1fd0b1ff5e53f39469967462b8ca4b34, type: 2}
+  ingeneerData: {fileID: 11400000, guid: c723cc600b253ab4e80cd003b4251365, type: 2}
 --- !u!212 &439166124
 SpriteRenderer:
   m_ObjectHideFlags: 0

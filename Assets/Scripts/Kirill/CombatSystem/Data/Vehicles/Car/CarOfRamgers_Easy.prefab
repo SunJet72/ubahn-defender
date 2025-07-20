@@ -69,6 +69,7 @@ MonoBehaviour:
   - {fileID: 509262949683264233}
   - {fileID: 2010435714211398918}
   - {fileID: 6666328021856722151}
+  colliderToDisableHardCoded: {fileID: 8744219972975753197}
 --- !u!114 &816306986665631814
 MonoBehaviour:
   m_ObjectHideFlags: 0

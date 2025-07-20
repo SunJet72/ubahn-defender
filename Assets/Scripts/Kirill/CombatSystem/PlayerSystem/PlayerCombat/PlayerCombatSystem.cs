@@ -155,6 +155,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 if (target == null || (target.transform.position - transform.position).magnitude > weaponEq.range)
                 {
                     target = FindNearestUnit(nearestVehicles);
+                    if (target == null)
+                        return;
                     AttackRanged();
                 }
                 else
@@ -168,6 +170,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 if (target == null || (target.transform.position - transform.position).magnitude > weaponEq.range)
                 {
                     target = FindNearestUnit(nearestVehicles);
+                    if (target == null)
+                        return;
                     AttackRanged();
                 }
                 else
@@ -270,7 +274,9 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         }
         if (unit is VehicleCombatBehaviourSystem vehicle)
         {
+            Debug.LogWarning("I am removing Vehicle from nearest vehicles " + vehicle);
             nearestVehicles.Remove(vehicle);
+            Debug.Log("Current amount of vehicles in nearest list: " + nearestVehicles.Count);
         }
     }
 
@@ -280,6 +286,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         UnitController choseEnemy = null;
         foreach (var unit in units)
         {
+            if (unit == null)
+                continue; // Hardcoded! It cant be null, but is.
             float distance = (unit.transform.position - transform.position).magnitude;
             if (distance < curDistance)
             {

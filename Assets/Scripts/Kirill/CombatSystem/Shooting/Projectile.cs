@@ -6,6 +6,7 @@ public class Projectile : NetworkBehaviour
 {
     [SerializeField] private ProjectileData data;
     private Transform target;
+    private Vector2 targetPosition;
     private Vector2 flyingDirection;
     private bool isFlying = false;
     private UnitController attacker;
@@ -24,6 +25,7 @@ public class Projectile : NetworkBehaviour
         }
 
         this.target = target;
+        targetPosition = target.position;
         this.attacker = attacker;
         this.damage = damage;
         this.penetration = attacker.ArmorPenetration;
@@ -63,16 +65,18 @@ public class Projectile : NetworkBehaviour
         {
             if (data.targetType == TargetType.CURRENT_TARGET)
             {
-                UpdateFlyingDirection(target.position);
+                if (target != null)
+                    targetPosition = target.position;
+                UpdateFlyingDirection(targetPosition);
             }
             transform.up = new Vector3(flyingDirection.x, flyingDirection.y, 0);
             transform.Translate(Vector2.up * data.speed * Runner.DeltaTime);
             distanceTravelled += (Vector2.up * data.speed * Runner.DeltaTime).magnitude;
 
             //TODO: If certain point was achieved, 
-            if (data.targetType == TargetType.DESTINATION_POINT)
+            if (data.targetType == TargetType.DESTINATION_POINT || data.targetType == TargetType.CURRENT_TARGET)
             {
-                if ((transform.position - target.transform.position).magnitude <= 0.01f)
+                if (((Vector2)transform.position - targetPosition).magnitude <= 0.1f)
                 {
                     OnEndFlight();
                 }
