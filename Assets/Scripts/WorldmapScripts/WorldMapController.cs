@@ -15,12 +15,14 @@ public class WorldMapController : MonoBehaviour
     [SerializeField] private StationTierData tierConfig;
 
     public HashSet<Station> map = new HashSet<Station>();
+
+
     private Coroutine _stationChecker;
 
     public bool temp = false;
 
     [SerializeField] private float CheckStationDelay;
-    public bool isOnStation { get; private set; } = false;
+    public bool isOnStation = false;
     void Awake()
     {
         if (instance == null)
@@ -147,20 +149,24 @@ public class WorldMapController : MonoBehaviour
         _stationChecker = null;
     }
 
+    public HashSet<Station> getMap()
+    {
+        return map;
+    }
+
     IEnumerator CheckForStation()
     {
         while (true)
         {
             // if check for station 
             string nearestStationId = GpsMvgManager.instance.IsOnStation();
-            //if (nearestStationId !=String.Empty) // if station is near
-            if(temp)
+            if (nearestStationId !=String.Empty) // if station is near
             {
                 if (!isOnStation)
                 {
                     isOnStation = true;
-                    //ConnectToStation(instance.GetStationById(nearestStationId));
-                    ConnectToStation(GetStationById("de:09162:1250"));
+                    ConnectToStation(instance.GetStationById(nearestStationId));
+                    //ConnectToStation(GetStationById("de:09162:100"));
                 }
             }
             else
@@ -179,7 +185,7 @@ public class WorldMapController : MonoBehaviour
     {
         currentStation = nearStation;
         ShopManager.instance?.InitShopForStation(nearStation);
-        UIMasterController.instance.RebuildAll();
+        UIMasterController.instance.RebuildLobby();
     }
 
     private void DisconnectFromStation()

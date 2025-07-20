@@ -136,7 +136,8 @@ public class SpacetimeDBController : MonoBehaviour
         if (!isInit)
         {
             DbNotInit();
-        }        await dbService.set_weapon((uint)weapon.id);
+        }
+        await dbService.set_weapon((uint)weapon.id);
     }
 
     public async Task<ScriptableArmor> GetCurrentArmor()
@@ -167,7 +168,8 @@ public class SpacetimeDBController : MonoBehaviour
         if (!isInit)
         {
             DbNotInit();
-        }        await dbService.set_armor((uint)armor.id);
+        }
+        await dbService.set_armor((uint)armor.id);
     }
 
     public async Task<List<InventorySlot>> GetActiveConsumables()
@@ -175,7 +177,8 @@ public class SpacetimeDBController : MonoBehaviour
         if (!isInit)
         {
             DbNotInit();
-        }        var consumablesDb = await dbService.get_consumables();
+        }
+        var consumablesDb = await dbService.get_consumables();
         List<InventorySlot> slots = new List<InventorySlot>();
         foreach (Item item in consumablesDb)
         {
@@ -208,7 +211,8 @@ public class SpacetimeDBController : MonoBehaviour
         if (!isInit)
         {
             DbNotInit();
-        }        List<Item> items = new List<Item>();
+        }
+        List<Item> items = new List<Item>();
         foreach (InventorySlot slot in slots)
         {
             Item item = new Item();
@@ -224,7 +228,8 @@ public class SpacetimeDBController : MonoBehaviour
         if (!isInit)
         {
             DbNotInit();
-        }        var inventoryDb = await dbService.get_inventory();
+        }
+        var inventoryDb = await dbService.get_inventory();
         List<InventorySlot> slots = new List<InventorySlot>();
         foreach (Item item in inventoryDb)
         {
@@ -257,7 +262,8 @@ public class SpacetimeDBController : MonoBehaviour
         if (!isInit)
         {
             DbNotInit();
-        }        List<Item> items = new List<Item>();
+        }
+        List<Item> items = new List<Item>();
         foreach (InventorySlot slot in slots)
         {
             Item item = new Item();
@@ -267,4 +273,14 @@ public class SpacetimeDBController : MonoBehaviour
         }
         await dbService.set_inventory(items);
     }
+
+
+    public async void StartTrain(Station Out, Station In)
+    {
+        if (!isInit)
+        {
+            DbNotInit();
+        }
+        await dbService.enter_the_train(Out.Id, In.Id);
+    } 
 }

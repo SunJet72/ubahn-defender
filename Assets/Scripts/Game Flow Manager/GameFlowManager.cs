@@ -9,6 +9,8 @@ public class GameFlowManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private bool isReady = false;
     [SerializeField] private float locationRefreshTime;
+
+    public Station nextStation;
     public string nickname { get; private set; }
 
     void Start()
@@ -39,6 +41,7 @@ public class GameFlowManager : MonoBehaviour
         isReady = true;
         //.... mock shit
         PlayerInventory inventory = PlayerInventory.instance;
+        SpacetimeDBController.instance.StartTrain(WorldMapController.instance.currentStation, nextStation);
         NetworkManager.Instance.JoinGame(inventory.GetCurrentWeapon(), inventory.GetCurrentArmor(), PlayerInventory.instance.GetPlayerCombatSystemData(),new List<ScriptableConsumable>());
     }
     public void GetUnready()

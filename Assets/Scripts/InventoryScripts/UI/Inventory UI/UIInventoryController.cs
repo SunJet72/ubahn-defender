@@ -12,6 +12,7 @@ public class UIInventoryController : MonoBehaviour
     [SerializeField] public UIItemSlot UIweapon;
     [SerializeField] public UIConsumableSlots UIConsumable;
     [SerializeField] private TMP_Dropdown dropdown;
+    [SerializeField] private Image playerSprite;
 
     private UIInventorySlector selector;
 
@@ -57,9 +58,10 @@ public class UIInventoryController : MonoBehaviour
         }
         UIarmor.RefreshSlot(inventory.GetCurrentArmor());
         UIweapon.RefreshSlot(inventory.GetCurrentWeapon());
-        UIConsumable.Rebuild(inventory.GetActiveConsumables());
+        //UIConsumable.Rebuild(inventory.GetActiveConsumables());
         dropdown.value = (int)inventory.GetClass() - 1;
         dropdown.RefreshShownValue();
+        playerSprite.sprite = inventory.GetPlayerSprite();
     }
 
     public void ChangeClass(int newClass){

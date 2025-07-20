@@ -187,6 +187,7 @@ public class GpsMvgManager : MonoBehaviour
                             }
                         }
                         else
+
                         {
                             if (hasStarted)
                             {

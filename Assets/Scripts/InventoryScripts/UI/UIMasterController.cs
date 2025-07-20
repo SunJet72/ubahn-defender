@@ -42,6 +42,11 @@ public class UIMasterController : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
     }
 
+    public void RebuildLobby()
+    {
+        lobbyScreen?.Rebuild();
+    }
+
     public void RebuildShop(Station station)
     {
         uiShop?.Rebuild(station);

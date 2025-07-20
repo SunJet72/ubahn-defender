@@ -24,4 +24,5 @@ MonoBehaviour:
   spell: {fileID: 1374040662033449603, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
   additionalHealth: 0
   armor: 0
+  PlayerSprite: {fileID: 21300000, guid: 5b71f289bdd655d4eb5eb853c645a9ac, type: 3}
   unitData: {fileID: 11400000, guid: fe4abfa5fbb87c245ba076f5d60252f4, type: 2}
