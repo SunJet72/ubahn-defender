@@ -15,9 +15,9 @@ MonoBehaviour:
   spellName: You are Fired!
   spellDescription: 
   icon: {fileID: 0}
-  radius: 2.37
-  fov: 5.5
+  radius: 5
+  fov: 150
   executionTime: 3
   executionDelay: 1
-  executionAmount: 5
-  damageProExecution: 2
+  executionAmount: 15
+  damageProExecution: 0.3

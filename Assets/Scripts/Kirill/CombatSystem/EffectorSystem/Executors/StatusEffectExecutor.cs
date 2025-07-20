@@ -1,13 +1,17 @@
 using System;
 using System.Collections;
+using Fusion;
 using UnityEngine;
 
-public class StatusEffectExecutor : MonoBehaviour
+public class StatusEffectExecutor : NetworkBehaviour
 {
     private event Action<StatusEffect> OnEffectEnd;
 
     private UnitController unitController;
     private StatusEffect effect;
+
+    [Networked]
+    private TickTimer effectTimer { get; set; }
     public void Init(StatusEffect effect)
     {
         this.effect = effect;
@@ -28,17 +32,19 @@ public class StatusEffectExecutor : MonoBehaviour
         }
         if (effect.hasDuration)
         {
-            StartCoroutine(EndEffect(effect.duration));
+            effectTimer = TickTimer.CreateFromSeconds(Runner, effect.duration);
+            // StartCoroutine(EndEffect(effect.duration));
         }
     }
 
-    private IEnumerator EndEffect(float seconds)
+    public override void FixedUpdateNetwork()
     {
-        yield return new WaitForSeconds(seconds);
+        if (!Runner.IsServer || !effectTimer.IsRunning || !effectTimer.Expired(Runner)) return;
+        // yield return new WaitForSeconds(seconds);
         Debug.Log(OnEffectEnd);
         Debug.Log(effect);
         OnEffectEnd?.Invoke(effect);
-        Destroy(this);
+        Runner.Despawn(Object);
     }
 
     private void ApplyWithinRadius()

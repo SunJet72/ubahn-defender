@@ -92,13 +92,14 @@ public class Projectile : NetworkBehaviour
             Debug.Log("I can attack someone, but will I do it?");
             if (!targetTypes.Contains(unit.UnitData.unitType))
                 return;
+            Debug.Log("Let's check if I target I am hitting is actually wrong");
             if (data.hitType == HitType.TARGET && collision.transform != target)
                 return;
 
-            Debug.Log("I am attacking");
+            Debug.Log("I am attacking: " + unit.gameObject);
             //ApplyEffects(unit.transform);
-            unit.Hurt(damage, attacker);
-            
+            unit.Hurt(CalculateDamage(damage), attacker);
+
             if (!(data.hitType == HitType.ALL))
                 OnEndFlight();
         }
@@ -116,5 +117,10 @@ public class Projectile : NetworkBehaviour
     {
         ApplyEffects(target);
         Destroy(gameObject);
+    }
+    
+    private float CalculateDamage(float damage)
+    {
+        return damage * ((100f + attacker.Strength) / 100f);
     }
 }

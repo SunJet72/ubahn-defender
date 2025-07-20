@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatusEffect_IncAttSpeed_SecondWind
   m_EditorClassIdentifier: 
   paramToEffect: 4
-  value: 50
+  value: 0.9
   hasDuration: 1
   duration: 5
   hasEffectRadius: 0

@@ -12577,7 +12577,6 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   cooldownOverlay: {fileID: 527000850}
   icon: {fileID: 365459609}
-  player: {fileID: 0}
 --- !u!114 &365459608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13326,7 +13325,6 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   cooldownOverlay: {fileID: 1348800119}
   icon: {fileID: 820255602}
-  player: {fileID: 0}
 --- !u!114 &820255601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15254,67 +15252,6 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 2046943813}
   ForceRemoteRenderTimeframe: 0
---- !u!1001 &5818897620107525974
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -5869741676428927107, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: SortKey
-      value: 4234703911
-      objectReference: {fileID: 0}
-    - target: {fileID: 1374040662033449603, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_Name
-      value: Spell_Ingenieur_Kite
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521294448962397798, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -15328,5 +15265,4 @@ SceneRoots:
   - {fileID: 806294586}
   - {fileID: 2046943814}
   - {fileID: 849504984}
-  - {fileID: 5818897620107525974}
   - {fileID: 1713286432}

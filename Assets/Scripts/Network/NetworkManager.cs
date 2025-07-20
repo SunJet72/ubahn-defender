@@ -50,7 +50,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         Instance = this;
     }
 
-    async void StartGame(GameMode mode, string roomName = "TestRoom")
+    async void StartGame(GameMode mode, string roomName = "TestRoomKirill")
     {
 
         _myrunner = gameObject.AddComponent<NetworkRunner>();

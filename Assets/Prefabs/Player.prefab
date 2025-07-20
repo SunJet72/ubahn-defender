@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7953ccae8ab55d249be7170c47916bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionCollider: {fileID: 3998742306949709182}
 --- !u!114 &8637338553788046324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +241,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.21133333}
-  m_Radius: 7.09
+  m_Radius: 0.0001
 --- !u!50 &-5383702412596131658
 Rigidbody2D:
   serializedVersion: 5

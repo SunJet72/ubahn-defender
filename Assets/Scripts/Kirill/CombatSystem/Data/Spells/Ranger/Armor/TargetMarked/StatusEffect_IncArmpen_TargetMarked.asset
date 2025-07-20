@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: StatusEffect_IncArmpen_TargetMarked
   m_EditorClassIdentifier: 
   paramToEffect: 5
-  value: 35
+  value: 999
   hasDuration: 1
-  duration: 4
+  duration: 15
   hasEffectRadius: 0
   effectRadius: 0
   isPermanent: 0

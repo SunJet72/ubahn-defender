@@ -25,6 +25,7 @@ public class EffectorSpell : ActiveSpell
                 var target = player.GetCurrentTargetSelected();
                 if (target == null)
                     return;
+                Debug.LogWarning("!!! I am applying a certain effect to an enemy");
                 statusEffect.ApplyEffect(player, target.transform);
             }
         }

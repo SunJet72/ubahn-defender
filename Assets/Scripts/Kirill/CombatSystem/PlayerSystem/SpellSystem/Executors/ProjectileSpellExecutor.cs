@@ -73,6 +73,7 @@ public class ProjectileSpellExecutor : NetworkBehaviour
 
     private void ExecuteSpell(Vector2 castedPointOrDirection)
     {
+        if (!Runner.IsServer) return;
         if (!spellTimer.Expired(Runner)) return;
 
         float interval = data.executionTime / data.executionAmount;
@@ -83,10 +84,11 @@ public class ProjectileSpellExecutor : NetworkBehaviour
             spellTimer = TickTimer.CreateFromSeconds(Runner, interval);
             i++;
         }
-        else Destroy(this);
+        else Runner.Despawn(Object);
     }
     private void ExecuteSpell(Transform targetTransform)
     {
+        if (!Runner.IsServer) return;
         if (!spellTimer.Expired(Runner)) return;
 
         float interval = data.executionTime / data.executionAmount;
@@ -97,7 +99,7 @@ public class ProjectileSpellExecutor : NetworkBehaviour
             spellTimer = TickTimer.CreateFromSeconds(Runner, interval);
             i++;
         }
-        else Destroy(this);
+        else Runner.Despawn(Object);
     }
 
     private void SpawnProjectile(Vector2 castedPointOrDirection)
