@@ -7,7 +7,7 @@ public abstract class UnitController : NetworkBehaviour
     public abstract UnitData UnitData { get; }
     public event Action<UnitController> OnDieEvent;
 
-    [Networked]
+    [Networked, OnChangedRender(nameof(OnHealthChanged))]
     private float health { get; set; }
     [Networked]
     private float armor { get; set; }
@@ -134,6 +134,11 @@ public abstract class UnitController : NetworkBehaviour
             health = 0;
             Die();
         }
+    }
+
+    public virtual void OnHealthChanged()
+    {
+        Debug.Log("OnHealthChanged has no override, but it's ok");
     }
 
     protected abstract void Die(); // In all Fällen OnDieEvent shooten
