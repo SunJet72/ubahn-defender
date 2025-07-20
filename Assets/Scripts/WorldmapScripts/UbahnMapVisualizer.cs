@@ -97,7 +97,6 @@ public class UbahnMapVisualizer : MonoBehaviour
 
     void Update()
     {
-        // Only handle touches if not over UI
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(0))
             return;
 
@@ -107,63 +106,50 @@ public class UbahnMapVisualizer : MonoBehaviour
             PinchZoom(Input.GetTouch(0), Input.GetTouch(1));
     }
 
-   private Plane mapPlane = new Plane(Vector3.forward, Vector3.zero);
+    private Plane mapPlane = new Plane(Vector3.forward, Vector3.zero);
 
-private void PanTouch(Touch touch)
-{
-    if (touch.phase != TouchPhase.Moved) return;
 
-    // Cast a ray from the previous touch position onto the Z=0 plane
-    var prevRay = cam.ScreenPointToRay(touch.position - touch.deltaPosition);
-    var curRay  = cam.ScreenPointToRay(touch.position);
+    private float lastTouchDistance = 0;
 
-    if (mapPlane.Raycast(prevRay, out float enterPrev) &&
-        mapPlane.Raycast(curRay,  out float enterCur))
+
+    private void PanTouch(Touch touch)
     {
-        Vector3 prevWorld = prevRay.GetPoint(enterPrev);
-        Vector3 curWorld  =  curRay.GetPoint(enterCur);
+        if (touch.phase != TouchPhase.Moved) return;
 
-        // Move MapRoot opposite to finger movement
-        Vector3 delta = curWorld - prevWorld;
-        transform.position -= delta;
-    }
-}
+        // Raycast prev & current finger into map plane
+        Ray prevRay = cam.ScreenPointToRay(touch.position - touch.deltaPosition);
+        Ray currRay = cam.ScreenPointToRay(touch.position);
 
-private void PinchZoom(Touch t0, Touch t1)
-{
-    // Get current distance between touches
-    float curDist = Vector2.Distance(t0.position, t1.position);
+        if (mapPlane.Raycast(prevRay, out float enterPrev) &&
+            mapPlane.Raycast(currRay, out float enterCurr))
+        {
+            Vector3 prevWorld = prevRay.GetPoint(enterPrev);
+            Vector3 currWorld = currRay.GetPoint(enterCurr);
+            Vector3 delta = currWorld - prevWorld;
 
-    if (t0.phase == TouchPhase.Began || t1.phase == TouchPhase.Began)
-    {
-        lastPinchDistance = curDist;
-        return;
+            // Move camera opposite to finger drag
+            cam.transform.position -= delta;
+        }
     }
 
-    float delta = curDist - lastPinchDistance;
-    lastPinchDistance = curDist;
-
-    // We’ll zoom the MapRoot by scaling it, clamped
-    float newScale = Mathf.Clamp(transform.localScale.x + delta * pinchZoomSpeed, minZoom, maxZoom);
-
-    // To keep the pivot under the fingers stable, find the world point under their midpoint
-    Vector2 mid = (t0.position + t1.position) * 0.5f;
-    var midRay = cam.ScreenPointToRay(mid);
-    if (!mapPlane.Raycast(midRay, out float enter)) return;
-
-    Vector3 worldBefore = midRay.GetPoint(enter);
-
-    // Apply the scale
-    transform.localScale = Vector3.one * newScale;
-
-    // After scaling, re‐project the same screen midpoint onto the map plane
-    var midRayAfter = cam.ScreenPointToRay(mid);
-    if (mapPlane.Raycast(midRayAfter, out float enterAfter))
+    private void PinchZoom(Touch t0, Touch t1)
     {
-        Vector3 worldAfter = midRayAfter.GetPoint(enterAfter);
-        // Offset so that worldBefore stays under the fingers
-        transform.position -= (worldAfter - worldBefore);
+        // Current and previous distance between touches
+        float currentDistance = Vector2.Distance(t0.position, t1.position);
+
+        if (t0.phase == TouchPhase.Began || t1.phase == TouchPhase.Began)
+        {
+            lastTouchDistance = currentDistance;
+            return;
+        }
+
+        float delta = currentDistance - lastTouchDistance;
+        lastTouchDistance = currentDistance;
+
+        // Invert so pinching closed zooms in, pinching open zooms out
+        float newSize = cam.orthographicSize - delta * pinchZoomSpeed;
+        cam.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
     }
-}
+
 
 }
