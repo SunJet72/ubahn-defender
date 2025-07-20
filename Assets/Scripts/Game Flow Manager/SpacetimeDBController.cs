@@ -8,6 +8,7 @@ public class SpacetimeDBController : MonoBehaviour
 {
     public static SpacetimeDBController instance;
     public bool isInit { get; private set; } = false;
+    public string Nickname { get; private set; }
     DbManager dbService;
 
     private void Awake()

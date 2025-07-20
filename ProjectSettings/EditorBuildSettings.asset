@@ -18,6 +18,7 @@ EditorBuildSettings:
     path: Assets/Scripts/Kirill/CombatSystem/EnemyCombatScene.unity
     guid: edcba0b0255762d4b8cf9541da5f3ed8
   m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 631c117f965191c84aad035dfeb542a5, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 7de5895ee2f754847bc7d52c1222c2bc, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: b959c4ea83699964d850677fc06f6140, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 943dcca11416bf7bc98c7249ab2ee2da, type: 2}

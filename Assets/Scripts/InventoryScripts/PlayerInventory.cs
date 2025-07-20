@@ -25,6 +25,8 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private string nickname = "Roflopafl";
 
     [SerializeField] private PlayerCombatSystemData ingeneerData;
+    [SerializeField] private PlayerCombatSystemData RangerData;
+    [SerializeField] private PlayerCombatSystemData WarriorData;
 
 
     void Awake()
@@ -325,12 +327,14 @@ public class PlayerInventory : MonoBehaviour
         return currentClass;
     }
 
-    public PlayerCombatSystemData GetPlayerCombtSystemData()
+    public PlayerCombatSystemData GetPlayerCombatSystemData()
     {
         switch (currentClass)
         {
             case PlayerClass.Warrior:
+                return WarriorData;
             case PlayerClass.Ranger:
+                return RangerData;
             case PlayerClass.Ingeniur:
                 return ingeneerData;
         }

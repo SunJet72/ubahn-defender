@@ -1,7 +1,6 @@
 using Fusion;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EctsContainer : NetworkBehaviour
 {
@@ -9,6 +8,11 @@ public class EctsContainer : NetworkBehaviour
 
     [Networked, OnChangedRender(nameof(OnBoxesAmountChanged))]
     public int BoxesAmount{ get; set; }
+    [Networked]
+    private int previousBoxesAmount { get; set; }
+
+
+    public TrainSystem trainSystem;
 
     public override void Spawned()
     {
@@ -18,6 +22,8 @@ public class EctsContainer : NetworkBehaviour
     private void OnBoxesAmountChanged()
     {
         boxesAmountIndicator.text = "" + BoxesAmount;
+        trainSystem.BoxesAmountChanged(BoxesAmount - previousBoxesAmount);
+        previousBoxesAmount = BoxesAmount;
     }
     public void Steal()
     {
