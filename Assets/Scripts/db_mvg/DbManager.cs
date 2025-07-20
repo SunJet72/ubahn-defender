@@ -10,6 +10,8 @@ public class DbManager
 {
     private string player_id;
 
+    public static DbManager Instance { get; private set; }
+
     private TaskCompletionSource<bool> connectionReady = new TaskCompletionSource<bool>();
 
     public DbManager(string player_name)
@@ -30,6 +32,7 @@ public class DbManager
         }
 
         Conn = builder.Build();
+        Instance = this;
     }
 
     const string SERVER_URL = "https://ubahn.sunjet-project.de";

@@ -54,16 +54,20 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     private PlayerController playerController;
 
+    private string trainName;
+
     private void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(this);
     }
 
-    async void StartGame(GameMode mode, string roomName = "TestRoomSunJet")
+    async void StartGame(GameMode mode, string roomName = "TestRoomSunJ=fdgdfg")
     {
         _myrunner = gameObject.AddComponent<NetworkRunner>();
         _myrunner.ProvideInput = true;
+
+        trainName = roomName;
 
         // string sceneName = "SampleScene";
         // await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -79,7 +83,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         await _myrunner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
-            SessionName = roomName,
+            SessionName = trainName,
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
@@ -184,6 +188,15 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     {
         // return _spawnedPlayers.Count > 0;
         return Runner.ActivePlayers.Count() > 0;
+    }
+
+    public async void EndGame()
+    {
+        float ratio = (float)TrainSystem.Instance.TotalBoxesAmount / (float)TrainSystem.Instance.MaxBoxesAmount;
+        //Send to db end game
+
+        await DbManager.Instance.add_prize_and_leave_the_train(trainName, ratio);
+        await Runner.Shutdown(destroyGameObject: false);
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)

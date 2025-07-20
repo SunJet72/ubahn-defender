@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
                 try
                 {
                     await db_service.set_train_started(from, to, !hasStopped);
+                    NetworkManager.Instance.EndGame();
                 }
                 catch (System.Exception ex)
                 {

@@ -62,19 +62,16 @@ public class GameCombatManager : NetworkBehaviour
         ui.SetSpells(player, spellArmor, spellWeapon);
     }
 
-    public override void FixedUpdateNetwork()
-    {
-        if (!selfDestroyTimer.IsRunning) selfDestroyTimer = TickTimer.CreateFromSeconds(Runner, secondsToDestroy);
-        if (selfDestroyTimer.Expired(Runner)) EndGameRpc();
-    }
+    // public override void FixedUpdateNetwork()
+    // {
+    //     if (!selfDestroyTimer.IsRunning) selfDestroyTimer = TickTimer.CreateFromSeconds(Runner, secondsToDestroy);
+    //     if (selfDestroyTimer.Expired(Runner)) EndGameRpc();
+    // }
 
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public async void EndGameRpc()
-    {
-        if (!Runner.IsServer) return;
-        float ratio = (float)TrainSystem.Instance.TotalBoxesAmount / (float)TrainSystem.Instance.MaxBoxesAmount;
-        //Send to db end game
-
-        await Runner.Shutdown(destroyGameObject: false);
-    }
+    // [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    // public void EndGameRpc()
+    // {
+    //     if (!Runner.IsServer) return;
+    //     NetworkManager.Instance.EndGame();
+    // }
 }
