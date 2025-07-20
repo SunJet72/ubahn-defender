@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: "K\xF6nigsplatz"
+  m_EditorClassIdentifier: 
+  id: de:09162:110
+  stationName: "K\xF6nigsplatz"
+  description: "Neighbours: Theresienstra\xDFe, M\xFCnchen Hbf"
+  neigbours:
+  - {fileID: 11400000, guid: 1de7faaa08ee534b1b4eee3cadc2a6ff, type: 2}
+  - {fileID: 11400000, guid: c9b0691abb85dd0b387ff8c58818028a, type: 2}
+  lon: 11.56340059839
+  lat: 48.145493894884

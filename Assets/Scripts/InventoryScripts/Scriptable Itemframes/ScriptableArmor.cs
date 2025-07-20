@@ -5,11 +5,18 @@ using UnityEngine;
 
 public class ScriptableArmor : ScriptableItemBase
 {
+<<<<<<< HEAD
     public float durability;
     public float coolness;
     public UnitData unitData;
+=======
+    public float additionalHealth;
+    public float armor;
+
+
+>>>>>>> inventory
     public void Use(GameObject player)
     {
-        Debug.Log(player.name + " is equipped with " + name + " and it looks cool as " + coolness);
+        Debug.Log(player.name + " is equipped with " + name + " and it looks cool as " + armor);
     }
 }

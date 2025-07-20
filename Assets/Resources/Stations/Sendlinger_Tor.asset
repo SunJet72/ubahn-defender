@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Sendlinger_Tor
+  m_EditorClassIdentifier: 
+  id: de:09162:50
+  stationName: Sendlinger Tor
+  description: "Neighbours: M\xFCnchen Hbf, Fraunhoferstra\xDFe, Marienplatz, Goetheplatz"
+  neigbours:
+  - {fileID: 11400000, guid: c9b0691abb85dd0b387ff8c58818028a, type: 2}
+  - {fileID: 11400000, guid: 0fc2e3d3f5b1b0400aa3e019e249646a, type: 2}
+  - {fileID: 11400000, guid: 2840a54810f29f811bf80ee4d8855fac, type: 2}
+  - {fileID: 11400000, guid: e05395adb9e3ffc389930c85b8ba39b6, type: 2}
+  lon: 11.56667209839
+  lat: 48.13346689488501

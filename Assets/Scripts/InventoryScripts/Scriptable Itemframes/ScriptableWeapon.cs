@@ -6,8 +6,8 @@ using UnityEngine;
 public class ScriptableWeapon : ScriptableItemBase
 {
     public float damage;
-    public float cooldown;
-    public float range;
+    public float attackSpeed;
+    public float armorPenetration;
 
     public UnitData unitData;
     public bool canShoot;

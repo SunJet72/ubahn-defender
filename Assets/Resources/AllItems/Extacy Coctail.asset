@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19a10502d65f28e61ab485a0fb846072, type: 3}
   m_Name: Extacy Coctail
   m_EditorClassIdentifier: 
+  id: 4
   title: ECTS cocktail
   description: Makes you cyan
   maxStackSize: 2
+  tier: 1
   sprite: {fileID: 0}
+  price: 78
   action: {fileID: 11400000, guid: 11b1b2be928e94f4b86b96e1f8c9aad8, type: 2}
   power: 10

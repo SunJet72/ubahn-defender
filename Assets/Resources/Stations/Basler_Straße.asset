@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: "Basler_Stra\xDFe"
+  m_EditorClassIdentifier: 
+  id: de:09162:1490
+  stationName: "Basler Stra\xDFe"
+  description: "Neighbours: Forstenrieder Allee, F\xFCrstenried West"
+  neigbours:
+  - {fileID: 11400000, guid: 9114a9791545020848f8a8aff21a0eed, type: 2}
+  - {fileID: 11400000, guid: 8196c1455702c0a5cb27d1f0eca695e7, type: 2}
+  lon: 11.4910592984
+  lat: 48.09126479488699

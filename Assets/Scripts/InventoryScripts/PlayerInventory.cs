@@ -1,33 +1,51 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public UnityEvent InventoryChanged;
-    public UnityEvent EquipmentChanged;
+    public static PlayerInventory instance;
+    [HideInInspector] public UnityEvent InventoryChanged;
+    [HideInInspector] public UnityEvent EquipmentChanged;
+    [HideInInspector] public UnityEvent MoneyChanged;
 
-    [SerializeField] private List<InventorySlot> inventoryStash = new List<InventorySlot>();
+    [SerializeField] private int playerMoney = 0;
+
+
+    private List<InventorySlot> inventoryStash = new List<InventorySlot>();
     [SerializeField] private ScriptableArmor currentArmor;
     [SerializeField] private ScriptableWeapon currentWeapon;
     [SerializeField] private int maxActiveConsumables;
     [SerializeField] private InventorySlot[] activeConsumables;
 
+    [SerializeField] private PlayerClass currentClass = PlayerClass.Warrior;
+    [SerializeField] private string nickname = "Roflopafl";
+
 
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+        // DontDestroyOnLoad(this);
         if (maxActiveConsumables == 0)
         {
             maxActiveConsumables = 1;
         }
         activeConsumables = new InventorySlot[maxActiveConsumables];
+        LoadInventory();
     }
 
     void Start()
     {
-        for(int i =0; i< maxActiveConsumables;++i){
+        for (int i = 0; i < maxActiveConsumables; ++i)
+        {
             if (activeConsumables[i] == null)
             {
                 activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
@@ -60,6 +78,11 @@ public class PlayerInventory : MonoBehaviour
         inventoryStash.Add(new InventorySlot(item).AddItem(item));
         InventoryChanged.Invoke();
         return this;
+    }
+
+    private void LoadInventory()
+    {
+        // Loading inventory from Server
     }
 
     public PlayerInventory RemoveItem(ScriptableItemBase item)
@@ -134,13 +157,19 @@ public class PlayerInventory : MonoBehaviour
         EquipmentChanged.Invoke();
     }
 
+    public PlayerInventory AddSlot(InventorySlot slot)
+    {
+        inventoryStash.Add(slot);
+        return this;
+    }
+
     public void AddToActiveCosumables(InventorySlot slot, int slotIndex)
     {
         if (slot.GetSample() is not ScriptableConsumable)
         {
             return;
         }
-        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem&& activeConsumables[slotIndex].Count!=0)
+        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem && activeConsumables[slotIndex].Count != 0)
         {
             inventoryStash.Add(activeConsumables[slotIndex]);
         }
@@ -165,6 +194,19 @@ public class PlayerInventory : MonoBehaviour
         return bld.ToString();
     }
 
+    public int GetAmountOf(int id)
+    {
+        int count = 0;
+        foreach (InventorySlot slot in inventoryStash)
+        {
+            if (slot.GetSample().id == id)
+            {
+                count += slot.Count;
+            }
+        }
+        return count;
+    }
+
 
     public ScriptableArmor GetCurrentArmor()
     {
@@ -184,5 +226,77 @@ public class PlayerInventory : MonoBehaviour
     public int GetMaxActiveConsumables()
     {
         return maxActiveConsumables;
+    }
+
+    public string GetNickname()
+    {
+        return nickname;
+    }
+
+    public bool MoneySpend(int price)
+    {
+        if (price > playerMoney)
+        {
+            Debug.Log("Sorry Card Declined");
+            return false;
+        }
+        playerMoney -= price;
+        MoneyChanged.Invoke();
+        return true;
+    }
+
+    public void GainMoney(int gain)
+    {
+        playerMoney += gain;
+    }
+
+    public int GetMoney()
+    {
+        return playerMoney;
+    }
+
+    public void ChangeClass(PlayerClass newClass)
+    {
+        if (newClass == PlayerClass.None)
+        {
+            Debug.LogError("Trying to assign None class");
+        }
+        if (currentArmor.itemClass != newClass && currentArmor != ItemManager.instance.emptyArmor)
+        {
+            AddItem(currentArmor);
+            currentArmor = ItemManager.instance.emptyArmor;
+            //EquipmentChanged.Invoke();
+        }
+        if (currentWeapon.itemClass != newClass && currentWeapon != ItemManager.instance.emptyWeapon)
+        {
+            AddItem(currentWeapon);
+            currentWeapon = ItemManager.instance.emptyWeapon;
+            //EquipmentChanged.Invoke();
+        }
+        for (int i = 0; i < activeConsumables.Length; ++i)
+        {
+            if (activeConsumables[i].GetSample().itemClass != newClass && activeConsumables[i].GetSample().itemClass != PlayerClass.None && activeConsumables[i].GetSample() != ItemManager.instance.emptyItem)
+            {
+                AddSlot(activeConsumables[i]);
+                activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
+            }
+            //EquipmentChanged.Invoke();
+        }
+        currentClass = newClass;
+        InventoryChanged.Invoke();
+
+    }
+
+    public PlayerClass GetClass()
+    {
+        return currentClass;
+    }
+    
+    public enum PlayerClass
+    {
+        None = 0,
+        Warrior = 1,
+        Ranger = 2,
+        Ingeniur = 3
     }
 }
