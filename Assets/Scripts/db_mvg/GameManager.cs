@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     private async void Start()
     {
         var dbService = new DbManager("blablabla");
-        /*
+        
         uint armorId = await dbService.get_armor_id();
         Debug.Log($"Armor ID: {armorId}");
         await dbService.set_player_class("Tank");
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         await dbService.set_player_money(100);
         uint money = await dbService.get_player_money();
         Debug.Log($"Moeny: {money}");
-        */
+        
     }
 
     private void Update()

@@ -26,9 +26,9 @@ public class GpsMvgManager : MonoBehaviour
 
     void Start()
     {
-        stationsJson = Resources.Load<TextAsset>("connections");
-        stations = StationFinder.LoadStationsFromJson(stationsJson.text);
-        StartCoroutine(StartLocationService());
+        //stationsJson = Resources.Load<TextAsset>("connections");
+        //stations = StationFinder.LoadStationsFromJson(stationsJson.text);
+        //StartCoroutine(StartLocationService());
     }
 
     private static string GetCurrentDateTime()

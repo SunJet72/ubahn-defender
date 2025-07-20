@@ -24,7 +24,7 @@ public class GameFlowManager : MonoBehaviour
 
     public void StartGame()
     {
-        
+
     }
 
     public void StopGame()
@@ -43,5 +43,10 @@ public class GameFlowManager : MonoBehaviour
     {
         isReady = false;
         //...
+    }
+
+    public void LogIn(string nickname)
+    {
+        
     }
 }
