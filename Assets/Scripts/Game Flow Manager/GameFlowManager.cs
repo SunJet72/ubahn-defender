@@ -37,7 +37,7 @@ public class GameFlowManager : MonoBehaviour
         isReady = true;
         //.... mock shit
         PlayerInventory inventory = PlayerInventory.instance;
-        NetworkManager.Instance.JoinGame(inventory.GetCurrentWeapon(), inventory.GetCurrentArmor(), PlayerInventory.instance.GetPlayerCombtSystemData(),new List<ScriptableConsumable>());
+        //NetworkManager.Instance.JoinGame(inventory.GetCurrentWeapon(), inventory.GetCurrentArmor(), PlayerInventory.instance.GetPlayerCombtSystemData(),new List<ScriptableConsumable>());
     }
     public void GetUnready()
     {

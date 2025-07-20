@@ -28,6 +28,7 @@ public class UILobbyScreen : MonoBehaviour
         {
             if (!shopEnabled)
             {
+                shopEnabled = true;
                 ArriveAtStation(WorldMapController.instance.currentStation);
             }
             uiShop?.Rebuild(WorldMapController.instance.currentStation);
@@ -36,6 +37,7 @@ public class UILobbyScreen : MonoBehaviour
         {
             if (shopEnabled)
             {
+                shopEnabled = false;
                 LeaveStation();
             }
         }
