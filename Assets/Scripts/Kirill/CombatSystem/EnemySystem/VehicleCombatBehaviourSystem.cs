@@ -24,6 +24,7 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
 
     public void Initialize()
     {
+        Debug.LogWarning("Vehicle Was initialized");
         base.Init();
 
         gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
@@ -65,7 +66,7 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
     {
         if (data.isVehicleToRangers)
         {
-            PlayerMock playerMock = gameCombatManager.GetNearestPlayer(transform);
+            PlayerCombatSystem playerMock = gameCombatManager.GetNearestPlayer(transform);
             if (playerMock == null) return;
             chasingVehicleController.SetTarget(playerMock);
             ChangeCurrentBehaviour(chasingVehicleController);
@@ -81,9 +82,9 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
     private bool started = false;
     public override void FixedUpdateNetwork()
     {
-        if (!timer.IsRunning) timer = TickTimer.CreateFromSeconds(Runner, 7);
+        // if (!timer.IsRunning) timer = TickTimer.CreateFromSeconds(Runner, 7);
 
-        if (!timer.Expired(Runner)) return;
+        // if (!timer.Expired(Runner)) return;
 
         if (!started)
         {
@@ -107,26 +108,35 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
             {
                 enemies[i].gameObject.transform.SetParent(null);
                 enemies[i].VehicleEndedTheAbordageProcess();
+                enemies[i] = null;
             }
         }
         ChangeCurrentBehaviour(escapingVehicleController);
     }
 
     //---// ChasingController //---//
-    public void TellRangersToAttack(PlayerMock playerMock)
+    public void TellRangersToAttack(PlayerCombatSystem player)
     {
         Debug.Log("I am trying to tell the ranger, so that they could attack");
         for (int i = 0; i < enemies.Length; i++)
         {
             if (enemies[i] != null && enemies[i].EnemyType == EnemyType.RANGED)
             {
-                enemies[i].VehicleToldTheRangerToAttack(playerMock);
+                enemies[i].VehicleToldTheRangerToAttack(player);
             }
         }
     }
 
     protected override void Die()
     {
-        throw new System.NotImplementedException();
+        foreach (var enemy in enemies)
+        {
+            if (enemy != null)
+            {
+                enemy.Hurt(999999, 0, this);
+            }
+        }
+        TriggerDeathEvent();
+        Runner.Despawn(Object);
     }
 }

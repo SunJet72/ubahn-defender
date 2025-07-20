@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Fire Cry
   spellDescription: 
-  icon: {fileID: 0}
-  radius: 3
+  icon: {fileID: 21300000, guid: 938fe8a707639924ba6fddfe92c9a04f, type: 3}
+  radius: 9.78
   executionTime: 4
   executionDelay: 0.5
   executionAmount: 20

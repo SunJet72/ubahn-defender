@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Pew Pew
   spellDescription: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: f4ada3c98cb59417fae316f6fc0d6910, type: 3}
   targetType: 2
-  targetTypes: 
+  targetTypes: 0100000002000000
   flightSpeed: 3
   maxDistance: 0
   _projectile: {fileID: 3221260235161707329, guid: d94c31f834d2b7f4189e105e0b164daa, type: 3}
-  executionTime: 0
-  executionDelay: 0
-  executionAmount: 0
-  damageProExecution: 0
+  executionTime: 0.5
+  executionDelay: 0.25
+  executionAmount: 1
+  damageProExecution: 3

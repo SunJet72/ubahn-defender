@@ -156,7 +156,7 @@ public class SpacetimeDBController : MonoBehaviour
             armor = ItemManager.instance.getItem(id);
             if (armor == null || armor is not ScriptableArmor)
             {
-                Debug.LogError("Some shit in db weapon slot");
+                Debug.LogError("Some shit in db armor slot");
                 return ItemManager.instance.emptyArmor;
             }
         }

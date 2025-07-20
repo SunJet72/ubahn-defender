@@ -6,6 +6,7 @@ public abstract class UnitController : NetworkBehaviour
 {
     public abstract UnitData UnitData { get; }
     public event Action<UnitController> OnDieEvent;
+    public event Action<UnitController> OnHurtEvent; // Arg is Attacker
 
     [Networked, OnChangedRender(nameof(OnHealthChanged))]
     private float health { get; set; }
@@ -23,9 +24,9 @@ public abstract class UnitController : NetworkBehaviour
     public float Health { get => health; }
     public float Armor { get => armor; }
     public float Strength { get => strength; }
-    public float Speed { get => speed * (speedMultiplex <= 0.1 ? 0.1f: speedMultiplex); }
-    public float AttackSpeed { get => attackSpeed * (attackSpeedMultiplex <= 0.1 ? 0.1f: attackSpeedMultiplex); }
-    public float ArmorPenetration { get => armorPenetration; }
+    public float Speed { get => speed * (speedMultiplex <= 0.1 ? 0.1f : speedMultiplex); }
+    public float AttackSpeed { get => attackSpeed * (attackSpeedMultiplex <= 0.1 ? 0.1f : attackSpeedMultiplex); }
+    public float ArmorPenetration { get => armorPenetration >= 90f ? 90f : armorPenetration; }
 
     private float speedMultiplex;
     private float attackSpeedMultiplex;
@@ -59,7 +60,7 @@ public abstract class UnitController : NetworkBehaviour
         armorPenetration += unitData.armorPenetration;
 
         Debug.Log("Attack Speed after adding just: " + attackSpeed);
-        Debug.Log("Current attack speed:" + AttackSpeed); 
+        Debug.Log("Current attack speed:" + AttackSpeed);
     }
 
     public void ApplyStatusEffect(StatusEffect statusEffect)
@@ -125,10 +126,13 @@ public abstract class UnitController : NetworkBehaviour
         }
     }
 
-    public virtual void Hurt(float damage, UnitController attacker)
+    public virtual void Hurt(float damage, float penetration, UnitController attacker)
     {
-        Debug.Log("Unit was hurt " + gameObject);
-        health -= damage * (100f / (100f + this.armor - attacker.UnitData.armorPenetration));
+        Debug.Log("Unit was hurt " + gameObject + " Damage: " + damage + " penetration: " + penetration);
+        Debug.Log("Health before: " + Health);
+        health -= damage * (100f / (100f + this.armor - penetration));
+        Debug.Log("Health after: " + Health);
+        OnHurtEvent?.Invoke(attacker);
         if (health <= 0)
         {
             health = 0;
@@ -142,4 +146,9 @@ public abstract class UnitController : NetworkBehaviour
     }
 
     protected abstract void Die(); // In all Fällen OnDieEvent shooten
+
+    protected void TriggerDeathEvent()
+    {
+        OnDieEvent?.Invoke(this);
+    }
 }

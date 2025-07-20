@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TrainSystem : NetworkBehaviour
 {
+    public static TrainSystem Instance { get; private set; }
     [SerializeField] private int playerAmount; // Has to be determined by Server
 
     [SerializeField] private const int BOXES_PRO_PLAYER = 2;
@@ -12,9 +13,9 @@ public class TrainSystem : NetworkBehaviour
     [SerializeField] private GameObject ectsContainerPrefab;
 
     [Networked]
-    private int totalBoxesAmount { get; set; }
+    public int TotalBoxesAmount { get; private set; }
     [Networked]
-    private int maxBoxesAmount { get; set; }
+    public int MaxBoxesAmount { get; set; }
 
     private float trainLength;
 
@@ -26,6 +27,7 @@ public class TrainSystem : NetworkBehaviour
 
     public override void Spawned()
     {
+        Instance = this;
         if (Runner.IsServer)
         {
             rand = new System.Random();
@@ -61,7 +63,7 @@ public class TrainSystem : NetworkBehaviour
                  + new Vector3(0, _distanceBetweenContainers * (i + 1));
                 containers[i] = spawned.GetComponent<EctsContainer>();
                 containers[i].BoxesAmount = BOXES_PRO_PLAYER * 3;
-                maxBoxesAmount += containers[i].BoxesAmount;
+                MaxBoxesAmount += containers[i].BoxesAmount;
                 containers[i].trainSystem = this;
             });
         }
@@ -70,7 +72,7 @@ public class TrainSystem : NetworkBehaviour
         {
             int id = rand.Next(containersAmount);
             containers[id].BoxesAmount -= BOXES_PRO_PLAYER;
-            maxBoxesAmount -= BOXES_PRO_PLAYER;
+            MaxBoxesAmount -= BOXES_PRO_PLAYER;
         }
     }
 
@@ -93,7 +95,7 @@ public class TrainSystem : NetworkBehaviour
 
     public void BoxesAmountChanged(int deltaAmount)
     {
-        totalBoxesAmount += deltaAmount;
-        UIEvents.HealthChanged(totalBoxesAmount, maxBoxesAmount);
+        TotalBoxesAmount += deltaAmount;
+        UIEvents.HealthChanged(TotalBoxesAmount, MaxBoxesAmount);
     }
 }

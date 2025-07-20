@@ -21,6 +21,7 @@ public class CircleSpellExecutor : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+        if (!Runner.IsServer) return;
         if (!spellTimer.Expired(Runner)) return;
         
         float interval = data.executionTime / data.executionAmount;
@@ -33,15 +34,16 @@ public class CircleSpellExecutor : NetworkBehaviour
         }
         else
         {
-            Destroy(this);
+            Runner.Despawn(Object);
         }
     }
 
     private void DealDamage()
     {
-        Collider[] hits = Physics.OverlapSphere(castTransform.position, data.radius, LayerMask.GetMask("Enemy"));
+        Debug.Log("I am using Circle Spell and try to deal damage with it");
+        Collider2D[] hits = Physics2D.OverlapCircleAll(castTransform.position, data.radius);
 
-        foreach (Collider hit in hits)
+        foreach (Collider2D hit in hits)
         {
             Debug.Log("I hit an enemy with circle: " + hit.gameObject);
             if (hit.TryGetComponent(out UnitController unit))
@@ -49,13 +51,13 @@ public class CircleSpellExecutor : NetworkBehaviour
                 if (unit is PlayerCombatSystem)
                     return;
                 Debug.Log("I am hitting an enemy");
-                unit.Hurt(CalculateDamage(data.damageProExecution), player);
+                unit.Hurt(CalculateDamage(data.damageProExecution), player.ArmorPenetration, player);
             }
         }
     }
 
     private float CalculateDamage(float damage)
     {
-        return damage * ((100f + damage) / 100f);
+        return damage * ((100f + player.Strength) / 100f);
     }
 }

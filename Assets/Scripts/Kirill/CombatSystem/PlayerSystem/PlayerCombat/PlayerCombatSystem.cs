@@ -21,6 +21,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     private float curAttackCooldown = 0f;
     private bool isSetUp = false;
 
+    [SerializeField] private CircleCollider2D detectionCollider;
+
     List<UnitType> unitTypesEnemy;
     List<UnitType> unitTypesVehicle;
     List<UnitType> unitTypesEnemyAndVehicle;
@@ -89,6 +91,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
         ApplyUnitDataStats(armorEq.unitData);
         ApplyUnitDataStats(weaponEq.unitData);
+
+        detectionCollider.radius = weaponEq.range;
 
         //TODO Handle Consumables
 
@@ -191,7 +195,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 {
                     if (hit.TryGetComponent(out EnemyCombatBehaviourSystem enemy))
                     {
-                        enemy.Hurt(CalculateDamage(weaponEq.damage), this);
+                        enemy.Hurt(CalculateDamage(weaponEq.damage), ArmorPenetration, this);
                     }
                 }
             }
@@ -199,7 +203,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         else
         {
             // TODO: Add delay and visual interpretation of hit. For noe just do it instantly
-            target.Hurt(CalculateDamage(weaponEq.damage), this);
+            target.Hurt(CalculateDamage(weaponEq.damage), ArmorPenetration, this);
         }
         curAttackCooldown = weaponEq.cooldown;
     }
@@ -291,12 +295,14 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     }
     protected override void Die()
     {
-        throw new System.NotImplementedException();
+        TriggerDeathEvent();
+
+        gameObject.SetActive(false);
     }
 
     private float CalculateDamage(float damage)
     {
-        return damage * ((100f + damage) / 100f);
+        return damage * ((100f + Strength) / 100f);
     }
 
     public UnitController GetCurrentTargetSelected()
@@ -306,6 +312,9 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     public override void OnHealthChanged()
     {
-        UIEvents.ShieldChanged((int)Health, (int)data.health);
+        if (Runner.GetPlayerObject(Runner.LocalPlayer).Equals(Object))
+        {
+            UIEvents.ShieldChanged((int)Health, (int)data.health);
+        }
     }
 }

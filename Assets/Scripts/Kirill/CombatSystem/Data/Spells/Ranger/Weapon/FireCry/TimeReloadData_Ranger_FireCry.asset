@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e09506821fb2e44a775ff7253f94fb, type: 3}
   m_Name: TimeReloadData_Ranger_FireCry
   m_EditorClassIdentifier: 
-  reloadTime: 24
+  reloadTime: 2

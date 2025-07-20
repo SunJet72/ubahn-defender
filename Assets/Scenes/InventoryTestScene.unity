@@ -1577,8 +1577,8 @@ MonoBehaviour:
   currentClass: 1
   nickname: Roflopafl
   ingeneerData: {fileID: 11400000, guid: a65b53dc47773844b8ee183d29a67fa6, type: 2}
-  RangerData: {fileID: 0}
-  WarriorData: {fileID: 0}
+  RangerData: {fileID: 11400000, guid: c723cc600b253ab4e80cd003b4251365, type: 2}
+  WarriorData: {fileID: 11400000, guid: 1fd0b1ff5e53f39469967462b8ca4b34, type: 2}
 --- !u!212 &439166124
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3969,7 +3969,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1221364338}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.94814813
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6132,7 +6132,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1080, y: 1475}
+  m_AnchoredPosition: {x: -1024, y: 1475}
   m_SizeDelta: {x: 2160, y: 3070.6736}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1738202802

@@ -14,6 +14,12 @@ public class StealingBehaviourController : CombatBehaviourController
 
     public override void OnStartBehaviour()
     {
+        ectsContainer.OnDieEvent += OnHauntedContainerFullyStolen;
+        if (data.canBeCancelledByAttack)
+        {
+            Controller.OnHurtEvent += OnChangeAggro;
+        }
+
         timeSpent = 0;
     }
 
@@ -30,8 +36,24 @@ public class StealingBehaviourController : CombatBehaviourController
     {
         Controller.BoxWasStolen(ectsContainer);
     }
+
+    private void OnHauntedContainerFullyStolen(EctsContainer container)
+    {
+        if (ectsContainer != container)
+        {
+            Debug.LogWarning("Wrong Container. Probably forgot to unsubscribe or smth else happened wrong");
+            return;
+        }
+        Controller.ContainerWasEmptied(container);
+    }
+
+    private void OnChangeAggro(UnitController attacker)
+    {
+        if (attacker != null)
+            Controller.ChangeAggro(attacker);
+    }
     
-        public override void OnEndBehaviour()
+    public override void OnEndBehaviour()
     {
         timeSpent = 0;
         target = null;
