@@ -32,13 +32,11 @@ public class DbManager
         Conn = builder.Build();
     }
 
-    const string SERVER_URL = "http://127.0.0.1:3000";
+    const string SERVER_URL = "https://ubahn.sunjet-project.de";
     const string MODULE_NAME = "spacetime-db-service";
 
     public static Identity LocalIdentity { get; private set; }
     public static DbConnection Conn { get; private set; }
-
-    // Event do powiadomień o aktualizacji rekordu Train
     public event Action<Train> OnTrainUpdated;
 
     private void HandleConnect(DbConnection conn, Identity identity, string token)
@@ -178,10 +176,14 @@ public class DbManager
         var player = Conn.Db.Player.PlayerId.Find(player_id);
         return player?.ClassName ?? "Unknown";
     }
-
     public async Task set_player_class(string class_name)
     {
         await WaitUntilReady();
         Conn.Reducers.SetPlayerClass(player_id, class_name);
+    }
+    public async Task set_train_started(string from, string to, bool _started)
+    {
+        await WaitUntilReady();
+        Conn.Reducers.SetTrainStarted(from, to, _started);
     }
 }

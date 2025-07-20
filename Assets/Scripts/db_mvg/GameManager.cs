@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("gpsManager is NULL!");
         }
     }
-
+    
     private async void OnHasStartedChanged(bool hasStarted, string from, string to)
     {
         isMoving = hasStarted;
@@ -44,12 +44,11 @@ public class GameManager : MonoBehaviour
         fromStationId = from;
         toStationId = to;
 
-        if (db_service != null)
+        if (db_service != null && hasStarted == true)
         {
             try
             {
-                await db_service.enter_the_train(from, to);
-                
+                await db_service.set_train_started(from, to, hasStarted);                
             }
             catch (System.Exception ex)
             {
@@ -67,18 +66,17 @@ public class GameManager : MonoBehaviour
             isMoving = false;
             eventTriggered = true;
 
-            if (db_service != null)
+            if (db_service != null && hasStopped == true)
             {
                 try
                 {
-                    await db_service.leave_the_train(from, to);
+                    await db_service.set_train_started(from, to, !hasStopped);
                 }
                 catch (System.Exception ex)
                 {
                     Debug.LogError($"Error in leave_the_train: {ex.Message}");
                 }
             }
-
             Debug.Log("OnHasStoppedChanged: hasStopped=true");
         }
     }

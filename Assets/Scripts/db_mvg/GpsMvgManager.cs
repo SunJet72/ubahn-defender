@@ -7,9 +7,8 @@ using UnityEngine.Networking;
 
 public class GpsMvgManager : MonoBehaviour
 {
-
     public static GpsMvgManager instance;
-    public static float maxDistance = 100f, minSpeed = 20f, maxTimeToGo = 2f;
+    public static float maxDistance = 150f, minSpeed = 20f, maxTimeToGo = 2f;
     private float latitude, longitude;
     private float speed = 0.0f;
     private int loop_delay = 1;
@@ -24,7 +23,6 @@ public class GpsMvgManager : MonoBehaviour
     public event Action<bool, string, string> OnHasStartedChanged;
     public event Action<bool, string, string> OnHasStoppedChanged;
 
-    // NEW: event wykrycia nowej stacji
     public event Action<Station> OnNewStationDetected;
     private HashSet<string> knownStationIds = new HashSet<string>();
 
