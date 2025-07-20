@@ -8,6 +8,9 @@ public class ScriptableWeapon : ScriptableItemBase
     public float damage;
     public float attackSpeed;
     public float armorPenetration;
+    public float range;
+    public float cooldown;
+
 
     public UnitData unitData;
     public bool canShoot;

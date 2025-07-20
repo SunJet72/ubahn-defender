@@ -58,7 +58,7 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
     {
         if (curController == null)
         {
-            Debug.LogError("I dont have needed behaviour controller");
+            // Debug.LogError("I dont have needed behaviour controller");
             return;
         }
         curController.OnFixedUpdateBehave();

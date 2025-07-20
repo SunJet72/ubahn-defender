@@ -14,13 +14,7 @@ public abstract class ScriptableActionBase : ScriptableObject
     public bool isPassive;
 
 
-<<<<<<< HEAD
-#if UNITY_EDITOR
-    public MonoScript ComponentSkript;
-#endif
-=======
     //public MonoScript ComponentSkript;
->>>>>>> inventory
 
     public Component SetUp(GameObject player, UnityEvent actionEvent)
     {
@@ -54,14 +48,8 @@ public abstract class ScriptableActionBase : ScriptableObject
 
         ((IActionable)action).SetUp(player, this, actionEvent);
         return action;
-<<<<<<< HEAD
-#else
-        return null;
-#endif
-=======
         */
         return null;
->>>>>>> inventory
     }
 
 }

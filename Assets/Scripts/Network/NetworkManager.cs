@@ -40,14 +40,18 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     private Color[] colorPool = { Color.blue, Color.yellow, Color.magenta };
 
-    [SerializeField] private ScriptableWeapon scriptableWeaponBuffer;
-    [SerializeField] private ScriptableArmor scriptableArmorBuffer;
-    [SerializeField] private PlayerCombatSystemData playerCombatSystemData;
-    [SerializeField] private List<ScriptableConsumable> consumables;
+    private ScriptableWeapon scriptableWeapon;
+    private ScriptableArmor scriptableArmor;
+    private PlayerCombatSystemData playerCombatSystemData;
+    private List<ScriptableConsumable> consumables;
 
-    async void StartGame(GameMode mode)
+    private void Awake()
     {
         Instance = this;
+    }
+
+    async void StartGame(GameMode mode, string roomName = "TestRoom")
+    {
 
         _myrunner = gameObject.AddComponent<NetworkRunner>();
         _myrunner.ProvideInput = true;
@@ -66,7 +70,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         await _myrunner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
-            SessionName = "TestRoom",
+            SessionName = roomName,
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
@@ -90,7 +94,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 spawned.transform.localScale = Vector3.one * 2;
 
                 PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
-                playerCombatSystem.Init(playerCombatSystemData, scriptableArmorBuffer, scriptableWeaponBuffer, consumables);
+                playerCombatSystem.Init(playerCombatSystemData, scriptableArmor, scriptableWeapon, consumables);
             });
 
             // _spawnedPlayers.Add(playerRef, playerObj);
@@ -113,7 +117,6 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     {
         _xPressed = _xPressed || Input.GetKey(KeyCode.X);
         _cPressed = _cPressed || Input.GetKey(KeyCode.C);
-
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -129,20 +132,30 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         input.Set(data);
     }
 
-    private void OnGUI()
+    public void JoinGame(ScriptableWeapon scriptableWeapon, ScriptableArmor scriptableArmor,
+        PlayerCombatSystemData playerCombatSystemData, List<ScriptableConsumable> consumables, string roomName = "TestRoom")
     {
-        if (_myrunner == null)
-        {
-            if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
-            {
-                StartGame(GameMode.Host);
-            }
-            if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
-            {
-                StartGame(GameMode.Client);
-            }
-        }
+        this.scriptableWeapon = scriptableWeapon;
+        this.scriptableArmor = scriptableArmor;
+        this.playerCombatSystemData = playerCombatSystemData;
+        this.consumables = consumables;
+
+        StartGame(GameMode.AutoHostOrClient, roomName);
     }
+    // private void OnGUI()
+    // {
+    //     if (_myrunner == null)
+    //     {
+    //         if (GUI.Button(new Rect(0, 0, 200, 40), "Host"))
+    //         {
+    //             StartGame(GameMode.Host);
+    //         }
+    //         if (GUI.Button(new Rect(0, 40, 200, 40), "Join"))
+    //         {
+    //             StartGame(GameMode.Client);
+    //         }
+    //     }
+    // }
 
     public PlayerCombatSystem GetCurrentPlayer()
     {

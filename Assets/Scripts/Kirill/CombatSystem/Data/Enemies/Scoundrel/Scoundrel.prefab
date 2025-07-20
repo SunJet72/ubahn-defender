@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0fdbe2e84acdf4281983a601fcb819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: b6e20398d56b46b4d8c28e72227d42e7, type: 2}
+  data: {fileID: 0}
   useRidingController: 1
   useAttackingMeleeController: 0
   useAttackingRangedController: 0

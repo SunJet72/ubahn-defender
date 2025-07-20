@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxesAmountIndicator: {fileID: 866572381036667483}
+  _BoxesAmount: 0
 --- !u!114 &-1838578021849079491
 MonoBehaviour:
   m_ObjectHideFlags: 0

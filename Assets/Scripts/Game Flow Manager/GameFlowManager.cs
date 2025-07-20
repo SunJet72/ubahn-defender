@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameFlowManager : MonoBehaviour
@@ -35,9 +35,10 @@ public class GameFlowManager : MonoBehaviour
     public void GetReady()
     {
         isReady = true;
-        //....
+        //.... mock shit
+        PlayerInventory inventory = PlayerInventory.instance;
+        NetworkManager.Instance.JoinGame(inventory.GetCurrentWeapon(), inventory.GetCurrentArmor(), PlayerInventory.instance.GetPlayerCombtSystemData(),new List<ScriptableConsumable>());
     }
-
     public void GetUnready()
     {
         isReady = false;

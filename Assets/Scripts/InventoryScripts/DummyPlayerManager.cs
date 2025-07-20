@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-using System.Collections.Generic;
-=======
->>>>>>> inventory
 using UnityEngine;
 using UnityEngine.Events;
 

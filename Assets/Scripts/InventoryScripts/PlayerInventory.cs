@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,6 +22,8 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private PlayerClass currentClass = PlayerClass.Warrior;
     [SerializeField] private string nickname = "Roflopafl";
+
+    [SerializeField] private PlayerCombatSystemData ingeneerData;
 
 
     void Awake()
@@ -287,9 +290,26 @@ public class PlayerInventory : MonoBehaviour
 
     }
 
+    public List<InventorySlot> GetFilteredConsumable()
+    {
+        return activeConsumables.Where(item => item.GetSample() != ItemManager.instance.emptyItem).ToList();
+    }
+
     public PlayerClass GetClass()
     {
         return currentClass;
+    }
+
+    public PlayerCombatSystemData GetPlayerCombtSystemData()
+    {
+        switch (currentClass)
+        {
+            case PlayerClass.Warrior:
+            case PlayerClass.Ranger:
+            case PlayerClass.Ingeniur:
+                return ingeneerData;
+        }
+        return null;
     }
     
     public enum PlayerClass
