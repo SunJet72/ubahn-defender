@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -40.186157, y: -745}
+  m_AnchoredPosition: {x: -40.186035, y: -745}
   m_SizeDelta: {x: -142.3719, y: 120.1456}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1162407484155865952
@@ -67,15 +67,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Station`s Stock
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
+  m_sharedMaterial: {fileID: -5205617085117796228, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -203,15 +203,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Welcome To {"Station name"}
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1589e2e15efa70148ab433cf58e005c9, type: 2}
-  m_sharedMaterial: {fileID: 8921206569370273687, guid: 1589e2e15efa70148ab433cf58e005c9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
+  m_sharedMaterial: {fileID: -5205617085117796228, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4281780479
+  m_fontColor: {r: 1, g: 0.78419685, b: 0.21226418, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -228,17 +228,17 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 110
   m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 100
+  m_fontSizeMax: 110
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 2
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -333,15 +333,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.043137256}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 209ac9ddfcfe52540a667fde80173db0, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -581,15 +581,15 @@ MonoBehaviour:
 
     Stations Wealth:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1589e2e15efa70148ab433cf58e005c9, type: 2}
-  m_sharedMaterial: {fileID: 8921206569370273687, guid: 1589e2e15efa70148ab433cf58e005c9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
+  m_sharedMaterial: {fileID: -5205617085117796228, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -713,15 +713,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5254902}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 4927094913211446959, guid: 3f38cf9350625d6478e17db05a071f74, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -754,6 +754,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4331586164093412591}
     m_Modifications:
+    - target: {fileID: 1190557378276310838, guid: 9825ad5fa09e76363b32d67202414036, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1190557378276310838, guid: 9825ad5fa09e76363b32d67202414036, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6a3064b0bda2c7843bd697d3b759451e, type: 3}
     - target: {fileID: 2341740896063458118, guid: 9825ad5fa09e76363b32d67202414036, type: 3}
       propertyPath: m_CellSize.y
       value: 700

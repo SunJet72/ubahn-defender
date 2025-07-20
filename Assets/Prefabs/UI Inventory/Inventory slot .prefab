@@ -27,15 +27,15 @@ RectTransform:
   m_GameObject: {fileID: 396457636181089191}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.9386873, y: 8.014351, z: 10.183613}
+  m_LocalScale: {x: 1.5601577, y: 1.5790299, z: 2.675346}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6050204786417268974}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12, y: 12}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 8, y: 7}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9107846704051385242
 CanvasRenderer:
@@ -218,8 +218,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Item title
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1589e2e15efa70148ab433cf58e005c9, type: 2}
-  m_sharedMaterial: {fileID: 8921206569370273687, guid: 1589e2e15efa70148ab433cf58e005c9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
+  m_sharedMaterial: {fileID: -5205617085117796228, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 58.8
   m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -354,8 +354,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Num
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1589e2e15efa70148ab433cf58e005c9, type: 2}
-  m_sharedMaterial: {fileID: 8921206569370273687, guid: 1589e2e15efa70148ab433cf58e005c9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
+  m_sharedMaterial: {fileID: -5205617085117796228, guid: 161861c4fbecdc8419d55677a3c6ef67, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "com.clockworklabs.spacetimedbsdk": "https://github.com/clockworklabs/com.clockworklabs.spacetimedbsdk.git",
-    "com.unity.adaptiveperformance": "5.1.4",
     "com.emrecelik95.lightscrollsnap": "https://github.com/emrecelik95/LightScrollSnap.git",
+    "com.unity.adaptiveperformance": "5.1.4",
     "com.unity.ai.navigation": "2.0.8",
     "com.unity.cinemachine": "3.1.4",
     "com.unity.collab-proxy": "2.8.2",
@@ -16,6 +16,7 @@
     "com.unity.render-pipelines.universal": "17.0.3",
     "com.unity.timeline": "1.8.7",
     "com.unity.toolchain.linux-x86_64": "2.0.10",
+    "com.unity.toolchain.win-x86_64-linux-x86_64": "2.0.10",
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.9.4",
     "com.unity.modules.accessibility": "1.0.0",

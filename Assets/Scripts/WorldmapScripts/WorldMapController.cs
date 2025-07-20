@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using NUnit.Framework;
 
 public class WorldMapController : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class WorldMapController : MonoBehaviour
 
     public HashSet<Station> map = new HashSet<Station>();
     private Coroutine _stationChecker;
+
+    public bool temp = false;
 
     [SerializeField] private float CheckStationDelay;
     public bool isOnStation { get; private set; } = false;
@@ -53,10 +56,8 @@ public class WorldMapController : MonoBehaviour
         }
         LoadMapData();
 
-        // foreach (Station station in map)
-        // {
-        //     Debug.Log(station);
-        // }
+        // remove it later
+        StartChecking();
 
     }
 
@@ -147,18 +148,19 @@ public class WorldMapController : MonoBehaviour
         while (true)
         {
             // if check for station 
-            string nearestStationId = "";
-            if (nearestStationId != "") // if station is near
+            string nearestStationId = "a";
+            if (temp) // if station is near
             {
                 if (!isOnStation)
                 {
                     //mock
                     isOnStation = true;
-                    ConnectToStation(instance.GetStationById(nearestStationId));
+                    ConnectToStation(instance.GetStationById("de:09162:780"));
                 }
             }
             else
             {
+                Debug.Log("not on station");
                 if (isOnStation)
                 {
                     isOnStation = false;
@@ -183,4 +185,13 @@ public class WorldMapController : MonoBehaviour
 
     }
 
+    public void SetTrueTemp()
+    {
+        temp = true;
+    }
+
+    public void SetFalseTemp()
+    {
+        temp = false;
+    }
 }
