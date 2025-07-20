@@ -33,8 +33,6 @@ public class DbManager
     }
 
     const string SERVER_URL = "https://ubahn.sunjet-project.de";
-    //const string SERVER_URL = "http://127.0.0.1:3000";
-
     const string MODULE_NAME = "spacetime-db-service";
 
     public static Identity LocalIdentity { get; private set; }
@@ -86,7 +84,7 @@ public class DbManager
     }
 
     ////////////////////////////////////////////////////////
-    /// TWOJE METODY ASYNC
+    /// ASYNC METHODS
 
     public async Task enter_the_train(string from, string to)
     {
