@@ -22,7 +22,7 @@ public class WorldMapController : MonoBehaviour
     public bool temp = false;
 
     [SerializeField] private float CheckStationDelay;
-    public bool isOnStation { get; private set; } = false;
+    public bool isOnStation = false;
     void Awake()
     {
         if (instance == null)
@@ -160,14 +160,13 @@ public class WorldMapController : MonoBehaviour
         {
             // if check for station 
             string nearestStationId = GpsMvgManager.instance.IsOnStation();
-            //if (nearestStationId !=String.Empty) // if station is near
-            if(temp)
+            if (nearestStationId !=String.Empty) // if station is near
             {
                 if (!isOnStation)
                 {
                     isOnStation = true;
-                    //ConnectToStation(instance.GetStationById(nearestStationId));
-                    ConnectToStation(GetStationById("de:09162:1250"));
+                    ConnectToStation(instance.GetStationById(nearestStationId));
+                    //ConnectToStation(GetStationById("de:09162:100"));
                 }
             }
             else
@@ -186,7 +185,7 @@ public class WorldMapController : MonoBehaviour
     {
         currentStation = nearStation;
         ShopManager.instance?.InitShopForStation(nearStation);
-        UIMasterController.instance.RebuildAll();
+        UIMasterController.instance.RebuildLobby();
     }
 
     private void DisconnectFromStation()
