@@ -33,6 +33,8 @@ public class DbManager
     }
 
     const string SERVER_URL = "https://ubahn.sunjet-project.de";
+    //const string SERVER_URL = "http://127.0.0.1:3000";
+
     const string MODULE_NAME = "spacetime-db-service";
 
     public static Identity LocalIdentity { get; private set; }
@@ -185,5 +187,14 @@ public class DbManager
     {
         await WaitUntilReady();
         Conn.Reducers.SetTrainStarted(from, to, _started);
+    }
+    public async Task add_prize_and_leave_the_train(string train_id, float ratio)
+    {
+        await WaitUntilReady();
+        uint player_money_value = await get_player_money();
+        uint train_money_value = Conn.Db.Train.Id.Find(train_id).Money;
+        player_money_value += (uint)(train_money_value * ratio);
+        await set_player_money(player_money_value);
+        await leave_the_train(train_id, "");
     }
 }

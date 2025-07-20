@@ -9,7 +9,7 @@ public class GameFlowManager : MonoBehaviour
     private bool isReady = false;
     [SerializeField] private float locationRefreshTime;
 
-    void Awake()
+    void Start()
     {
         if (instance == null)
         {
@@ -20,7 +20,7 @@ public class GameFlowManager : MonoBehaviour
             Destroy(this);
         }
         DontDestroyOnLoad(this);
-        //LogIn("browski");
+        LogIn("browski");
     }
 
     public void StartGame()
