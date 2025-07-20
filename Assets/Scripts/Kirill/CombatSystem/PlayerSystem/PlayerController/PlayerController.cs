@@ -6,16 +6,18 @@ public class PlayerController : NetworkBehaviour
     private float speed = 5f;
     private PlayerControls controls;
     [SerializeField] private Rigidbody2D rb;
-    private float moveInput;
 
-    void Awake()
-    {
-        controls = new PlayerControls();
-    }
+    public float MoveInput { get; private set; }
+
+    // public override void Spawned()
+    // {
+       
+    // }
     private void OnEnable()
     {
-        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>().y;
-        controls.Player.Move.canceled += ctx => moveInput = 0f;
+        controls = new PlayerControls();
+        controls.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>().y;
+        controls.Player.Move.canceled += ctx => MoveInput = 0f;
         controls.Enable();
     }
     private void OnDisable()
@@ -25,6 +27,7 @@ public class PlayerController : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        rb.linearVelocityY = moveInput * speed;
+        if (GetInput<NetworkInputData>(out var input) == false) return;
+        rb.linearVelocityY = input.moveInput * speed;
     }
 }

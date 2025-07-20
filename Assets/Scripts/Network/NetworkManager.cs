@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
@@ -44,6 +45,8 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     private ScriptableArmor scriptableArmor;
     private PlayerCombatSystemData playerCombatSystemData;
     private List<ScriptableConsumable> consumables;
+
+    private PlayerController playerController;
 
     private void Awake()
     {
@@ -95,11 +98,13 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
                 PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
                 playerCombatSystem.Init(playerCombatSystemData, scriptableArmor, scriptableWeapon, consumables);
+
             });
 
             // _spawnedPlayers.Add(playerRef, playerObj);
             runner.SetPlayerObject(playerRef, playerObj);
         }
+        
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
@@ -110,24 +115,19 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         }
     }
 
-    private bool _xPressed;
-    private bool _cPressed;
-
-    private void Update()
-    {
-        _xPressed = _xPressed || Input.GetKey(KeyCode.X);
-        _cPressed = _cPressed || Input.GetKey(KeyCode.C);
-    }
-
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        var data = new NetworkInputData();
+        NetworkInputData data = new NetworkInputData();
 
-        data.Buttons.Set(NetworkInputData.X, _xPressed);
-        data.Buttons.Set(NetworkInputData.C, _cPressed);
-
-        _xPressed = false;
-        _cPressed = false;
+        if (playerController == null)
+        {
+            NetworkObject playerObj = runner.GetPlayerObject(runner.LocalPlayer);
+            if (playerObj == null) return;
+            playerController = playerObj.GetComponent<PlayerController>();
+            // Debug.LogWarning("NetworkManager.OnInput(): Player has no controller.");
+            // return;
+        }
+        data.moveInput = playerController.MoveInput;
 
         input.Set(data);
     }
