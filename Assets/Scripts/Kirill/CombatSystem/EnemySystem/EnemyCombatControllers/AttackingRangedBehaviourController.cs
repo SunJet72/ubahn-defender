@@ -1,19 +1,26 @@
 using UnityEngine;
 using System;
+using Fusion;
+using System.Collections.Generic;
 
 public class AttackingRangedBehaviourController : CombatBehaviourController
 {
     [SerializeField] private EnemyRangedAttackData data;
 
     private Transform target;
-    private PlayerMock chaisedPlayer;
+    private PlayerCombatSystem chaisedPlayer;
     private float curAttackCooldown = 0f;
 
-    public void SetTarget(PlayerMock player)
+    List<UnitType> unitTypes = new List<UnitType>();
+
+    public void SetTarget(PlayerCombatSystem player)
     {
         chaisedPlayer = player;
         target = chaisedPlayer.gameObject.transform;
-        player.onDieEvent += OnPlayerKilled;
+        player.OnDieEvent += OnPlayerKilled;
+
+        if (unitTypes.Count == 0)
+            unitTypes.Add(UnitType.PLAYER);
     }
 
     //---// Behaviour //---//
@@ -28,7 +35,7 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
 
     public override void OnFixedUpdateBehave()
     {
-        curAttackCooldown -= Time.fixedDeltaTime;
+        curAttackCooldown -= Runner.DeltaTime * Controller.AttackSpeed;
 
         if (curAttackCooldown <= 0)
         {
@@ -38,20 +45,27 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
 
     private void Attack()
     {
-        var projectile = Instantiate(data._projectile);
-        projectile.transform.position = transform.position;
-        projectile.GetComponent<Projectile>().SetTarget((target.position - transform.position).normalized);
-        curAttackCooldown = data.timeBetweenAttacks;
+        if (Runner.IsServer)
+        {
+            NetworkObject projectile = Runner.Spawn(data._projectile, onBeforeSpawned: (runner, spawned) =>
+            {
+                spawned.transform.position = transform.position;
+                spawned.GetComponent<Projectile>().SetTarget(
+                    (target.position - transform.position).normalized, Controller, CalculateDamage(data.damage), unitTypes);
+            });
+            
+            curAttackCooldown = 1f;
+        }
     }
 
-    private void OnPlayerKilled(System.Object obj, EventArgs e)
+    private void OnPlayerKilled(UnitController unit)
     {
         LoseTarget();
     }
 
     private void LoseTarget()
     {
-        chaisedPlayer.onDieEvent -= OnPlayerKilled;
+        chaisedPlayer.OnDieEvent -= OnPlayerKilled;
         chaisedPlayer = null;
         target = null;
         Controller.RangedLoseTarget();
@@ -61,6 +75,10 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
     {
         chaisedPlayer = null;
         target = null;
-        curAttackCooldown = data.timeBetweenAttacks;
+        curAttackCooldown = 1f;
+    }
+
+    private float CalculateDamage(float damage) {
+        return damage * ((100f + damage) / 100f);
     }
 }

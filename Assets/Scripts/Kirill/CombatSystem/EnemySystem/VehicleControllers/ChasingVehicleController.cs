@@ -5,12 +5,12 @@ public class ChasingVehicleController : VehicleBehaviourController
     Transform targetTransform;
     Vector2 targetPosition;
     bool isChasingThePoint;
-    PlayerMock playerMock;
+    PlayerCombatSystem player;
     [SerializeField] private ChasingVehicleControllerData data;
-    public void SetTarget(PlayerMock playerMock)
+    public void SetTarget(PlayerCombatSystem player)
     {
-        this.playerMock = playerMock;
-        this.targetTransform = playerMock.gameObject.transform;
+        this.player = player;
+        this.targetTransform = player.gameObject.transform;
         DeterminePosition();
     }
     public override void OnStartBehaviour()
@@ -29,7 +29,7 @@ public class ChasingVehicleController : VehicleBehaviourController
     {
         if (isChasingThePoint)
         {
-            transform.Translate((targetPosition - (Vector2)transform.position).normalized * data.vehicleSpeed * Time.fixedDeltaTime);
+            transform.Translate((targetPosition - (Vector2)transform.position).normalized * Controller.Speed * Runner.DeltaTime);
             if ((targetPosition - (Vector2)transform.position).magnitude < 0.01f)
             {
                 if (((Vector2)targetTransform.position - (Vector2)transform.position).magnitude > data.highToleranceDistance)
@@ -53,7 +53,7 @@ public class ChasingVehicleController : VehicleBehaviourController
     private void TellRangersToAttack(bool isAttacking)
     {
         // TODO: All the rangers in the vehicle have to change their behavior.
-        Controller.TellRangersToAttack(playerMock);
+        Controller.TellRangersToAttack(player);
     }
 
     public override void OnEndBehaviour()

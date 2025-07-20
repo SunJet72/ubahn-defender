@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Studentenstadt
+  m_EditorClassIdentifier: 
+  id: de:09162:540
+  stationName: Studentenstadt
+  description: 'Neighbours: Freimann, Alte Heide'
+  neigbours:
+  - {fileID: 11400000, guid: ef7bf711e21087035b0234d6fea8153f, type: 2}
+  - {fileID: 11400000, guid: 00274f2306de93f4b859c21bfedf0b20, type: 2}
+  uBahnLines: 06000000
+  lon: 11.607973798384
+  lat: 48.183908694882994

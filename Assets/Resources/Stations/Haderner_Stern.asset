@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Haderner_Stern
+  m_EditorClassIdentifier: 
+  id: de:09162:1520
+  stationName: Haderner Stern
+  description: "Neighbours: Holzapfelkreuth, Gro\xDFhadern"
+  neigbours:
+  - {fileID: 11400000, guid: 47e4b423ea9e55a7a95336f18784251a, type: 2}
+  - {fileID: 11400000, guid: 4cdd959c7125ba775ba04f6389c09455, type: 2}
+  uBahnLines: 06000000
+  lon: 11.488841798401
+  lat: 48.118449194885

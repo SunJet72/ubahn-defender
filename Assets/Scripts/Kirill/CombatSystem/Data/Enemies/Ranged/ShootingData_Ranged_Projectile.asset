@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ShootingData_Ranged_Projectile
   m_EditorClassIdentifier: 
   targetType: 0
-  hitType: 1
-  speed: 3.87
-  damage: 2.13
+  hitType: 0
+  speed: 1.38
+  effects: []

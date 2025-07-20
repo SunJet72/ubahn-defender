@@ -1,29 +1,48 @@
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class TrainSystem : MonoBehaviour
+public class TrainSystem : NetworkBehaviour
 {
+    public static TrainSystem Instance { get; private set; }
     [SerializeField] private int playerAmount; // Has to be determined by Server
 
     [SerializeField] private const int BOXES_PRO_PLAYER = 2;
     [SerializeField] private const float LENGTH_PRO_CONTAINER = 3;
     [SerializeField] private const float START_TRAIN_LENGTH = 5;
     [SerializeField] private GameObject ectsContainerPrefab;
+
+    [SerializeField] private Transform abordagePoint;
+
+    [Networked]
+    public int TotalBoxesAmount { get; private set; }
+    [Networked]
+    public int MaxBoxesAmount { get; set; }
+
     private float trainLength;
-    private int containersAmount;
+
+    [Networked]
+    private int containersAmount { get; set; }
     private EctsContainer[] containers;
 
     private System.Random rand;
 
-    void Awake()
+    public override void Spawned()
     {
-        rand = new System.Random();
-        DetermineTrainParameters();
+        Instance = this;
+        if (Runner.IsServer)
+        {
+            rand = new System.Random();
+            DetermineTrainParameters();
+        }
     }
 
     public void Setup()
     {
-        DetermineAndPlaceContainers();
+        if (Runner.IsServer)
+        {
+            DetermineAndPlaceContainers();
+        }
     }
 
     private void DetermineTrainParameters() // just watch description on the miro board
@@ -39,19 +58,23 @@ public class TrainSystem : MonoBehaviour
 
         for (int i = 0; i < containersAmount; i++)
         {
-            var containerGO = Instantiate(ectsContainerPrefab);
-            containerGO.transform.parent = transform;
-            containerGO.transform.position = transform.position - new Vector3(0, trainLength / 2)
+            NetworkObject containerGO = Runner.Spawn(ectsContainerPrefab, onBeforeSpawned: (runner, spawned) =>
+            {
+                spawned.transform.parent = transform;
+                spawned.transform.position = transform.position - new Vector3(0, trainLength / 2)
                  + new Vector3(0, _distanceBetweenContainers * (i + 1));
-
-            containers[i] = containerGO.GetComponent<EctsContainer>();
-            containers[i].BoxesAmount = BOXES_PRO_PLAYER * 3;
+                containers[i] = spawned.GetComponent<EctsContainer>();
+                containers[i].BoxesAmount = BOXES_PRO_PLAYER * 3;
+                MaxBoxesAmount += containers[i].BoxesAmount;
+                containers[i].trainSystem = this;
+            });
         }
 
         for (int i = 0; i < 2 - ((playerAmount - 1) % 3); i++)
         {
             int id = rand.Next(containersAmount);
             containers[id].BoxesAmount -= BOXES_PRO_PLAYER;
+            MaxBoxesAmount -= BOXES_PRO_PLAYER;
         }
     }
 
@@ -70,5 +93,17 @@ public class TrainSystem : MonoBehaviour
             }
         }
         return containerToReturn;
+    }
+
+    public void BoxesAmountChanged(int deltaAmount)
+    {
+        TotalBoxesAmount += deltaAmount;
+        UIEvents.HealthChanged(TotalBoxesAmount, MaxBoxesAmount);
+    }
+
+    public Transform ReturnAnyAbordagePoint(Transform enemyTransform)
+    {
+        //TODO: randomly choose am abordage point. Dont forget sides.
+        return abordagePoint;
     }
 }

@@ -1,28 +1,40 @@
+using System;
+using Fusion;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class EctsContainer : MonoBehaviour
+public class EctsContainer : NetworkBehaviour
 {
+    public event Action<EctsContainer> OnDieEvent;
     [SerializeField] private TextMeshProUGUI boxesAmountIndicator;
-    private int boxesAmount;
-    public int BoxesAmount
+
+    [Networked, OnChangedRender(nameof(OnBoxesAmountChanged))]
+    public int BoxesAmount{ get; set; }
+    [Networked]
+    private int previousBoxesAmount { get; set; }
+
+
+    public TrainSystem trainSystem;
+
+    public override void Spawned()
     {
-        get { return boxesAmount; }
-        set
-        {
-            boxesAmount = value;
-            boxesAmountIndicator.text = "" + boxesAmount;
-        }
+        OnBoxesAmountChanged();
     }
 
+    private void OnBoxesAmountChanged()
+    {
+        boxesAmountIndicator.text = "" + BoxesAmount;
+        TrainSystem.Instance.BoxesAmountChanged(BoxesAmount - previousBoxesAmount);
+        previousBoxesAmount = BoxesAmount;
+    }
     public void Steal()
     {
         BoxesAmount--;
         if (BoxesAmount <= 0)
         {
             Debug.Log("I lost all boxes");
-            Destroy(gameObject);
+            OnDieEvent?.Invoke(this);
+            Runner.Despawn(Object);
         }
     }
 }

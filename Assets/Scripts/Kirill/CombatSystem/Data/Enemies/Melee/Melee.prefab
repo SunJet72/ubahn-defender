@@ -16,9 +16,13 @@ GameObject:
   - component: {fileID: 7500999947860397773}
   - component: {fileID: 4808710791471251249}
   - component: {fileID: 1599132928172126657}
+  - component: {fileID: 6501032706269721189}
+  - component: {fileID: 8638525825063705906}
+  - component: {fileID: 6462762350780079235}
+  - component: {fileID: 4340732196986081300}
   m_Layer: 0
   m_Name: Melee
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d0fdbe2e84acdf4281983a601fcb819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 1
+  data: {fileID: 11400000, guid: 35be86cd3faba7940ad86ec737fd7dd1, type: 2}
   useRidingController: 1
   useAttackingMeleeController: 1
   useAttackingRangedController: 0
@@ -119,7 +123,6 @@ MonoBehaviour:
   hauntingBehaviourController: {fileID: 4808710791471251249}
   stealingBehaviourController: {fileID: 1599132928172126657}
   playerMock: {fileID: 0}
-  gameCombatManager: {fileID: 0}
 --- !u!114 &2074797756735876518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820c19fbb7a04a54399a338681301330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 92301dd36de3d494b8629159fc90293c, type: 2}
 --- !u!114 &4808710791471251249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,3 +186,108 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 6a0cdabdc23b3aa4aa8a37f3c9483b58, type: 2}
+--- !u!58 &6501032706269721189
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123645137045426753}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.49999997
+--- !u!50 &8638525825063705906
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123645137045426753}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &6462762350780079235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123645137045426753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2840195477
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5149346644482569281}
+  - {fileID: 2074797756735876518}
+  - {fileID: 5854516737082049582}
+  - {fileID: 7500999947860397773}
+  - {fileID: 4808710791471251249}
+  - {fileID: 1599132928172126657}
+  - {fileID: 4340732196986081300}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &4340732196986081300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123645137045426753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 1
+  SyncParent: 1
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

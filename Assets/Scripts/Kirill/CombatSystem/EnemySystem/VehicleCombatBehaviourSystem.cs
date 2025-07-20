@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class VehicleCombatBehaviourSystem : MonoBehaviour
+public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
 {
     [SerializeField] private VehicleCombatSystemData data;
+    public override UnitData UnitData => data;
 
     public bool useAbordagingController;
     public bool useChasingController;
@@ -17,11 +19,16 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
     private GameCombatManager gameCombatManager;
     [SerializeField] private List<Transform> passengerSeats; // has to be equall to passengersAmount in data
 
+    [SerializeField] private BoxCollider2D colliderToDisableHardCoded;
+
     private VehicleBehaviourController curController;
     private EnemyCombatBehaviourSystem[] enemies;
 
-    void Start()
+    public void Initialize()
     {
+        Debug.LogWarning("Vehicle Was initialized");
+        base.Init();
+
         gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
         if (data._passengersList == null || data.passangersAmount != data._passengersList.Count || passengerSeats == null || passengerSeats.Count != data.passangersAmount)
         {
@@ -32,26 +39,19 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
 
         enemies = new EnemyCombatBehaviourSystem[data.passangersAmount];
 
-        for (int i = 0; i < data.passangersAmount; i++)
+        if (Runner.IsServer)
         {
-            GameObject go = Instantiate(data._passengersList[i]);
-            go.transform.SetParent(passengerSeats[i]);
-            go.transform.localPosition = Vector3.zero;
-            enemies[i] = go.GetComponent<EnemyCombatBehaviourSystem>();
+            for (int i = 0; i < data.passangersAmount; i++)
+            {
+                NetworkObject go = Runner.Spawn(data._passengersList[i], onBeforeSpawned: (runner, spawned) => {
+                    spawned.transform.SetParent(passengerSeats[i], false);
+                    spawned.transform.localPosition = Vector3.zero;
+                });
+                enemies[i] = go.GetComponent<EnemyCombatBehaviourSystem>();
+            }
         }
 
-        if (data.isVehicleToRangers)
-        {
-            PlayerMock playerMock = gameCombatManager.GetNearestPlayer(transform);
-            chasingVehicleController.SetTarget(playerMock);
-            ChangeCurrentBehaviour(chasingVehicleController);
-        }
-        else
-        {
-            Transform abordagePoint = gameCombatManager.GetApplicableAbordagePoint(transform);
-            abordagingVehicleController.SetTarget(abordagePoint);
-            ChangeCurrentBehaviour(abordagingVehicleController);
-        }
+        InitBehaviour();
     }
 
     private void ChangeCurrentBehaviour(VehicleBehaviourController controller)
@@ -64,12 +64,39 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
         controller.OnStartBehaviour();
     }
 
-    void FixedUpdate()
+    private void InitBehaviour()
     {
+        if (data.isVehicleToRangers)
+        {
+            PlayerCombatSystem playerMock = gameCombatManager.GetNearestPlayer(transform);
+            if (playerMock == null) return;
+            chasingVehicleController.SetTarget(playerMock);
+            ChangeCurrentBehaviour(chasingVehicleController);
+        }
+        else
+        {
+            Transform abordagePoint = gameCombatManager.GetApplicableAbordagePoint(transform);
+            abordagingVehicleController.SetTarget(abordagePoint);
+            ChangeCurrentBehaviour(abordagingVehicleController);
+        }
+    }
+    private TickTimer timer;
+    private bool started = false;
+    public override void FixedUpdateNetwork()
+    {
+        // if (!timer.IsRunning) timer = TickTimer.CreateFromSeconds(Runner, 7);
+
+        // if (!timer.Expired(Runner)) return;
+
+        if (!started)
+        {
+            Initialize();
+            started = true;
+        }
+
         if (curController == null)
         {
-            Debug.LogError("I dont have needed behaviour controller, or I didnt get one yet");
-            return;
+            InitBehaviour();
         }
         curController.OnFixedUpdateBehave();
     }
@@ -79,25 +106,40 @@ public class VehicleCombatBehaviourSystem : MonoBehaviour
     {
         for (int i = 0; i < enemies.Length; i++)
         {
-            if (enemies[i] != null && (enemies[i].enemyType == EnemyType.MELEE || enemies[i].enemyType == EnemyType.SCOUNDREL))
+            if (enemies[i] != null && (enemies[i].EnemyType == EnemyType.MELEE || enemies[i].EnemyType == EnemyType.SCOUNDREL))
             {
                 enemies[i].gameObject.transform.SetParent(null);
                 enemies[i].VehicleEndedTheAbordageProcess();
+                enemies[i] = null;
             }
         }
         ChangeCurrentBehaviour(escapingVehicleController);
     }
 
     //---// ChasingController //---//
-    public void TellRangersToAttack(PlayerMock playerMock)
+    public void TellRangersToAttack(PlayerCombatSystem player)
     {
         Debug.Log("I am trying to tell the ranger, so that they could attack");
         for (int i = 0; i < enemies.Length; i++)
         {
-            if (enemies[i] != null && enemies[i].enemyType == EnemyType.RANGED)
+            if (enemies[i] != null && enemies[i].EnemyType == EnemyType.RANGED)
             {
-                enemies[i].VehicleToldTheRangerToAttack(playerMock);
+                enemies[i].VehicleToldTheRangerToAttack(player);
             }
         }
+    }
+
+    protected override void Die()
+    {
+        foreach (var enemy in enemies)
+        {
+            if (enemy != null)
+            {
+                enemy.Hurt(999999, 0, this);
+            }
+        }
+        Destroy(colliderToDisableHardCoded);
+        TriggerDeathEvent();
+        Runner.Despawn(Object);
     }
 }

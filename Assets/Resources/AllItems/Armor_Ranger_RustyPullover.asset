@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ff73467fc8162adcbecc12c2c49c62c, type: 3}
+  m_Name: Armor_Ranger_RustyPullover
+  m_EditorClassIdentifier: 
+  id: 1
+  title: Rusty Pullover
+  itemClass: 2
+  description: 
+  maxStackSize: 1
+  tier: 1
+  sprite: {fileID: 21300000, guid: d3ea3e59de57b4973b90868b06ae16f8, type: 3}
+  price: 0
+  action: {fileID: 0}
+  spell: {fileID: 961030587625051347, guid: 5d49f3983ad27094c938a4cfd65442ab, type: 3}
+  additionalHealth: 0
+  armor: 0
+  PlayerSprite: {fileID: 21300000, guid: 6b246b20bff767541b6335e1bb1750ef, type: 3}
+  unitData: {fileID: 11400000, guid: 487b61d8b0233054f9f84cb6a85ba3c5, type: 2}

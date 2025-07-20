@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ff73467fc8162adcbecc12c2c49c62c, type: 3}
+  m_Name: Armor_Ingenieur_Scarf
+  m_EditorClassIdentifier: 
+  id: 0
+  title: Scarf
+  itemClass: 3
+  description: 
+  maxStackSize: 1
+  tier: 0
+  sprite: {fileID: 21300000, guid: 6b0233d2b322344dfac6807a5e41a935, type: 3}
+  price: 0
+  action: {fileID: 0}
+  spell: {fileID: 1374040662033449603, guid: 3ff0887bb17f5cd40b12df1de5483bd3, type: 3}
+  additionalHealth: 0
+  armor: 0
+  PlayerSprite: {fileID: 21300000, guid: 5b71f289bdd655d4eb5eb853c645a9ac, type: 3}
+  unitData: {fileID: 11400000, guid: fe4abfa5fbb87c245ba076f5d60252f4, type: 2}

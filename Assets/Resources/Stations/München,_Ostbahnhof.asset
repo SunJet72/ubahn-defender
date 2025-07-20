@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: "M\xFCnchen,_Ostbahnhof"
+  m_EditorClassIdentifier: 
+  id: de:09162:5
+  stationName: "M\xFCnchen, Ostbahnhof"
+  description: 'Neighbours: Max-Weber-Platz, Innsbrucker Ring'
+  neigbours:
+  - {fileID: 11400000, guid: d3ce9bee3135e459bac02de963edd523, type: 2}
+  - {fileID: 11400000, guid: c99ee524ecf07a861bf22d329b449cb2, type: 2}
+  uBahnLines: 05000000
+  lon: 11.604545
+  lat: 48.12815

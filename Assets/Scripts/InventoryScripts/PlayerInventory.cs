@@ -1,33 +1,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public UnityEvent InventoryChanged;
-    public UnityEvent EquipmentChanged;
+    public static PlayerInventory instance;
+    [HideInInspector] public UnityEvent InventoryChanged;
+    [HideInInspector] public UnityEvent EquipmentChanged;
+    [HideInInspector] public UnityEvent MoneyChanged;
 
-    [SerializeField] private List<InventorySlot> inventoryStash = new List<InventorySlot>();
+    [SerializeField] private int playerMoney = 0;
+
+
+    private List<InventorySlot> inventoryStash = new List<InventorySlot>();
     [SerializeField] private ScriptableArmor currentArmor;
     [SerializeField] private ScriptableWeapon currentWeapon;
     [SerializeField] private int maxActiveConsumables;
     [SerializeField] private InventorySlot[] activeConsumables;
 
+    [SerializeField] private Sprite playerSprite;
+
+    [SerializeField] private PlayerClass currentClass = PlayerClass.Warrior;
+    private string nickname;
+
+    [SerializeField] private PlayerCombatSystemData ingeneerData;
+    [SerializeField] private PlayerCombatSystemData RangerData;
+    [SerializeField] private PlayerCombatSystemData WarriorData;
+
+
+    [SerializeField] private Sprite standartWarriorSprite;
+    [SerializeField] private Sprite standartRangerSprite;
+    [SerializeField] private Sprite standartIngeneerSprite;
+
 
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+        // DontDestroyOnLoad(this);
         if (maxActiveConsumables == 0)
         {
             maxActiveConsumables = 1;
         }
         activeConsumables = new InventorySlot[maxActiveConsumables];
+        nickname = GameFlowManager.instance.nickname;
+
     }
 
     void Start()
     {
-        for(int i =0; i< maxActiveConsumables;++i){
+        for (int i = 0; i < maxActiveConsumables; ++i)
+        {
             if (activeConsumables[i] == null)
             {
                 activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
@@ -41,9 +73,8 @@ public class PlayerInventory : MonoBehaviour
         {
             currentWeapon = ItemManager.instance.emptyWeapon;
         }
-
-        InventoryChanged.Invoke();
-        EquipmentChanged.Invoke();
+        LoadInventory();
+        //EquipmentChanged.Invoke();
     }
 
     public PlayerInventory AddItem(ScriptableItemBase item)
@@ -58,8 +89,54 @@ public class PlayerInventory : MonoBehaviour
             }
         }
         inventoryStash.Add(new InventorySlot(item).AddItem(item));
+        SpacetimeDBController.instance.SetInventory(inventoryStash);
         InventoryChanged.Invoke();
         return this;
+    }
+
+    private async void LoadInventory()
+    {
+
+        var db = SpacetimeDBController.instance;
+        currentArmor = await db.GetCurrentArmor();
+        currentWeapon = await db.GetCurrentWeapon();
+        var consumables = await db.GetActiveConsumables();
+        for (int i = 0; i < activeConsumables.Length && i < consumables.Count; ++i)
+        {
+            activeConsumables[i] = consumables[i];
+        }
+        inventoryStash = await db.GetInventory();
+        playerMoney = await db.GetPlayerMoney();
+        ChangeClass(await db.GetPlayerClass());
+        UpdatePlayerSprite();
+        InventoryChanged.Invoke();
+        UIMasterController.instance.RebuildAll();
+    }
+
+    private void UpdatePlayerSprite()
+    {
+        if (currentArmor == ItemManager.instance.emptyArmor)
+        {
+            switch (currentClass)
+            {
+                case PlayerClass.Warrior:
+                    playerSprite = standartWarriorSprite;
+                    break;
+                case PlayerClass.Ranger:
+                    playerSprite = standartRangerSprite;
+                    break;
+                case PlayerClass.Ingeniur:
+                    playerSprite = standartIngeneerSprite;
+                    break;
+                default:
+                    playerSprite = ItemManager.instance.defaultSprite;
+                    break;
+            }
+        }
+        else
+        {
+            playerSprite = currentArmor.PlayerSprite;
+        }
     }
 
     public PlayerInventory RemoveItem(ScriptableItemBase item)
@@ -73,18 +150,20 @@ public class PlayerInventory : MonoBehaviour
                 {
                     inventoryStash.Remove(slot);
                 }
+                SpacetimeDBController.instance.SetInventory(inventoryStash);
                 InventoryChanged.Invoke();
                 return this;
             }
         }
         Debug.LogError("Removing nonexisitng item");
-
         return this;
     }
 
     public PlayerInventory RemoveSlot(InventorySlot slot)
     {
         inventoryStash.Remove(slot);
+        SpacetimeDBController.instance.SetInventory(inventoryStash);
+
         return this;
     }
 
@@ -113,6 +192,8 @@ public class PlayerInventory : MonoBehaviour
         }
         RemoveItem(armor);
         currentArmor = (ScriptableArmor)armor;
+        SpacetimeDBController.instance.SetCurrentArmor(currentArmor);
+        UpdatePlayerSprite();
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();
     }
@@ -130,8 +211,16 @@ public class PlayerInventory : MonoBehaviour
         }
         RemoveItem(weapon);
         currentWeapon = (ScriptableWeapon)weapon;
+        SpacetimeDBController.instance.SetCurrentWeapon(currentWeapon);
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();
+    }
+
+    public PlayerInventory AddSlot(InventorySlot slot)
+    {
+        inventoryStash.Add(slot);
+        SpacetimeDBController.instance.SetInventory(inventoryStash);
+        return this;
     }
 
     public void AddToActiveCosumables(InventorySlot slot, int slotIndex)
@@ -140,12 +229,14 @@ public class PlayerInventory : MonoBehaviour
         {
             return;
         }
-        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem&& activeConsumables[slotIndex].Count!=0)
+        if (activeConsumables[slotIndex].GetSample() != ItemManager.instance.emptyItem && activeConsumables[slotIndex].Count != 0)
         {
             inventoryStash.Add(activeConsumables[slotIndex]);
         }
         RemoveSlot(slot);
         activeConsumables[slotIndex] = slot;
+
+        SpacetimeDBController.instance.SetActiveConsumables(activeConsumables.ToList());
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();
     }
@@ -163,6 +254,19 @@ public class PlayerInventory : MonoBehaviour
             bld.Append(slot).Append("\n");
         }
         return bld.ToString();
+    }
+
+    public int GetAmountOf(int id)
+    {
+        int count = 0;
+        foreach (InventorySlot slot in inventoryStash)
+        {
+            if (slot.GetSample().id == id)
+            {
+                count += slot.Count;
+            }
+        }
+        return count;
     }
 
 
@@ -184,5 +288,105 @@ public class PlayerInventory : MonoBehaviour
     public int GetMaxActiveConsumables()
     {
         return maxActiveConsumables;
+    }
+
+    public string GetNickname()
+    {
+        return nickname;
+    }
+
+    public bool MoneySpend(int price)
+    {
+        if (price > playerMoney)
+        {
+            Debug.Log("Sorry Card Declined");
+            return false;
+        }
+        playerMoney -= price;
+        SpacetimeDBController.instance.SetPlayerMoney(playerMoney);
+        MoneyChanged.Invoke();
+        return true;
+    }
+
+    public void GainMoney(int gain)
+    {
+        playerMoney += gain;
+        SpacetimeDBController.instance.SetPlayerMoney(playerMoney);
+    }
+
+    public int GetMoney()
+    {
+        return playerMoney;
+    }
+
+    public void ChangeClass(PlayerClass newClass)
+    {
+        if (newClass == PlayerClass.None)
+        {
+            Debug.LogError("Trying to assign None class");
+        }
+        if (currentArmor.itemClass != newClass && currentArmor != ItemManager.instance.emptyArmor)
+        {
+            AddItem(currentArmor);
+            currentArmor = ItemManager.instance.emptyArmor;
+            //EquipmentChanged.Invoke();
+        }
+        if (currentWeapon.itemClass != newClass && currentWeapon != ItemManager.instance.emptyWeapon)
+        {
+            AddItem(currentWeapon);
+            currentWeapon = ItemManager.instance.emptyWeapon;
+            //EquipmentChanged.Invoke();
+        }
+        for (int i = 0; i < activeConsumables.Length; ++i)
+        {
+            if (activeConsumables[i].GetSample().itemClass != newClass && activeConsumables[i].GetSample().itemClass != PlayerClass.None && activeConsumables[i].GetSample() != ItemManager.instance.emptyItem)
+            {
+                AddSlot(activeConsumables[i]);
+                activeConsumables[i] = new InventorySlot(ItemManager.instance.emptyItem);
+            }
+            //EquipmentChanged.Invoke();
+        }
+        currentClass = newClass;
+        SpacetimeDBController.instance.SetPlayersClass(currentClass);
+        UpdatePlayerSprite();
+        InventoryChanged.Invoke();
+
+    }
+
+    public List<InventorySlot> GetFilteredConsumable()
+    {
+        return activeConsumables.Where(item => item.GetSample() != ItemManager.instance.emptyItem).ToList();
+    }
+
+    public PlayerClass GetClass()
+    {
+        return currentClass;
+    }
+
+    public PlayerCombatSystemData GetPlayerCombatSystemData()
+    {
+        switch (currentClass)
+        {
+            case PlayerClass.Warrior:
+                return WarriorData;
+            case PlayerClass.Ranger:
+                return RangerData;
+            case PlayerClass.Ingeniur:
+                return ingeneerData;
+        }
+        return null;
+    }
+
+    public Sprite GetPlayerSprite()
+    {
+        return playerSprite;
+    }
+    
+    public enum PlayerClass
+    {
+        None = 0,
+        Warrior = 1,
+        Ranger = 2,
+        Ingeniur = 3
     }
 }

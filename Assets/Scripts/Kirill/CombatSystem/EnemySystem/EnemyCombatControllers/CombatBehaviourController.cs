@@ -1,6 +1,7 @@
+using Fusion;
 using UnityEngine;
 
-public abstract class CombatBehaviourController : MonoBehaviour
+public abstract class CombatBehaviourController : NetworkBehaviour
 {
     private EnemyCombatBehaviourSystem controller;
     [SerializeField] public EnemyCombatBehaviourSystem Controller
@@ -12,7 +13,7 @@ public abstract class CombatBehaviourController : MonoBehaviour
             Debug.Log(value);
         }
     }
-    void Awake()
+    public override void Spawned()
     {
         Controller = gameObject.GetComponent<EnemyCombatBehaviourSystem>();
     }

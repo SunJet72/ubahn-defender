@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Olympia-Einkaufszentrum
+  m_EditorClassIdentifier: 
+  id: de:09162:360
+  stationName: Olympia-Einkaufszentrum
+  description: 'Neighbours: Georg-Brauchle-Ring, Moosacher St.-Martins-Platz, Oberwiesenfeld'
+  neigbours:
+  - {fileID: 11400000, guid: 2108938285d91bc2b85ffb7ae15ed88a, type: 2}
+  - {fileID: 11400000, guid: 1cf54feabbe06b708a88d1fb318edbf4, type: 2}
+  - {fileID: 11400000, guid: 5b073bda04f520d6b920db45f1753481, type: 2}
+  uBahnLines: 0100000003000000
+  lon: 11.530409598395
+  lat: 48.182055794883

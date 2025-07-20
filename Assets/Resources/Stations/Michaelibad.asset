@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Michaelibad
+  m_EditorClassIdentifier: 
+  id: de:09162:1050
+  stationName: Michaelibad
+  description: "Neighbours: Innsbrucker Ring, Quiddestra\xDFe"
+  neigbours:
+  - {fileID: 11400000, guid: c99ee524ecf07a861bf22d329b449cb2, type: 2}
+  - {fileID: 11400000, guid: c2710a65e161b65319ff3bb2594cbe1f, type: 2}
+  uBahnLines: 05000000
+  lon: 11.631433098381
+  lat: 48.118405694885

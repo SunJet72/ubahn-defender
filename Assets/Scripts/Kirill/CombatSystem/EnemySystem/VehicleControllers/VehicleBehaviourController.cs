@@ -1,6 +1,7 @@
+using Fusion;
 using UnityEngine;
 
-public abstract class VehicleBehaviourController : MonoBehaviour
+public abstract class VehicleBehaviourController : NetworkBehaviour
 {
     private VehicleCombatBehaviourSystem controller;
     [SerializeField]

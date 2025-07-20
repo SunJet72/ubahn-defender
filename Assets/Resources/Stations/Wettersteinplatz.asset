@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb61384ebdee1c9478f940b5ea44cea7, type: 3}
+  m_Name: Wettersteinplatz
+  m_EditorClassIdentifier: 
+  id: de:09162:1190
+  stationName: Wettersteinplatz
+  description: 'Neighbours: Candidplatz, St.-Quirin-Platz'
+  neigbours:
+  - {fileID: 11400000, guid: adec20761b86076fd8f245d1f2cc25e9, type: 2}
+  - {fileID: 11400000, guid: 1e21df57573c9785da4e54bbba5691a2, type: 2}
+  uBahnLines: 01000000
+  lon: 11.574389798389
+  lat: 48.108752094886

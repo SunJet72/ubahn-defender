@@ -4,5 +4,5 @@ using UnityEngine;
 public class EnemyRangedAttackData : ScriptableObject
 {
     public GameObject _projectile;
-    public float timeBetweenAttacks;
+    public float damage;
 }

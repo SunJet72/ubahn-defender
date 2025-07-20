@@ -6,20 +6,21 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
     [SerializeField] private EnemyMeleeAttackData data;
 
     private Transform target;
-    private PlayerMock chaisedPlayer;
+    private PlayerCombatSystem player;
     private float curAttackCooldown = 0f;
 
-    public void SetTarget(PlayerMock player)
+    public void SetTarget(PlayerCombatSystem player)
     {
-        chaisedPlayer = player;
-        target = chaisedPlayer.gameObject.transform;
-        player.onDieEvent += OnPlayerKilled;
+        this.player = player;
+        target = this.player.gameObject.transform;
+        player.OnDieEvent += OnPlayerKilled;
     }
 
     //---// Behaviour //---//
     public override void OnStartBehaviour()
     {
-        if (target == null || chaisedPlayer == null)
+        Debug.Log("Tarrget: " + target + " Player: " + player);
+        if (target == null || player == null)
         {
             Debug.LogError("I dont have a target to attack");
             return;
@@ -28,7 +29,7 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
 
     public override void OnFixedUpdateBehave()
     {
-        curAttackCooldown -= Time.fixedDeltaTime;
+        curAttackCooldown -= Runner.DeltaTime * Controller.AttackSpeed;
 
         float distance = (transform.position - target.position).magnitude;
         if (data.detectionRange < distance)
@@ -50,33 +51,39 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
 
     private void Chaise()
     {
-        transform.Translate((target.position - transform.position).normalized * data.chaiseSpeed * Time.fixedDeltaTime);
+        transform.Translate((target.position - transform.position).normalized * Controller.Speed * Runner.DeltaTime);
     }
 
     private void Attack()
     {
-        chaisedPlayer.Hurt(data.attackDamage);
-        curAttackCooldown = data.timeBetweenAttacks;
+        player.Hurt(CalculateDamage(data.attackDamage), Controller.ArmorPenetration, Controller);
+        curAttackCooldown = 1f;
     }
 
-    private void OnPlayerKilled(System.Object obj, EventArgs e)
+    private void OnPlayerKilled(UnitController unit)
     {
         LoseTarget();
     }
 
     private void LoseTarget()
     {
-        chaisedPlayer.onDieEvent -= OnPlayerKilled;
-        chaisedPlayer = null;
+        player.OnDieEvent -= OnPlayerKilled;
+        player = null;
         target = null;
         Controller.MeleeLoseTarget();
     }
 
     public override void OnEndBehaviour()
     {
-        chaisedPlayer = null;
+        Debug.Log("I am ending this behaviour");
+        player = null;
         target = null;
-        curAttackCooldown = data.timeBetweenAttacks;
+        curAttackCooldown = 1f;
+    }
+
+    private float CalculateDamage(float damage)
+    {
+        return damage * ((100f + player.Strength) / 100f);
     }
 
     private void OnDrawGizmosSelected()

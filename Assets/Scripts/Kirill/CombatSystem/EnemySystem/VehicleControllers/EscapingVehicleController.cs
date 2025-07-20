@@ -3,7 +3,7 @@ using UnityEngine;
 public class EscapingVehicleController : VehicleBehaviourController
 {
     private Vector2 escapeDirection;
-    [SerializeField]private EnemyEscapeData data;
+    //[SerializeField]private EnemyEscapeData data;
     public override void OnStartBehaviour()
     {
         ChooseEscapeDirection();
@@ -16,7 +16,7 @@ public class EscapingVehicleController : VehicleBehaviourController
 
     public override void OnFixedUpdateBehave()
     {
-        transform.Translate(escapeDirection * data.escapeSpeed * Time.fixedDeltaTime);
+        transform.Translate(escapeDirection * Controller.Speed * Runner.DeltaTime);
     }
 
     public override void OnEndBehaviour()

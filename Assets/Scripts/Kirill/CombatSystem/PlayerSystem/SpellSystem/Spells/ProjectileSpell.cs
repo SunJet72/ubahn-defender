@@ -1,20 +1,35 @@
+using Fusion;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "ProjectileSpell", menuName = "Scriptable Objects/ProjectileSpell")]
 public class ProjectileSpell : ActiveSpell
 {
     [SerializeField] private ProjectileSpellData data;
-    protected override void Execute(PlayerMock playerMock, Transform start, Vector2 end)
+    [SerializeField] private GameObject _projectileSpellExecutor;
+
+    public override SpellData SpellData => data;
+    
+    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.StateAuthority)]
+    protected override void ExecuteRpc(NetworkObject playerNO, NetworkObject nStart, Vector2 end)
     {
-        ProjectileSpellExecutor executor = playerMock.gameObject.AddComponent<ProjectileSpellExecutor>();
+        PlayerCombatSystem player = playerNO.GetComponent<PlayerCombatSystem>();
+        Transform start = nStart.transform;
+
+        NetworkObject no = Runner.Spawn(_projectileSpellExecutor, onBeforeSpawned: (runner, spawned) =>
+        {
+            spawned.transform.parent = transform;
+            spawned.transform.position = Vector2.zero;
+            spawned.transform.up = (end - (Vector2)start.position).normalized;
+        });
+
+        ProjectileSpellExecutor executor = no.GetComponent<ProjectileSpellExecutor>();
+
         if (data.targetType == TargetType.CURRENT_TARGET)
         {
-            executor.Initialize(data, start, playerMock.GetCurrentTargetSelected());
+            executor.Initialize(data, start, player.GetCurrentTargetSelected().transform, player);
         }
         else
         {
-            executor.Initialize(data, start, end);
+            executor.Initialize(data, start, end, player);
         }
     }
 }

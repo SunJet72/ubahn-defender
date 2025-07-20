@@ -8,27 +8,27 @@ public class TimeReload : Reload
     private float reloadPercentage;
     private bool isReady;
     private float timeSpent;
-    void Awake()
+    public override void Spawned()
     {
-        reloadPercentage = 100;
+        reloadPercentage = 1f;
         isReady = true;
     }
 
-    void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         if (!isReady)
         {
-            timeSpent += Time.fixedDeltaTime;
+            timeSpent += Runner.DeltaTime;
             if (timeSpent >= data.reloadTime)
             {
                 timeSpent = 0;
-                reloadPercentage = 100;
+                reloadPercentage = 1f;
                 isReady = true;
                 Trigger();
             }
             else
             {
-                reloadPercentage = (timeSpent / data.reloadTime) * 100;
+                reloadPercentage = timeSpent / data.reloadTime;
             }
         }
     }

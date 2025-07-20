@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 public enum TargetType
 {
@@ -19,5 +20,5 @@ public class ProjectileData : ScriptableObject
     public TargetType targetType;
     public HitType hitType;
     public float speed;
-    public float damage;
+    public List<Effect> effects;
 }
