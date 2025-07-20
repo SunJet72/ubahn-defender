@@ -113,20 +113,20 @@ public class PlayerInventory : MonoBehaviour
                 {
                     inventoryStash.Remove(slot);
                 }
+                SpacetimeDBController.instance.SetInventory(inventoryStash);
                 InventoryChanged.Invoke();
                 return this;
             }
         }
         Debug.LogError("Removing nonexisitng item");
-        SpacetimeDBController.instance.SetInventory(inventoryStash);
-
-
         return this;
     }
 
     public PlayerInventory RemoveSlot(InventorySlot slot)
     {
         inventoryStash.Remove(slot);
+        SpacetimeDBController.instance.SetInventory(inventoryStash);
+
         return this;
     }
 
@@ -155,6 +155,7 @@ public class PlayerInventory : MonoBehaviour
         }
         RemoveItem(armor);
         currentArmor = (ScriptableArmor)armor;
+        SpacetimeDBController.instance.SetCurrentArmor(currentArmor);
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();
     }
@@ -172,6 +173,7 @@ public class PlayerInventory : MonoBehaviour
         }
         RemoveItem(weapon);
         currentWeapon = (ScriptableWeapon)weapon;
+        SpacetimeDBController.instance.SetCurrentWeapon(currentWeapon);
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();
     }
@@ -179,6 +181,7 @@ public class PlayerInventory : MonoBehaviour
     public PlayerInventory AddSlot(InventorySlot slot)
     {
         inventoryStash.Add(slot);
+        SpacetimeDBController.instance.SetInventory(inventoryStash);
         return this;
     }
 
@@ -194,6 +197,8 @@ public class PlayerInventory : MonoBehaviour
         }
         RemoveSlot(slot);
         activeConsumables[slotIndex] = slot;
+
+        SpacetimeDBController.instance.SetActiveConsumables(activeConsumables.ToList());
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();
     }
@@ -260,6 +265,7 @@ public class PlayerInventory : MonoBehaviour
             return false;
         }
         playerMoney -= price;
+        SpacetimeDBController.instance.SetPlayerMoney(playerMoney);
         MoneyChanged.Invoke();
         return true;
     }
@@ -267,6 +273,7 @@ public class PlayerInventory : MonoBehaviour
     public void GainMoney(int gain)
     {
         playerMoney += gain;
+        SpacetimeDBController.instance.SetPlayerMoney(playerMoney);
     }
 
     public int GetMoney()
@@ -302,6 +309,8 @@ public class PlayerInventory : MonoBehaviour
             //EquipmentChanged.Invoke();
         }
         currentClass = newClass;
+        SpacetimeDBController.instance.SetPlayersClass(currentClass);
+
         InventoryChanged.Invoke();
 
     }
