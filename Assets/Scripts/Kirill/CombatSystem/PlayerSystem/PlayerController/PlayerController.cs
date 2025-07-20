@@ -6,8 +6,10 @@ public class PlayerController : NetworkBehaviour
     private float speed = 5f;
     private PlayerControls controls;
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private PlayerCombatSystem playerCombatSystem;
 
-    public float MoveInput { get; private set; }
+    public float MoveInput
+    { get; private set; }
 
     // public override void Spawned()
     // {
@@ -28,6 +30,6 @@ public class PlayerController : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         if (GetInput<NetworkInputData>(out var input) == false) return;
-        rb.linearVelocityY = input.moveInput * speed;
+        rb.linearVelocityY = input.moveInput * playerCombatSystem.Speed;
     }
 }

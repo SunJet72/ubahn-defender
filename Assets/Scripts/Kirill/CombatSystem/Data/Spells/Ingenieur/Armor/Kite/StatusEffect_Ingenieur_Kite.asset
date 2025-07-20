@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatusEffect_Ingenieur_Kite
   m_EditorClassIdentifier: 
   paramToEffect: 3
-  value: 45
+  value: 0.45
   hasDuration: 1
   duration: 5
   hasEffectRadius: 0

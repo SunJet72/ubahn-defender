@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Mutant Harvester
   spellDescription: 
-  icon: {fileID: 0}
-  radius: 2.25
+  icon: {fileID: 21300000, guid: a29a822336f19498696f34186ded6b1e, type: 3}
+  radius: 4.13
   executionTime: 0.8
   executionDelay: 0.36
   executionAmount: 2

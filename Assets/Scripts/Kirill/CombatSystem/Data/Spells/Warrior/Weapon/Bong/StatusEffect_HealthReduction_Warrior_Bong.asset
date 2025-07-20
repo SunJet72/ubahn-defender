@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatusEffect_HealthReduction_Warrior_Bong
   m_EditorClassIdentifier: 
   paramToEffect: 0
-  value: 25
+  value: -999
   hasDuration: 1
   duration: 3
   hasEffectRadius: 0

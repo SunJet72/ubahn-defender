@@ -23,21 +23,23 @@ public class SplashSpellExecutor : NetworkBehaviour
     private int i = 0;
     public override void FixedUpdateNetwork()
     {
+        if (!Runner.IsServer) return;
         if (!spellTimer.Expired(Runner)) return;
 
         float interval = data.executionTime / data.executionAmount;
 
-        if(i < data.executionAmount)
+        if (i < data.executionAmount)
         {
             DealDamage();
             spellTimer = TickTimer.CreateFromSeconds(Runner, interval);
             i++;
         }
-        else Destroy(this);
+        else Runner.Despawn(Object);
     }
 
     private void DealDamage()
     {
+        Debug.Log("I am using Splash Spell and try to deal damage with it");
         Collider2D[] hits = Physics2D.OverlapCircleAll(castTransform.position, data.radius);
         foreach (var hit in hits)
         {
@@ -52,7 +54,7 @@ public class SplashSpellExecutor : NetworkBehaviour
                 {
                     if (unit is PlayerCombatSystem)
                         return;
-                    Debug.Log("I am hitting an enemy");
+                    Debug.LogWarning("!!! I am hurting enemy with splash");
                     unit.Hurt(CalculateDamage(data.damageProExecution), player);
                 }
             }
@@ -61,6 +63,6 @@ public class SplashSpellExecutor : NetworkBehaviour
 
     private float CalculateDamage(float damage)
     {
-        return damage * ((100f + damage) / 100f);
+        return damage * ((100f + player.Strength) / 100f);
     }
 }

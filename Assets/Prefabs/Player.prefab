@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7953ccae8ab55d249be7170c47916bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionCollider: {fileID: 3998742306949709182}
 --- !u!58 &3998742306949709182
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -225,7 +226,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.21133333}
-  m_Radius: 7.09
+  m_Radius: 0.0001
 --- !u!50 &-5383702412596131658
 Rigidbody2D:
   serializedVersion: 5
@@ -266,6 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: -5383702412596131658}
+  playerCombatSystem: {fileID: 853785753197244475}
 --- !u!114 &6295227389348250951
 MonoBehaviour:
   m_ObjectHideFlags: 0

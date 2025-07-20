@@ -25,7 +25,7 @@ public abstract class UnitController : NetworkBehaviour
     public float Strength { get => strength; }
     public float Speed { get => speed * (speedMultiplex <= 0.1 ? 0.1f: speedMultiplex); }
     public float AttackSpeed { get => attackSpeed * (attackSpeedMultiplex <= 0.1 ? 0.1f: attackSpeedMultiplex); }
-    public float ArmorPenetration { get => armorPenetration; }
+    public float ArmorPenetration { get => armorPenetration >= 90f? 90f: armorPenetration; }
 
     private float speedMultiplex;
     private float attackSpeedMultiplex;
@@ -127,8 +127,10 @@ public abstract class UnitController : NetworkBehaviour
 
     public virtual void Hurt(float damage, UnitController attacker)
     {
-        Debug.Log("Unit was hurt " + gameObject);
-        health -= damage * (100f / (100f + this.armor - attacker.UnitData.armorPenetration));
+        Debug.Log("Unit was hurt " + gameObject + " Damage: " + damage + " penetration: " + attacker.ArmorPenetration);
+        Debug.Log("Health before: " + Health);
+        health -= damage * (100f / (100f + this.armor - attacker.ArmorPenetration));
+        Debug.Log("Health after: " + Health);
         if (health <= 0)
         {
             health = 0;

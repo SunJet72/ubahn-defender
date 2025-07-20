@@ -21,6 +21,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     private float curAttackCooldown = 0f;
     private bool isSetUp = false;
 
+    [SerializeField] private CircleCollider2D detectionCollider;
+
     List<UnitType> unitTypesEnemy;
     List<UnitType> unitTypesVehicle;
     List<UnitType> unitTypesEnemyAndVehicle;
@@ -90,6 +92,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
         ApplyUnitDataStats(armorEq.unitData);
         ApplyUnitDataStats(weaponEq.unitData);
+
+        detectionCollider.radius = weaponEq.range;
 
         //TODO Handle Consumables
 
@@ -297,7 +301,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     private float CalculateDamage(float damage)
     {
-        return damage * ((100f + damage) / 100f);
+        return damage * ((100f + Strength) / 100f);
     }
 
     public UnitController GetCurrentTargetSelected()
