@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StatusEffect_AddAttackSpeed_Warrior_BloodSweatAndTears
   m_EditorClassIdentifier: 
   paramToEffect: 4
-  value: 25
+  value: 0.5
   hasDuration: 1
   duration: 5
   hasEffectRadius: 0

@@ -12559,7 +12559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -480.43, y: 25}
+  m_AnchoredPosition: {x: -480.43, y: 24.67}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &365459607
@@ -13384,7 +13384,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -360.9, y: 25.000011}
+  m_AnchoredPosition: {x: -442.8, y: 287.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &820255600
@@ -14850,6 +14850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAmount: 7
   ectsContainerPrefab: {fileID: 3648830886669865955, guid: 6967876091ea18c4dbf18afe6d61e86c, type: 3}
+  abordagePoint: {fileID: 1075178492}
 --- !u!114 &1025919890
 MonoBehaviour:
   m_ObjectHideFlags: 0

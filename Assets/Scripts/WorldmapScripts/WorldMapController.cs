@@ -160,7 +160,7 @@ public class WorldMapController : MonoBehaviour
             }
             else
             {
-                Debug.Log("not on station");
+                //Debug.Log("not on station");
                 if (isOnStation)
                 {
                     isOnStation = false;

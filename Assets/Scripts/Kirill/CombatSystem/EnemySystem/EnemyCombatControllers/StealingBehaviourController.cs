@@ -51,6 +51,10 @@ public class StealingBehaviourController : CombatBehaviourController
     {
         if (attacker != null)
             Controller.ChangeAggro(attacker);
+        if (data.canBeCancelledByAttack)
+        {
+            Controller.OnHurtEvent -= OnChangeAggro;
+        }
     }
     
     public override void OnEndBehaviour()

@@ -44,7 +44,7 @@ public class GameCombatManager : NetworkBehaviour
     }
     public Transform GetApplicableAbordagePoint(Transform vehicleTransform) // Mock!
     {
-        return trainSystem.transform;
+        return trainSystem.ReturnAnyAbordagePoint(vehicleTransform);
     }
 
     public void IncrementEnemyScore()

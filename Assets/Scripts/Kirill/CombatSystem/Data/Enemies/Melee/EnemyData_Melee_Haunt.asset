@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: EnemyData_Melee_Haunt
   m_EditorClassIdentifier: 
   distanceBeforeSteal: 1
-  chaiseSpeed: 1.14
+  canBeCancelledByAttack: 1

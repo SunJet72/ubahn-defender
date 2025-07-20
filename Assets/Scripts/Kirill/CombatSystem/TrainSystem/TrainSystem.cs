@@ -11,6 +11,8 @@ public class TrainSystem : NetworkBehaviour
     [SerializeField] private const float START_TRAIN_LENGTH = 5;
     [SerializeField] private GameObject ectsContainerPrefab;
 
+    [SerializeField] private Transform abordagePoint;
+
     [Networked]
     private int totalBoxesAmount { get; set; }
     [Networked]
@@ -95,5 +97,11 @@ public class TrainSystem : NetworkBehaviour
     {
         totalBoxesAmount += deltaAmount;
         UIEvents.HealthChanged(totalBoxesAmount, maxBoxesAmount);
+    }
+
+    public Transform ReturnAnyAbordagePoint(Transform enemyTransform)
+    {
+        //TODO: randomly choose am abordage point. Dont forget sides.
+        return abordagePoint;
     }
 }
