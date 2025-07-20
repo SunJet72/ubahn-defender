@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "f74705ae05c46cb53d06345005e0abdc12e91dd5"
+      "hash": "aecb141a21b4d1c75920a19a9182e4d06cc7327c"
     },
     "com.emrecelik95.lightscrollsnap": {
       "version": "https://github.com/emrecelik95/LightScrollSnap.git",
@@ -396,6 +396,16 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.toolchain.linux-x86_64": {
+      "version": "2.0.10",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "2.0.10",
+        "com.unity.sysroot.linux-x86_64": "2.0.9"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.toolchain.win-x86_64-linux-x86_64": {
       "version": "2.0.10",
       "depth": 0,
       "source": "registry",
