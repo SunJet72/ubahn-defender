@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
-using NUnit.Framework;
+using System;
 
 public class WorldMapController : MonoBehaviour
 {
@@ -57,8 +56,13 @@ public class WorldMapController : MonoBehaviour
         LoadMapData();
 
         // remove it later
-        StartChecking();
+        //StartChecking();
 
+    }
+
+    private void Start()
+    {
+        StartChecking();
     }
 
     private void LoadMapData()
@@ -70,7 +74,7 @@ public class WorldMapController : MonoBehaviour
 
         foreach (string id in ids)
         {
-            stationScores.Add(id, Random.Range(0, 1000));
+            stationScores.Add(id, UnityEngine.Random.Range(0, 1000));
         }
         //--------------------------------------------------
 
@@ -148,19 +152,19 @@ public class WorldMapController : MonoBehaviour
         while (true)
         {
             // if check for station 
-            string nearestStationId = "a";
-            if (temp) // if station is near
+            string nearestStationId = GpsMvgManager.instance.IsOnStation();
+            if (nearestStationId !=String.Empty) // if station is near
             {
                 if (!isOnStation)
                 {
                     //mock
                     isOnStation = true;
-                    ConnectToStation(instance.GetStationById("de:09162:780"));
+                    ConnectToStation(instance.GetStationById(nearestStationId));
                 }
             }
             else
             {
-                Debug.Log("not on station");
+                //Debug.Log("not on station");
                 if (isOnStation)
                 {
                     isOnStation = false;

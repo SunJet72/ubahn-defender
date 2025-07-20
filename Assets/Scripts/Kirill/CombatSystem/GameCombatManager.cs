@@ -9,6 +9,11 @@ public class GameCombatManager : NetworkBehaviour
 
     [SerializeField] private PlayerCombatSystem playerCombatSystem;
 
+    [SerializeField] private int secondsToDestroy;
+
+    [Networked]
+    private TickTimer selfDestroyTimer { get; set; }
+
     public override void Spawned()
     {
         if (Runner.IsServer)
@@ -55,5 +60,21 @@ public class GameCombatManager : NetworkBehaviour
     public void SetSpells(PlayerCombatSystem player, Spell spellArmor, Spell spellWeapon)
     {
         ui.SetSpells(player, spellArmor, spellWeapon);
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        if (!selfDestroyTimer.IsRunning) selfDestroyTimer = TickTimer.CreateFromSeconds(Runner, secondsToDestroy);
+        if (selfDestroyTimer.Expired(Runner)) EndGameRpc();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public async void EndGameRpc()
+    {
+        if (!Runner.IsServer) return;
+        float ratio = (float)TrainSystem.Instance.TotalBoxesAmount / (float)TrainSystem.Instance.MaxBoxesAmount;
+        //Send to db end game
+
+        await Runner.Shutdown();
     }
 }

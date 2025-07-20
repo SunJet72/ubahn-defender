@@ -4,6 +4,7 @@ using System.Linq;
 using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using Fusion.Sockets;
+using SpacetimeDB.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +25,6 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     public void OnSceneLoadDone(NetworkRunner runner) { }
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
 
     #endregion
@@ -34,6 +34,12 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     private NetworkRunner _myrunner;
     [SerializeField]
     private NetworkPrefabRef _playerPrefab;
+
+    [SerializeField]    
+    private int inventorySceneIndex;
+    [SerializeField]
+    private int gameSceneIndex;
+
     private Transform parentTransform;
 
     // [Networked]
@@ -63,7 +69,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         // await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         // Scene level = SceneManager.GetSceneByName(sceneName);
         // Debug.Log("Scene index: " + level.buildIndex);
-        SceneRef scene = SceneRef.FromIndex(1);
+        SceneRef scene = SceneRef.FromIndex(gameSceneIndex);
         NetworkSceneInfo sceneInfo = new NetworkSceneInfo();
         if (scene.IsValid)
         {
@@ -85,7 +91,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         Debug.Log("Player Joined!");
         if (runner.IsServer)
         {
-            parentTransform = GameObject.FindGameObjectsWithTag("Train").First().transform;
+            parentTransform = TrainSystem.Instance.transform;
             int size = runner.ActivePlayers.Count();
             NetworkObject playerObj = runner.Spawn(_playerPrefab, new Vector3(0, 9 - (size * 3), 0), Quaternion.identity, playerRef,
             onBeforeSpawned: (runner, spawned) =>
@@ -104,7 +110,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             // _spawnedPlayers.Add(playerRef, playerObj);
             runner.SetPlayerObject(playerRef, playerObj);
         }
-        
+
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
@@ -178,5 +184,10 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     {
         // return _spawnedPlayers.Count > 0;
         return Runner.ActivePlayers.Count() > 0;
+    }
+
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        SceneManager.LoadScene(inventorySceneIndex);
     }
 }

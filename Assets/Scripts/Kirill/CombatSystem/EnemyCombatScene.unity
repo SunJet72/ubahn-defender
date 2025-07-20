@@ -14850,6 +14850,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAmount: 7
   ectsContainerPrefab: {fileID: 3648830886669865955, guid: 6967876091ea18c4dbf18afe6d61e86c, type: 3}
+  _TotalBoxesAmount: 0
+  _MaxBoxesAmount: 0
 --- !u!114 &1025919890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15489,6 +15491,7 @@ MonoBehaviour:
   trainSystem: {fileID: 1025919889}
   ui: {fileID: 849504985}
   playerCombatSystem: {fileID: 0}
+  secondsToDestroy: 10
 --- !u!4 &2046943814
 Transform:
   m_ObjectHideFlags: 0

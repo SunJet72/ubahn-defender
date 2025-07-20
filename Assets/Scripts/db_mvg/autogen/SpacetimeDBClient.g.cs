@@ -487,6 +487,7 @@ namespace SpacetimeDB.Types
                 "SetInventoryToPlayer" => BSATNHelpers.Decode<Reducer.SetInventoryToPlayer>(encodedArgs),
                 "SetPlayerClass" => BSATNHelpers.Decode<Reducer.SetPlayerClass>(encodedArgs),
                 "SetPlayerMoney" => BSATNHelpers.Decode<Reducer.SetPlayerMoney>(encodedArgs),
+                "SetTrainStarted" => BSATNHelpers.Decode<Reducer.SetTrainStarted>(encodedArgs),
                 var reducer => throw new ArgumentOutOfRangeException("Reducer", $"Unknown reducer {reducer}")
             };
         }
@@ -525,6 +526,7 @@ namespace SpacetimeDB.Types
                 Reducer.SetInventoryToPlayer args => Reducers.InvokeSetInventoryToPlayer(eventContext, args),
                 Reducer.SetPlayerClass args => Reducers.InvokeSetPlayerClass(eventContext, args),
                 Reducer.SetPlayerMoney args => Reducers.InvokeSetPlayerMoney(eventContext, args),
+                Reducer.SetTrainStarted args => Reducers.InvokeSetTrainStarted(eventContext, args),
                 _ => throw new ArgumentOutOfRangeException("Reducer", $"Unknown reducer {reducer}")
             };
         }

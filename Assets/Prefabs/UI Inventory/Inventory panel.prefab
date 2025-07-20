@@ -36,10 +36,10 @@ RectTransform:
   - {fileID: 3912593235497904262}
   - {fileID: 6355015355981489063}
   - {fileID: 4070928400911428942}
+  - {fileID: 1036056202902202782}
   - {fileID: 458635752519132079}
   - {fileID: 5896074971389756966}
   - {fileID: 8205111989943444653}
-  - {fileID: 1036056202902202782}
   - {fileID: 5621526098623111653}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -102,6 +102,7 @@ MonoBehaviour:
   UIarmor: {fileID: 6390234788024548785}
   UIweapon: {fileID: 8612848390107151881}
   UIConsumable: {fileID: 6520791020238121351}
+  dropdown: {fileID: 0}
 --- !u!114 &7881232459708268144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1723,8 +1724,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 1098.9, y: 274.45}
-  m_SizeDelta: {x: 2119.8, y: 196.597}
+  m_AnchoredPosition: {x: 1098.9, y: 136}
+  m_SizeDelta: {x: 2119.8, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6398139239741450436
 CanvasRenderer:
@@ -2816,10 +2817,10 @@ RectTransform:
   - {fileID: 3257995093252292994}
   m_Father: {fileID: 8755013028613987180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 704.95734, y: 1359.3501}
-  m_SizeDelta: {x: 565.644, y: 117.936}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -375.04266, y: -152}
+  m_SizeDelta: {x: 565.64404, y: 117.936035}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1988665886432933311
 CanvasRenderer:

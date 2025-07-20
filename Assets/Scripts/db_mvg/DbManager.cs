@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SpacetimeDB;
 using SpacetimeDB.Types;
 using System.Collections.Generic;
+using System.Linq;
 
 public class DbManager
 {
@@ -31,11 +32,12 @@ public class DbManager
         Conn = builder.Build();
     }
 
-    const string SERVER_URL = "http://127.0.0.1:3000";
+    const string SERVER_URL = "https://ubahn.sunjet-project.de";
     const string MODULE_NAME = "spacetime-db-service";
 
     public static Identity LocalIdentity { get; private set; }
     public static DbConnection Conn { get; private set; }
+    public event Action<Train> OnTrainUpdated;
 
     private void HandleConnect(DbConnection conn, Identity identity, string token)
     {
@@ -46,6 +48,12 @@ public class DbManager
         Conn.SubscriptionBuilder()
             .OnApplied(HandleSubscriptionApplied)
             .SubscribeToAllTables();
+
+        Conn.Db.Train.OnUpdate += (EventContext ctx, Train oldTrain, Train newTrain) =>
+        {
+            Debug.Log($"[Train Updated] ID: {newTrain.Id}");
+            OnTrainUpdated?.Invoke(newTrain);
+        };
 
         Conn.Reducers.Login(player_id);
     }
@@ -78,6 +86,18 @@ public class DbManager
     ////////////////////////////////////////////////////////
     /// TWOJE METODY ASYNC
 
+    public async Task enter_the_train(string from, string to)
+    {
+        await WaitUntilReady();
+        Conn.Reducers.EnterTheTrain(from + to, from, to, player_id, 1000);
+    }
+
+    public async Task leave_the_train(string from, string to)
+    {
+        await WaitUntilReady();
+        Conn.Reducers.LeaveTheTrain(from + to, player_id);
+    }
+
     public async Task<uint> get_armor_id()
     {
         await WaitUntilReady();
@@ -96,6 +116,13 @@ public class DbManager
         await WaitUntilReady();
         var player = Conn.Db.Player.PlayerId.Find(player_id);
         return player?.Money ?? 0;
+    }
+
+    public async Task<List<SpacetimeDB.Types.Station>> get_stations()
+    {
+        await WaitUntilReady();
+        var localStations = Conn.Db.Station.Iter().ToList();
+        return localStations;
     }
 
     public async Task set_player_money(uint _money)
@@ -149,10 +176,14 @@ public class DbManager
         var player = Conn.Db.Player.PlayerId.Find(player_id);
         return player?.ClassName ?? "Unknown";
     }
-
     public async Task set_player_class(string class_name)
     {
         await WaitUntilReady();
         Conn.Reducers.SetPlayerClass(player_id, class_name);
+    }
+    public async Task set_train_started(string from, string to, bool _started)
+    {
+        await WaitUntilReady();
+        Conn.Reducers.SetTrainStarted(from, to, _started);
     }
 }

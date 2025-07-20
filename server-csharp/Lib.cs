@@ -96,7 +96,6 @@ public static partial class Module
             armor_id = 0,
             weapon_id = 0,
         };
-
         ctx.Db.player.Insert(newPlayer);
     }
 
@@ -151,7 +150,7 @@ public static partial class Module
     [Reducer]
     public static void EquipWeapon(ReducerContext ctx, uint itemId, string player_id)
     {
-        var player = ctx.Db.player.player_id.Find(player_id)?? throw new Exception("[EquipWeapon] Player not found");
+        var player = ctx.Db.player.player_id.Find(player_id) ?? throw new Exception("[EquipWeapon] Player not found");
         player.weapon_id = itemId;
         ctx.Db.player.identity.Update(player);
     }
@@ -159,7 +158,7 @@ public static partial class Module
     [Reducer]
     public static void EquipArmor(ReducerContext ctx, uint itemId, string player_id)
     {
-        var player = ctx.Db.player.player_id.Find(player_id)?? throw new Exception("[EquipWeapon] Player not found");
+        var player = ctx.Db.player.player_id.Find(player_id) ?? throw new Exception("[EquipWeapon] Player not found");
         player.armor_id = itemId;
         ctx.Db.player.identity.Update(player);
     }
@@ -178,7 +177,7 @@ public static partial class Module
     [Reducer]
     public static void SetConsumablesToPlayer(ReducerContext ctx, string player_id, List<Item> consumables)
     {
-        var player = ctx.Db.player.player_id.Find(player_id)?? throw new Exception("[EquipWeapon] Player not found");
+        var player = ctx.Db.player.player_id.Find(player_id) ?? throw new Exception("[EquipWeapon] Player not found");
         player.consumables = consumables;
         ctx.Db.player.identity.Update(player);
     }
@@ -186,7 +185,7 @@ public static partial class Module
     [Reducer]
     public static void SetInventoryToPlayer(ReducerContext ctx, string player_id, List<Item> items)
     {
-        var player = ctx.Db.player.player_id.Find(player_id)?? throw new Exception("[EquipWeapon] Player not found");
+        var player = ctx.Db.player.player_id.Find(player_id) ?? throw new Exception("[EquipWeapon] Player not found");
         player.items = items;
         ctx.Db.player.identity.Update(player);
     }
@@ -194,7 +193,7 @@ public static partial class Module
     [Reducer]
     public static void SetPlayerClass(ReducerContext ctx, string player_id, string player_class)
     {
-        var player = ctx.Db.player.player_id.Find(player_id)?? throw new Exception("[EquipWeapon] Player not found");
+        var player = ctx.Db.player.player_id.Find(player_id) ?? throw new Exception("[EquipWeapon] Player not found");
         player.class_name = player_class;
         ctx.Db.player.identity.Update(player);
     }
@@ -202,7 +201,7 @@ public static partial class Module
     [Reducer]
     public static void SetPlayerMoney(ReducerContext ctx, string player_id, uint player_money)
     {
-        var player = ctx.Db.player.player_id.Find(player_id)?? throw new Exception("[EquipWeapon] Player not found");
+        var player = ctx.Db.player.player_id.Find(player_id) ?? throw new Exception("[EquipWeapon] Player not found");
         player.money = player_money;
         ctx.Db.player.identity.Update(player);
     }
@@ -284,5 +283,14 @@ public static partial class Module
     {
         var station = ctx.Db.station.mvg_id.Find(_id) ?? throw new Exception($"[DeleteStation] Station {_id} does not exist!");
         ctx.Db.station.mvg_id.Delete(station.mvg_id);
+    }
+    
+    [Reducer]
+    public static void SetTrainStarted(ReducerContext ctx, string from, string to, bool _started)
+    {
+        var train = ctx.Db.train.id.Find(from + to)
+            ?? throw new Exception("[SetTrainStarted] Train not found");
+        train.started = _started;
+        ctx.Db.train.id.Update(train);
     }
 }
