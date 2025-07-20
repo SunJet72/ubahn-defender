@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using TMPro;  // Required for TextMeshPro types
 
 public class UbahnMapVisualizer : MonoBehaviour
 {
-    [Header("Prefabs & Parents (World‐Space)")]
+    [Header("Prefabs & Parents (World‑Space)")]
+    [Tooltip("Prefab must include a SpriteRenderer and a TextMeshPro component for the station label.")]
     public GameObject stationPrefab;
     public Transform stationsParent;
+
+    [Tooltip("Prefab with a LineRenderer (Use World Space). Material shader should be Unlit/Color).")]
     public GameObject linePrefab;
     public Transform linesParent;
 
@@ -15,19 +18,15 @@ public class UbahnMapVisualizer : MonoBehaviour
     public float mapWidth = 10000f;
     public float mapHeight = 10000f;
 
-    [Header("Zoom Settings")]
-    public float minZoom = 0.5f;
-    public float maxZoom = 2f;
-    public float pinchZoomSpeed = 0.005f;
-
-    private Camera cam;
-    private float lastPinchDistance;
-
-    void Awake()
-    {
-        cam = Camera.main;
-        if (cam == null) Debug.LogError("UbahnMapVisualizer: No camera tagged MainCamera in scene!");
-    }
+    // Colors for lines
+    private readonly Color green      = new Color(0.0f, 0.8f, 0.2f);
+    private readonly Color lightGreen = new Color(0.3f, 1.0f, 0.5f);
+    private readonly Color orange     = new Color(1f, 0.55f, 0f);
+    private readonly Color blue       = Color.blue;
+    private readonly Color yellow     = Color.yellow;
+    private readonly Color red        = Color.red;
+    private readonly Color white      = Color.white;
+    private readonly Color purple     = new Color(0.6f, 0.2f, 1f);
 
     void Start()
     {
@@ -43,15 +42,19 @@ public class UbahnMapVisualizer : MonoBehaviour
             return;
         }
 
-        // Compute lon/lat bounds & center
-        var allLons = map.Select(s => s.lon);
-        var allLats = map.Select(s => s.lat);
-        double minLon = allLons.Min(), maxLon = allLons.Max();
-        double minLat = allLats.Min(), maxLat = allLats.Max();
+        // clear old
+        stationsParent.DestroyChildren();
+        linesParent.DestroyChildren();
+
+        // compute bounds & center
+        var lons = map.Select(s => s.lon);
+        var lats = map.Select(s => s.lat);
+        double minLon = lons.Min(), maxLon = lons.Max();
+        double minLat = lats.Min(), maxLat = lats.Max();
         double centerLon = (minLon + maxLon) / 2.0;
         double centerLat = (minLat + maxLat) / 2.0;
 
-        // Instantiate stations
+        // instantiate stations and set labels/colors
         var stationNodes = new Dictionary<Station, GameObject>();
         foreach (var station in map)
         {
@@ -60,32 +63,97 @@ public class UbahnMapVisualizer : MonoBehaviour
 
             float dx = (float)(station.lon - centerLon);
             float dy = (float)(station.lat - centerLat);
-            float x = dx / (float)(maxLon - minLon) * mapWidth;
-            float y = dy / (float)(maxLat - minLat) * mapHeight;
-
+            float x  = dx / (float)(maxLon - minLon) * mapWidth;
+            float y  = dy / (float)(maxLat - minLat) * mapHeight;
             go.transform.localPosition = new Vector3(x, y, 0f);
+
+            // set TextMeshPro label: show name and tier
+            string displayName = $"{station.StationName} (T{station.StationTier})";
+            var tmp3D = go.GetComponentInChildren<TextMeshPro>();
+            if (tmp3D != null)
+                tmp3D.text = displayName;
+            else
+            {
+                var tmpUI = go.GetComponentInChildren<TextMeshProUGUI>();
+                if (tmpUI != null)
+                    tmpUI.text = displayName;
+                else
+                    Debug.LogWarning($"Station prefab '{go.name}' has no TextMeshPro or TextMeshProUGUI component.");
+            }
+
+            // ---- SPRITE COLOR BY TIER ----
+            var sr = go.GetComponentInChildren<SpriteRenderer>();
+            if (sr != null)
+            {
+                switch (station.StationTier)
+                {
+                    case 1:
+                        sr.color = blue;
+                        break;
+                    case 2:
+                        sr.color = orange;
+                        break;
+                    case 3:
+                        sr.color = purple;
+                        break;
+                    default:
+                        sr.color = white;
+                        break;
+                }
+            }
+            //-------------------------------
+
             stationNodes[station] = go;
         }
 
-        // Instantiate lines
+        // instantiate colored lines with correct tinting
         var drawn = new HashSet<(Station, Station)>();
         foreach (var s in map)
         {
             foreach (var nb in s.Neighbours)
             {
-                var pair = s.GetHashCode() < nb.GetHashCode() ? (s, nb) : (nb, s);
+                var pair = s.GetHashCode() < nb.GetHashCode()
+                    ? (s, nb)
+                    : (nb, s);
                 if (drawn.Contains(pair)) continue;
                 drawn.Add(pair);
-                if (!s.uBahnLines.Intersect(nb.uBahnLines).Any()) continue;
+
+                var shared = s.uBahnLines.Intersect(nb.uBahnLines).ToList();
+                if (shared.Count == 0) continue;
+
+                // choose color
+                Color col = white;
+                if (shared.Contains(UBahnLine.U1) || shared.Contains(UBahnLine.U7))
+                    col = green;
+                else if (shared.Contains(UBahnLine.U4))
+                    col = lightGreen;
+                else if (shared.Contains(UBahnLine.U5))
+                    col = orange;
+                else if (shared.Contains(UBahnLine.U6))
+                    col = blue;
+                else if (shared.Contains(UBahnLine.U3))
+                    col = yellow;
+                else if (shared.Contains(UBahnLine.U2))
+                    col = red;
 
                 var lineGO = Instantiate(linePrefab, linesParent);
                 lineGO.name = $"Line_{pair.Item1.StationName}_{pair.Item2.StationName}";
                 var lr = lineGO.GetComponent<LineRenderer>();
-                if (!lr)
+                if (lr == null)
                 {
                     Debug.LogError("LinePrefab missing LineRenderer!", lineGO);
                     continue;
                 }
+
+                // clone and tint the material itself
+                var mat = new Material(lr.sharedMaterial);
+                mat.color = col;
+                lr.material = mat;
+
+                // also set gradient in case shader uses start/end
+                lr.startColor = col;
+                lr.endColor   = col;
+
                 lr.positionCount = 2;
                 lr.SetPosition(0, stationNodes[pair.Item1].transform.position);
                 lr.SetPosition(1, stationNodes[pair.Item2].transform.position);
@@ -94,62 +162,14 @@ public class UbahnMapVisualizer : MonoBehaviour
 
         Debug.Log($"Map built: {stationNodes.Count} stations, {drawn.Count} edges");
     }
+}
 
-    void Update()
+// Utility extension
+public static class TransformExtensions
+{
+    public static void DestroyChildren(this Transform t)
     {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(0))
-            return;
-
-        if (Input.touchCount == 1)
-            PanTouch(Input.GetTouch(0));
-        else if (Input.touchCount == 2)
-            PinchZoom(Input.GetTouch(0), Input.GetTouch(1));
+        for (int i = t.childCount - 1; i >= 0; --i)
+            Object.DestroyImmediate(t.GetChild(i).gameObject);
     }
-
-    private Plane mapPlane = new Plane(Vector3.forward, Vector3.zero);
-
-
-    private float lastTouchDistance = 0;
-
-
-    private void PanTouch(Touch touch)
-    {
-        if (touch.phase != TouchPhase.Moved) return;
-
-        // Raycast prev & current finger into map plane
-        Ray prevRay = cam.ScreenPointToRay(touch.position - touch.deltaPosition);
-        Ray currRay = cam.ScreenPointToRay(touch.position);
-
-        if (mapPlane.Raycast(prevRay, out float enterPrev) &&
-            mapPlane.Raycast(currRay, out float enterCurr))
-        {
-            Vector3 prevWorld = prevRay.GetPoint(enterPrev);
-            Vector3 currWorld = currRay.GetPoint(enterCurr);
-            Vector3 delta = currWorld - prevWorld;
-
-            // Move camera opposite to finger drag
-            cam.transform.position -= delta;
-        }
-    }
-
-    private void PinchZoom(Touch t0, Touch t1)
-    {
-        // Current and previous distance between touches
-        float currentDistance = Vector2.Distance(t0.position, t1.position);
-
-        if (t0.phase == TouchPhase.Began || t1.phase == TouchPhase.Began)
-        {
-            lastTouchDistance = currentDistance;
-            return;
-        }
-
-        float delta = currentDistance - lastTouchDistance;
-        lastTouchDistance = currentDistance;
-
-        // Invert so pinching closed zooms in, pinching open zooms out
-        float newSize = cam.orthographicSize - delta * pinchZoomSpeed;
-        cam.orthographicSize = Mathf.Clamp(newSize, minZoom, maxZoom);
-    }
-
-
 }
