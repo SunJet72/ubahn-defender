@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ff73467fc8162adcbecc12c2c49c62c, type: 3}
-  m_Name: Armor_Ranger_RustyPullover
+  m_Name: Armor_Ranger_SniperHoody
   m_EditorClassIdentifier: 
-  id: 0
-  title: Rusty Pullover
+  id: 2
+  title: Sniper Hoody
   itemClass: 2
   description: 
   maxStackSize: 1
   tier: 1
-  sprite: {fileID: 21300000, guid: d3ea3e59de57b4973b90868b06ae16f8, type: 3}
+  sprite: {fileID: 21300000, guid: 672328fa81544ff41865cf19b21e6275, type: 3}
   price: 0
   action: {fileID: 0}
-  spell: {fileID: 961030587625051347, guid: 5d49f3983ad27094c938a4cfd65442ab, type: 3}
+  spell: {fileID: 2796065871606126241, guid: abdbbebd8e72e334fb9ca984727a7abe, type: 3}
   additionalHealth: 0
   armor: 0
-  unitData: {fileID: 11400000, guid: 487b61d8b0233054f9f84cb6a85ba3c5, type: 2}
+  PlayerSprite: {fileID: 0}
+  unitData: {fileID: 11400000, guid: 103ad77837456684a839543a8dd7f4cf, type: 2}

@@ -75,6 +75,6 @@ public class GameCombatManager : NetworkBehaviour
         float ratio = (float)TrainSystem.Instance.TotalBoxesAmount / (float)TrainSystem.Instance.MaxBoxesAmount;
         //Send to db end game
 
-        await Runner.Shutdown();
+        await Runner.Shutdown(destroyGameObject: false);
     }
 }

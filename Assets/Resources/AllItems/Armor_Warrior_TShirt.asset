@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ff73467fc8162adcbecc12c2c49c62c, type: 3}
-  m_Name: leather armor
+  m_Name: Armor_Warrior_TShirt
   m_EditorClassIdentifier: 
-  id: 5
-  title: leather armor
+  id: 3
+  title: Wet T-Shirt
   itemClass: 1
-  description: Previously worn... by cow (your mother)
+  description: 
   maxStackSize: 1
-  tier: 0
-  sprite: {fileID: 21300000, guid: 1379cbe1beb724ba596213c38e5c278b, type: 3}
-  price: 69
-  action: {fileID: 11400000, guid: c4cebefa318ae7da3a5cb38a5e6aa0ee, type: 2}
+  tier: 1
+  sprite: {fileID: 21300000, guid: 881776167feb11c40802d539cce4e98d, type: 3}
+  price: 0
+  action: {fileID: 0}
+  spell: {fileID: 8540331181646647031, guid: d3cb96b986503f144b8f9643f7811d52, type: 3}
   additionalHealth: 0
   armor: 0
+  PlayerSprite: {fileID: 0}
+  unitData: {fileID: 11400000, guid: 19afc5b2615b72d47a685423c2978ffe, type: 2}

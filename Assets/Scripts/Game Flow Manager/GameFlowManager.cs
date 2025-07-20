@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameFlowManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GameFlowManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private bool isReady = false;
     [SerializeField] private float locationRefreshTime;
+    public string nickname { get; private set; }
 
     void Awake()
     {
@@ -19,8 +21,12 @@ public class GameFlowManager : MonoBehaviour
         {
             Destroy(this);
         }
-        DontDestroyOnLoad(this);
-        //LogIn("browski");
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    void Start()
+    {
+        //LogIn("debik");
     }
 
     public void StartGame()
@@ -48,7 +54,9 @@ public class GameFlowManager : MonoBehaviour
 
     public void LogIn(string nickname)
     {
+        Debug.Log("Logging in");
+        this.nickname = nickname; 
         GetComponent<SpacetimeDBController>().initDB(nickname);
-
+        SceneManager.LoadScene(1);
     }
 }

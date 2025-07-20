@@ -57,11 +57,11 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(this);
     }
 
-    async void StartGame(GameMode mode, string roomName = "TestRoomKirill")
+    async void StartGame(GameMode mode, string roomName = "TestRoomSunJet")
     {
-
         _myrunner = gameObject.AddComponent<NetworkRunner>();
         _myrunner.ProvideInput = true;
 
@@ -188,6 +188,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
+        Destroy(GetComponent<NetworkRunner>());
         SceneManager.LoadScene(inventorySceneIndex);
     }
 }

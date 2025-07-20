@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fefdbe746f011f36a5bbd1074c3d66a, type: 3}
-  m_Name: Weapon_Ranger_TearShooter
+  m_Name: Weapon_Warrior_TheGreatGroh
   m_EditorClassIdentifier: 
-  id: 0
-  title: Tear Shooter
-  itemClass: 2
+  id: 10
+  title: The Great Groh
+  itemClass: 1
   description: 
   maxStackSize: 1
   tier: 1
-  sprite: {fileID: 21300000, guid: 938fe8a707639924ba6fddfe92c9a04f, type: 3}
+  sprite: {fileID: 21300000, guid: 9f0e7c5e9bf01e948b1ccb2ff0408a2b, type: 3}
   price: 0
   action: {fileID: 0}
-  spell: {fileID: 3912093523137997914, guid: b1635a8c708b32f45b223c2764589112, type: 3}
-  damage: 2
+  spell: {fileID: 8238710984957800974, guid: 14bb6d470e9dc6548ad0a9793ef5ba45, type: 3}
+  damage: 3
   attackSpeed: 0
   armorPenetration: 0
-  range: 7
+  range: 1.5
   cooldown: 1
-  unitData: {fileID: 11400000, guid: 5a9954e31f7744b498486041e6c9aa23, type: 2}
-  canShoot: 1
-  projectile: {fileID: 3741640768930393692, guid: 995d4d339864a4c49951ffb505acc784, type: 3}
-  canDealSplashDamage: 0
-  fov: 0
+  unitData: {fileID: 11400000, guid: 9bde0893824a6fc49a8d2e337eeee593, type: 2}
+  canShoot: 0
+  projectile: {fileID: 0}
+  canDealSplashDamage: 1
+  fov: 120

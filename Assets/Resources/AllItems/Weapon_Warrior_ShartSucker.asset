@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fefdbe746f011f36a5bbd1074c3d66a, type: 3}
-  m_Name: Weapon_Warrior_TheGreatGroh
+  m_Name: Weapon_Warrior_ShartSucker
   m_EditorClassIdentifier: 
-  id: 0
-  title: 
+  id: 8
+  title: Sharp Sucker
   itemClass: 1
   description: 
   maxStackSize: 1
   tier: 1
-  sprite: {fileID: 21300000, guid: 9f0e7c5e9bf01e948b1ccb2ff0408a2b, type: 3}
+  sprite: {fileID: 21300000, guid: 2446413a313979c4bb4ecac452ca6186, type: 3}
   price: 0
   action: {fileID: 0}
-  spell: {fileID: 8238710984957800974, guid: 14bb6d470e9dc6548ad0a9793ef5ba45, type: 3}
+  spell: {fileID: 7427776350980438686, guid: 534075817c7b2bb4c9df2424b069a05e, type: 3}
   damage: 3
   attackSpeed: 0
   armorPenetration: 0
-  range: 1.5
+  range: 2
   cooldown: 1
-  unitData: {fileID: 11400000, guid: 9bde0893824a6fc49a8d2e337eeee593, type: 2}
+  unitData: {fileID: 11400000, guid: c3322107bfcaf074cb617969a9e06c01, type: 2}
   canShoot: 0
   projectile: {fileID: 0}
   canDealSplashDamage: 1

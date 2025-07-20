@@ -27,8 +27,16 @@ public class SpacetimeDBController : MonoBehaviour
 
     public void initDB(string nickname)
     {
-        dbService = new DbManager(nickname);
-        isInit = true;
+        Debug.Log(nickname);
+        if (!isInit)
+        {
+            dbService = new DbManager(nickname);
+            isInit = true;
+        }
+        else
+        {
+            Debug.LogError("Do not init the initiated");
+        }
     }
 
     private void DbNotInit()
@@ -64,7 +72,8 @@ public class SpacetimeDBController : MonoBehaviour
         if (!isInit)
         {
             Debug.LogError("Db is not init. Stop calling it");
-        }        switch (pc)
+        }
+        switch (pc)
         {
             case PlayerInventory.PlayerClass.Warrior:
                 await dbService.set_player_class("Warrior");
@@ -147,7 +156,7 @@ public class SpacetimeDBController : MonoBehaviour
             armor = ItemManager.instance.getItem(id);
             if (armor == null || armor is not ScriptableArmor)
             {
-                Debug.LogError("Some shit in db weapon slot");
+                Debug.LogError("Some shit in db armor slot");
                 return ItemManager.instance.emptyArmor;
             }
         }

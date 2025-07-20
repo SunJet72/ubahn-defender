@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fefdbe746f011f36a5bbd1074c3d66a, type: 3}
   m_Name: Weapon_Ranger_Slingshot
   m_EditorClassIdentifier: 
-  id: 0
-  title: 
+  id: 6
+  title: Slingshot
   itemClass: 2
   description: 
   maxStackSize: 1
