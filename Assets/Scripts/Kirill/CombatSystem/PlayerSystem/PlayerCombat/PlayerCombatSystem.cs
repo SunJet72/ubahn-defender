@@ -195,7 +195,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 {
                     if (hit.TryGetComponent(out EnemyCombatBehaviourSystem enemy))
                     {
-                        enemy.Hurt(CalculateDamage(weaponEq.damage), this);
+                        enemy.Hurt(CalculateDamage(weaponEq.damage), ArmorPenetration, this);
                     }
                 }
             }
@@ -203,7 +203,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         else
         {
             // TODO: Add delay and visual interpretation of hit. For noe just do it instantly
-            target.Hurt(CalculateDamage(weaponEq.damage), this);
+            target.Hurt(CalculateDamage(weaponEq.damage), ArmorPenetration, this);
         }
         curAttackCooldown = weaponEq.cooldown;
     }
@@ -312,6 +312,9 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     public override void OnHealthChanged()
     {
-        UIEvents.ShieldChanged((int)Health, (int)data.health);
+        if (Runner.GetPlayerObject(Runner.LocalPlayer).Equals(Object))
+        {
+            UIEvents.ShieldChanged((int)Health, (int)data.health);
+        }
     }
 }

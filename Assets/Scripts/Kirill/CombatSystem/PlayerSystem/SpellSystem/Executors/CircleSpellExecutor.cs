@@ -51,7 +51,7 @@ public class CircleSpellExecutor : NetworkBehaviour
                 if (unit is PlayerCombatSystem)
                     return;
                 Debug.Log("I am hitting an enemy");
-                unit.Hurt(CalculateDamage(data.damageProExecution), player);
+                unit.Hurt(CalculateDamage(data.damageProExecution), player.ArmorPenetration, player);
             }
         }
     }

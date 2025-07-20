@@ -55,7 +55,7 @@ public class SplashSpellExecutor : NetworkBehaviour
                     if (unit is PlayerCombatSystem)
                         return;
                     Debug.LogWarning("!!! I am hurting enemy with splash");
-                    unit.Hurt(CalculateDamage(data.damageProExecution), player);
+                    unit.Hurt(CalculateDamage(data.damageProExecution), player.ArmorPenetration, player);
                 }
             }
         }

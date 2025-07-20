@@ -10,6 +10,8 @@ public class Projectile : NetworkBehaviour
     private bool isFlying = false;
     private UnitController attacker;
     private float damage;
+    private float strength;
+    private float penetration;
     private List<UnitType> targetTypes;
 
     float distanceTravelled;
@@ -24,6 +26,8 @@ public class Projectile : NetworkBehaviour
         this.target = target;
         this.attacker = attacker;
         this.damage = damage;
+        this.penetration = attacker.ArmorPenetration;
+        this.strength = attacker.Strength;
         this.targetTypes = targetTypes;
         UpdateFlyingDirection(target.position);
 
@@ -47,6 +51,8 @@ public class Projectile : NetworkBehaviour
         }
         this.attacker = attacker;
         this.damage = damage;
+        this.penetration = attacker.ArmorPenetration;
+        this.strength = attacker.Strength;
         this.targetTypes = targetTypes;
         isFlying = true;
     }
@@ -70,6 +76,10 @@ public class Projectile : NetworkBehaviour
                 {
                     OnEndFlight();
                 }
+            }
+            if (distanceTravelled >= 20f)
+            {
+                Runner.Despawn(Object);
             }
         }
     }
@@ -98,7 +108,7 @@ public class Projectile : NetworkBehaviour
 
             Debug.Log("I am attacking: " + unit.gameObject);
             //ApplyEffects(unit.transform);
-            unit.Hurt(CalculateDamage(damage), attacker);
+            unit.Hurt(CalculateDamage(damage), penetration, attacker);
 
             if (!(data.hitType == HitType.ALL))
                 OnEndFlight();
@@ -121,6 +131,6 @@ public class Projectile : NetworkBehaviour
     
     private float CalculateDamage(float damage)
     {
-        return damage * ((100f + attacker.Strength) / 100f);
+        return damage * ((100f + strength) / 100f);
     }
 }

@@ -24,6 +24,7 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
 
     public void Initialize()
     {
+        Debug.LogWarning("Vehicle Was initialized");
         base.Init();
 
         gameCombatManager = GameObject.Find("GameCombatManager").GetComponent<GameCombatManager>();
@@ -81,9 +82,9 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
     private bool started = false;
     public override void FixedUpdateNetwork()
     {
-        if (!timer.IsRunning) timer = TickTimer.CreateFromSeconds(Runner, 7);
+        // if (!timer.IsRunning) timer = TickTimer.CreateFromSeconds(Runner, 7);
 
-        if (!timer.Expired(Runner)) return;
+        // if (!timer.Expired(Runner)) return;
 
         if (!started)
         {
@@ -128,13 +129,14 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
 
     protected override void Die()
     {
-        TriggerDeathEvent();
         foreach (var enemy in enemies)
         {
             if (enemy != null)
             {
-                enemy.Hurt(999999, this);
+                enemy.Hurt(999999, 0, this);
             }
         }
+        TriggerDeathEvent();
+        Runner.Despawn(Object);
     }
 }

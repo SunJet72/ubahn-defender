@@ -6,6 +6,7 @@ public abstract class UnitController : NetworkBehaviour
 {
     public abstract UnitData UnitData { get; }
     public event Action<UnitController> OnDieEvent;
+    public event Action<UnitController> OnHurtEvent; // Arg is Attacker
 
     [Networked, OnChangedRender(nameof(OnHealthChanged))]
     private float health { get; set; }
@@ -125,12 +126,13 @@ public abstract class UnitController : NetworkBehaviour
         }
     }
 
-    public virtual void Hurt(float damage, UnitController attacker)
+    public virtual void Hurt(float damage, float penetration, UnitController attacker)
     {
-        Debug.Log("Unit was hurt " + gameObject + " Damage: " + damage + " penetration: " + attacker.ArmorPenetration);
+        Debug.Log("Unit was hurt " + gameObject + " Damage: " + damage + " penetration: " + penetration);
         Debug.Log("Health before: " + Health);
-        health -= damage * (100f / (100f + this.armor - attacker.ArmorPenetration));
+        health -= damage * (100f / (100f + this.armor - penetration));
         Debug.Log("Health after: " + Health);
+        OnHurtEvent?.Invoke(attacker);
         if (health <= 0)
         {
             health = 0;

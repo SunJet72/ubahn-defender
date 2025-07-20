@@ -97,6 +97,12 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
         }
     }
 
+    private void SetAttackingMeleeBehaviour(PlayerCombatSystem target)
+    {
+        attackingMeleeBehaviourController.SetTarget(target);
+        ChangeCurrentBehaviour(attackingRangedBehaviourController);
+    }
+
     //---// AttackingRangedBehaviourController //---//
     public void RangedLoseTarget()
     {
@@ -129,6 +135,11 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
         SetHauntingBehavior();
     }
 
+    public void ChangeAggro(UnitController attacker)
+    {
+        SetAttackingMeleeBehaviour(attacker as PlayerCombatSystem);
+    }
+
     private void SetHauntingBehavior()
     {
         EctsContainer container = gameCombatManager.GetNearestContainer(transform);
@@ -152,12 +163,13 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
     protected override void Die()
     {
         TriggerDeathEvent();
-        Destroy(gameObject);
+        Runner.Despawn(Object);
     }
 
-    public override void Hurt(float damage, UnitController attacker)
+    public override void Hurt(float damage, float penetration, UnitController attacker)
     {
-        base.Hurt(damage, attacker);
-        transform.Translate((transform.position - attacker.transform.position) * 0.3f);
+        base.Hurt(damage, penetration, attacker);
+        if (attacker != null)
+            transform.Translate((transform.position - attacker.transform.position) * 0.15f);
     }
 }

@@ -55,7 +55,7 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
 
     private void Attack()
     {
-        player.Hurt(CalculateDamage(data.attackDamage), Controller);
+        player.Hurt(CalculateDamage(data.attackDamage), Controller.ArmorPenetration, Controller);
         curAttackCooldown = 1f;
     }
 
