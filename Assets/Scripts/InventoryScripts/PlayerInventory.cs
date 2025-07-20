@@ -21,12 +21,19 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private int maxActiveConsumables;
     [SerializeField] private InventorySlot[] activeConsumables;
 
+    [SerializeField] private Sprite playerSprite;
+
     [SerializeField] private PlayerClass currentClass = PlayerClass.Warrior;
-    [SerializeField] private string nickname;
+    private string nickname;
 
     [SerializeField] private PlayerCombatSystemData ingeneerData;
     [SerializeField] private PlayerCombatSystemData RangerData;
     [SerializeField] private PlayerCombatSystemData WarriorData;
+
+
+    [SerializeField] private Sprite standartWarriorSprite;
+    [SerializeField] private Sprite standartRangerSprite;
+    [SerializeField] private Sprite standartIngeneerSprite;
 
 
     void Awake()
@@ -101,8 +108,35 @@ public class PlayerInventory : MonoBehaviour
         inventoryStash = await db.GetInventory();
         playerMoney = await db.GetPlayerMoney();
         ChangeClass(await db.GetPlayerClass());
+        UpdatePlayerSprite();
         InventoryChanged.Invoke();
         UIMasterController.instance.RebuildAll();
+    }
+
+    private void UpdatePlayerSprite()
+    {
+        if (currentArmor == ItemManager.instance.emptyArmor)
+        {
+            switch (currentClass)
+            {
+                case PlayerClass.Warrior:
+                    playerSprite = standartWarriorSprite;
+                    break;
+                case PlayerClass.Ranger:
+                    playerSprite = standartRangerSprite;
+                    break;
+                case PlayerClass.Ingeniur:
+                    playerSprite = standartIngeneerSprite;
+                    break;
+                default:
+                    playerSprite = ItemManager.instance.defaultSprite;
+                    break;
+            }
+        }
+        else
+        {
+            playerSprite = currentArmor.PlayerSprite;
+        }
     }
 
     public PlayerInventory RemoveItem(ScriptableItemBase item)
@@ -159,6 +193,7 @@ public class PlayerInventory : MonoBehaviour
         RemoveItem(armor);
         currentArmor = (ScriptableArmor)armor;
         SpacetimeDBController.instance.SetCurrentArmor(currentArmor);
+        UpdatePlayerSprite();
         InventoryChanged.Invoke();
         EquipmentChanged.Invoke();
     }
@@ -313,7 +348,7 @@ public class PlayerInventory : MonoBehaviour
         }
         currentClass = newClass;
         SpacetimeDBController.instance.SetPlayersClass(currentClass);
-
+        UpdatePlayerSprite();
         InventoryChanged.Invoke();
 
     }
@@ -340,6 +375,11 @@ public class PlayerInventory : MonoBehaviour
                 return ingeneerData;
         }
         return null;
+    }
+
+    public Sprite GetPlayerSprite()
+    {
+        return playerSprite;
     }
     
     public enum PlayerClass
