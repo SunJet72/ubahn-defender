@@ -6,6 +6,7 @@ public class UINicknamePanel : MonoBehaviour
 {
     [SerializeField] TMP_InputField inputNickname;
     [SerializeField] Button confirmButton;
+    [SerializeField] TMP_Text buttonText;
 
     void Awake()
     {
@@ -14,6 +15,15 @@ public class UINicknamePanel : MonoBehaviour
 
     public void OnNonemptyNickname(string input)
     {
-        // if(input)
+        if (input == "")
+        {
+            buttonText.text = "InputName";
+            confirmButton.enabled = false;
+        }
+        else
+        {
+            buttonText.text = "Start";
+            confirmButton.enabled = true;
+        }
     }
 }
