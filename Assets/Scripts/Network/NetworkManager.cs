@@ -108,7 +108,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
                 PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
                 playerCombatSystem.Init(playerCombatSystemData, scriptableArmor, scriptableWeapon, consumables);
-                playerCombatSystem.InitRpc(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
+                if(playerRef != runner.LocalPlayer) playerCombatSystem.InitRpc(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
             });
 
             // _spawnedPlayers.Add(playerRef, playerObj);
