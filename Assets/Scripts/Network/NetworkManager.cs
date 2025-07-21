@@ -107,8 +107,8 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 spawned.transform.localScale = Vector3.one * 2;
 
                 PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
-                playerCombatSystem.Init(playerCombatSystemData, scriptableArmor, scriptableWeapon, consumables);
-                if(playerRef != runner.LocalPlayer) playerCombatSystem.InitRpc(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
+                if(playerRef == runner.LocalPlayer) playerCombatSystem.Init(playerCombatSystemData, scriptableArmor, scriptableWeapon, consumables);
+                playerCombatSystem.InitRpc(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
             });
 
             // _spawnedPlayers.Add(playerRef, playerObj);

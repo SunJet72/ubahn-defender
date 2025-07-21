@@ -96,7 +96,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         this.weaponEq = (ScriptableWeapon) ItemManager.instance.getItem(weaponId);
         this.consumables = new List<ScriptableConsumable>();
 
-        Init(this.data, this.armorEq, this.weaponEq, this.consumables);
+        // Init(this.data, this.armorEq, this.weaponEq, this.consumables);
 
     }
 
