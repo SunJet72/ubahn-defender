@@ -35,8 +35,8 @@ public class DbManager
         Instance = this;
     }
 
-    //const string SERVER_URL = "https://ubahn.sunjet-project.de";
-    const string SERVER_URL = "http://127.0.0.1:3000";
+    const string SERVER_URL = "https://ubahn.sunjet-project.de";
+    //const string SERVER_URL = "http://127.0.0.1:3000";
     const string MODULE_NAME = "spacetime-db-service";
 
     public static Identity LocalIdentity { get; private set; }

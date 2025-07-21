@@ -160,7 +160,8 @@ public class WorldMapController : MonoBehaviour
         {
             // if check for station 
             string nearestStationId = GpsMvgManager.instance.IsOnStation();
-            if (nearestStationId !=String.Empty) // if station is near
+            Debug.Log("your next station is" + nearestStationId);
+            if (nearestStationId != String.Empty) // if station is near
             {
                 if (!isOnStation)
                 {
@@ -199,11 +200,12 @@ public class WorldMapController : MonoBehaviour
     public void SetTrueTemp()
     {
         //temp = true;
-        //GpsMvgManager.
+        GpsMvgManager.maxDistance = 9999999999.0f;
     }
 
     public void SetFalseTemp()
     {
-        temp = false;
+        GpsMvgManager.maxDistance = 150.0f;
+
     }
 }

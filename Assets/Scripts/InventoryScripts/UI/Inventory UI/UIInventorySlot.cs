@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +6,7 @@ public class UIInventorySlot : MonoBehaviour
 {
     [SerializeField] public InventorySlot realSlot;
     [SerializeField] Image slotImage;
+    [SerializeField] Image backgroundPanel; 
     [SerializeField] TMP_Text itemNameText;
     [SerializeField] TMP_Text itemCountText;
     [SerializeField] private Color commonColor;
@@ -22,17 +22,17 @@ public class UIInventorySlot : MonoBehaviour
         switch (realSlot.GetSample().tier)
         {
             case 0:
-                slotImage.color = commonColor;
+                backgroundPanel.color = commonColor;
                 break;
             case 1:
-                slotImage.color = rareColor;
+                backgroundPanel.color = rareColor;
                 break;
             case 2:
-                slotImage.color = legendaryColor;
+                backgroundPanel.color = legendaryColor;
                 break;
 
             default:
-                slotImage.color = commonColor;
+                backgroundPanel.color = commonColor;
                 break;
         }
     }

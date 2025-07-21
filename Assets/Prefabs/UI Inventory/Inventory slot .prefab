@@ -563,6 +563,7 @@ MonoBehaviour:
     objects: []
     sample: {fileID: 0}
   slotImage: {fileID: 1870792630550514122}
+  backgroundPanel: {fileID: 7282629474574694769}
   itemNameText: {fileID: 105243504601930460}
   itemCountText: {fileID: 1561897960646553602}
   commonColor: {r: 1, g: 1, b: 1, a: 0.6784314}

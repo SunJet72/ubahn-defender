@@ -41,6 +41,7 @@ public class GameFlowManager : MonoBehaviour
         isReady = true;
         //.... mock shit
         PlayerInventory inventory = PlayerInventory.instance;
+        Debug.Log("Starting train from " + WorldMapController.instance.currentStation.StationName + " to " + nextStation.StationName);
         SpacetimeDBController.instance.StartTrain(WorldMapController.instance.currentStation, nextStation);
         NetworkManager.Instance.JoinGame(inventory.GetCurrentWeapon(), inventory.GetCurrentArmor(), PlayerInventory.instance.GetPlayerCombatSystemData(),new List<ScriptableConsumable>());
     }
