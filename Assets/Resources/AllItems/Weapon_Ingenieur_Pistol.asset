@@ -18,7 +18,7 @@ MonoBehaviour:
   description: 
   maxStackSize: 1
   tier: 1
-  sprite: {fileID: 21300000, guid: 17c9beae7cdf54b60ac98cb4ccbb214d, type: 3}
+  sprite: {fileID: 21300000, guid: 65ef036724cf4aa17949077c5f3b9a1d, type: 3}
   price: 0
   action: {fileID: 0}
   spell: {fileID: 1386488850478923889, guid: 4c8518994c099134890b8da6bf0dfc71, type: 3}
@@ -29,6 +29,6 @@ MonoBehaviour:
   cooldown: 1
   unitData: {fileID: 11400000, guid: 2235891ea8e150a42aa236d7ccf10d50, type: 2}
   canShoot: 1
-  projectile: {fileID: 7353867467715640069, guid: 114d0e708d52de44ab8b5b0ecd6c2854, type: 3}
+  projectile: {fileID: 0}
   canDealSplashDamage: 0
   fov: 0
