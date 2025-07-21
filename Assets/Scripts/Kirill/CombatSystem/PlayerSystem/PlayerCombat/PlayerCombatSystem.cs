@@ -31,6 +31,13 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     private NetworkObject spellArmor { get; set; }
     [Networked]
     private NetworkObject spellWeapon { get; set; }
+    
+    [Networked]
+    private PlayerNetworkStruct networkData { get; set; }
+    [Networked]
+    private int armorId { get; set; }
+    [Networked]
+    private int weaponId { get; set; }
 
 
     public override void Spawned()
@@ -51,6 +58,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
             UnitType.VEHICLE
         };
 
+    
         ApplyUnitDataStats(armorEq.unitData);
         ApplyUnitDataStats(weaponEq.unitData);
 
@@ -74,7 +82,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 spawned.transform.localPosition = Vector2.zero;
             });
         }
-        
+
     }
 
     public void AfterSpawned()
@@ -86,34 +94,40 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         }
     }
 
-    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.InputAuthority)]
-    public void InitRpc(PlayerNetworkStruct data, int armorId, int weaponId)
+    public void Init(PlayerNetworkStruct data, int armorId, int weaponId)
     {
-        base.Init();
 
-        this.data = data.CopyData();
-        this.armorEq = (ScriptableArmor) ItemManager.instance.getItem(armorId);
-        this.weaponEq = (ScriptableWeapon) ItemManager.instance.getItem(weaponId);
+
+        this.networkData = data;
+        this.armorId = armorId;
+        this.weaponId = weaponId;
         this.consumables = new List<ScriptableConsumable>();
+
+        this.data = networkData.CopyData();
+        this.armorEq = (ScriptableArmor)ItemManager.instance.getItem(armorId);
+        this.weaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
+        this.consumables = new List<ScriptableConsumable>();
+        
+        base.Init();
 
         // Init(this.data, this.armorEq, this.weaponEq, this.consumables);
 
     }
 
-    public void Init(PlayerCombatSystemData data, ScriptableArmor armorEq, ScriptableWeapon weaponEq, List<ScriptableConsumable> consumables)
-    {
-        this.data = data;
-        this.armorEq = armorEq;
-        this.weaponEq = weaponEq;
-        this.consumables = new List<ScriptableConsumable>(consumables);
+    // public void Init(PlayerCombatSystemData data, ScriptableArmor armorEq, ScriptableWeapon weaponEq, List<ScriptableConsumable> consumables)
+    // {
+    //     this.data = data;
+    //     this.armorEq = armorEq;
+    //     this.weaponEq = weaponEq;
+    //     this.consumables = new List<ScriptableConsumable>(consumables);
 
-        // if (!didAwake)
-        // {
-        //     Awake();
-        // }
+    //     // if (!didAwake)
+    //     // {
+    //     //     Awake();
+    //     // }
 
         
-    }
+    // }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void InitSpellsRpc()
