@@ -2648,7 +2648,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputNickname: {fileID: 2107011222}
-  confirmButton: {fileID: 0}
+  confirmButton: {fileID: 1789070631}
+  buttonText: {fileID: 444495791}
 --- !u!1 &1689783695
 GameObject:
   m_ObjectHideFlags: 0
@@ -3056,19 +3057,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1789070632}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1833055572}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1789070632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3201,6 +3190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputNickname: {fileID: 464663488}
   confirmButton: {fileID: 855238831}
+  buttonText: {fileID: 0}
 --- !u!1 &1900137416
 GameObject:
   m_ObjectHideFlags: 0
@@ -3446,7 +3436,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1615100507}
+        m_TargetAssemblyTypeName: UINicknamePanel, Assembly-CSharp
+        m_MethodName: OnNonemptyNickname
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []

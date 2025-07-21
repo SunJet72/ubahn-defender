@@ -16,7 +16,7 @@ MonoBehaviour:
   title: Wet T-Shirt
   itemClass: 1
   description: 
-  maxStackSize: 1
+  maxStackSize: 0
   tier: 1
   sprite: {fileID: 21300000, guid: 965b2206b1bdd87a184a08341bf83e70, type: 3}
   price: 0

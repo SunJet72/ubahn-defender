@@ -17,7 +17,7 @@ MonoBehaviour:
   itemClass: 1
   description: 
   maxStackSize: 1
-  tier: 1
+  tier: 2
   sprite: {fileID: 21300000, guid: e32e6a93b6a58184aa7bfd696ab0ed75, type: 3}
   price: 0
   action: {fileID: 0}
