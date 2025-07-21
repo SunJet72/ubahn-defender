@@ -29,6 +29,6 @@ MonoBehaviour:
   cooldown: 1
   unitData: {fileID: 11400000, guid: 5a9954e31f7744b498486041e6c9aa23, type: 2}
   canShoot: 1
-  projectile: {fileID: 3741640768930393692, guid: 995d4d339864a4c49951ffb505acc784, type: 3}
+  projectile: {fileID: 2131921300597257425, guid: 995d4d339864a4c49951ffb505acc784, type: 3}
   canDealSplashDamage: 0
   fov: 0

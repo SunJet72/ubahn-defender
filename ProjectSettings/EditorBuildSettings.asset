@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/InventoryTestScene.unity
     guid: 1305a91316f69021d9a61e94c5bbe28c
   - enabled: 1
-    path: Assets/Scripts/Kirill/CombatSystem/EnemyCombatScene.unity
+    path: Assets/Scenes/EnemyCombatScene.unity
     guid: edcba0b0255762d4b8cf9541da5f3ed8
   - enabled: 1
     path: Assets/Scenes/WorldMapScene.unity

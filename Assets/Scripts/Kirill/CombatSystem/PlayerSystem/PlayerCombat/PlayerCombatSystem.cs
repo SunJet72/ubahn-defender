@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Fusion;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -73,6 +74,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     {
         if (HasInputAuthority)
         {
+            Debug.Log("Set camera");
+            GameObject.Find("CmCam").GetComponent<CinemachineCamera>().Follow = this.transform;
             gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
             OnHealthChanged();
         }
