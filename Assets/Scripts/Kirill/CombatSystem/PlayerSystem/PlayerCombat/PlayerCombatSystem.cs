@@ -23,6 +23,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     private bool isSetUp = false;
 
     [SerializeField] private CircleCollider2D detectionCollider;
+    [SerializeField] private SpriteRenderer heroSprite;
 
     List<UnitType> unitTypesEnemy;
     List<UnitType> unitTypesVehicle;
@@ -89,6 +90,11 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         this.weaponEq = weaponEq.CopyData();
         this.consumables = new List<ScriptableConsumable>();
 
+        if (this.armorEq != null && this.armorEq.PlayerSprite != null)
+        {
+            heroSprite.sprite = this.armorEq.PlayerSprite;
+        }
+
         ApplyUnitDataStats(this.armorEq.unitData);
         ApplyUnitDataStats(this.weaponEq.unitData);
 
@@ -106,6 +112,11 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         this.armorEq = armorEq;
         this.weaponEq = weaponEq;
         this.consumables = new List<ScriptableConsumable>(consumables);
+
+        if (armorEq != null && armorEq.PlayerSprite != null)
+        {
+            heroSprite.sprite = armorEq.PlayerSprite;
+        }
 
         // if (!didAwake)
         // {

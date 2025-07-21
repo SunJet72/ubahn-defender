@@ -120,6 +120,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     {
         // NetworkObject player = runner.GetPlayerObject(playerRef);
         // PlayerCombatSystem playerCombatSystem = player.GetComponent<PlayerCombatSystem>();
+        
         playerCombatSystem.Init(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
 
     }
