@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tierReqs:
   - 0
-  - 100
   - 500
+  - 1000

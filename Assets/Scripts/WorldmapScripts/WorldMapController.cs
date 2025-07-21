@@ -62,6 +62,15 @@ public class WorldMapController : MonoBehaviour
 
     }
 
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(0, 0, 200, 40), "Load Stations"))
+        {
+            //Debug.Log("Loading all stations");
+            //SpacetimeDBController.instance.SetAllStations(map);
+        }
+    }
+
     private void Start()
     {
         StartChecking();
@@ -76,7 +85,7 @@ public class WorldMapController : MonoBehaviour
 
         foreach (string id in ids)
         {
-            stationScores.Add(id, UnityEngine.Random.Range(0, 1000));
+            stationScores.Add(id, UnityEngine.Random.Range(0, 1500));
         }
         //--------------------------------------------------
 

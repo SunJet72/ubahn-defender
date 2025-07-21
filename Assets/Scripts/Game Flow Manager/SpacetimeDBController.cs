@@ -283,5 +283,17 @@ public class SpacetimeDBController : MonoBehaviour
             DbNotInit();
         }
         await dbService.enter_the_train(Out.Id, In.Id);
-    } 
+    }
+
+    public async void SetAllStations(HashSet<Station> map)
+    {
+        foreach (Station st in map)
+        {
+            if (st == null )
+            {
+                Debug.Log("proebali");
+            }
+            await dbService.add_station(st.Id, st.Id, (uint)st.Wealth);
+        }
+    }
 }
