@@ -95,7 +95,6 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         //
         isSetUp = true;
         InitSpellsRpc(armorId, weaponId);
-        gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
 
         // Init(this.data, this.armorEq, this.weaponEq, this.consumables);
 
@@ -160,6 +159,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     public override void FixedUpdateNetwork()
     {
+        if(spellArmor != null) gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
         if (!Runner.IsServer) return;
         if (!isSetUp)
             return;
