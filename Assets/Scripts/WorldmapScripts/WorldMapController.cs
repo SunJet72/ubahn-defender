@@ -74,7 +74,7 @@ public class WorldMapController : MonoBehaviour
 
     private void Start()
     {
-        StartChecking();
+        //StartChecking();
     }
 
     private async void LoadMapData()
