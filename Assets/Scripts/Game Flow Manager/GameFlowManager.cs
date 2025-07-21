@@ -56,6 +56,7 @@ public class GameFlowManager : MonoBehaviour
         Debug.Log("Logging in");
         this.nickname = nickname; 
         GetComponent<SpacetimeDBController>().initDB(nickname);
+        WorldMapController.instance.StartChecking();
         SceneManager.LoadScene(1);
     }
 }

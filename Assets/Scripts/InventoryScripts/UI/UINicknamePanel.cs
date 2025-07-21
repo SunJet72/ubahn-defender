@@ -11,4 +11,9 @@ public class UINicknamePanel : MonoBehaviour
     {
         confirmButton.onClick.AddListener(() => GameFlowManager.instance.LogIn(inputNickname.text));
     }
+
+    public void OnNonemptyNickname(string input)
+    {
+        // if(input)
+    }
 }

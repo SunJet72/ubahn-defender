@@ -279,6 +279,13 @@ public static partial class Module
     }
 
     [Reducer]
+    public static void AddStationWithMoney(ReducerContext ctx, string _id, string _name, uint _money)
+    {
+        var station = new Station { mvg_id = _id, game_id = _name, money = _money };
+        ctx.Db.station.Insert(station);
+    }
+
+    [Reducer]
     public static void DeleteStation(ReducerContext ctx, string _id)
     {
         var station = ctx.Db.station.mvg_id.Find(_id) ?? throw new Exception($"[DeleteStation] Station {_id} does not exist!");

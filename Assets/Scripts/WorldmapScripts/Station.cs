@@ -8,7 +8,7 @@ public class Station
     public string Id;
     public string StationName;
     public string Description { get; }
-    public float Wealth;
+    public int Wealth;
     public List<Station> Neighbours { get; }
     public List<UBahnLine> uBahnLines { get; }
 
@@ -28,17 +28,17 @@ public class Station
         lat = obj.lat;
     }
 
-    public float SendGoods()
+    public int SendGoods()
     {
         return Wealth / 10;
     }
 
-    public void RecieveGoods(float recievedGoods)
+    public void RecieveGoods(int recievedGoods)
     {
         Wealth += recievedGoods;
     }
 
-    public void LoadData(float w, float[] tierReqs)
+    public void LoadData(int w, int[] tierReqs)
     {
         Wealth = w;
         for (int i = 0; i < tierReqs.Length; ++i)

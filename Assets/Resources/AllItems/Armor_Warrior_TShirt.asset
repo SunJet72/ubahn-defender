@@ -18,11 +18,12 @@ MonoBehaviour:
   description: 
   maxStackSize: 1
   tier: 1
-  sprite: {fileID: 21300000, guid: 881776167feb11c40802d539cce4e98d, type: 3}
+  sprite: {fileID: 21300000, guid: 965b2206b1bdd87a184a08341bf83e70, type: 3}
   price: 0
   action: {fileID: 0}
   spell: {fileID: 8540331181646647031, guid: d3cb96b986503f144b8f9643f7811d52, type: 3}
   additionalHealth: 0
   armor: 0
   PlayerSprite: {fileID: 21300000, guid: c785975eda52e004daa8e8424b3453e5, type: 3}
+  PlayerBackSprite: {fileID: 21300000, guid: fc3715910fb9e4945945ed5ce15f4213, type: 3}
   unitData: {fileID: 11400000, guid: 19afc5b2615b72d47a685423c2978ffe, type: 2}

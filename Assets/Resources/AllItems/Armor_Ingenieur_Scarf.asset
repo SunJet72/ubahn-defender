@@ -25,4 +25,5 @@ MonoBehaviour:
   additionalHealth: 0
   armor: 0
   PlayerSprite: {fileID: 21300000, guid: 5b71f289bdd655d4eb5eb853c645a9ac, type: 3}
+  PlayerBackSprite: {fileID: 21300000, guid: 39ad5259121fb9c42b85a5e09876e9c7, type: 3}
   unitData: {fileID: 11400000, guid: fe4abfa5fbb87c245ba076f5d60252f4, type: 2}

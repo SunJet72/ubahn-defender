@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 public class WorldMapController : MonoBehaviour
 {
@@ -55,34 +56,45 @@ public class WorldMapController : MonoBehaviour
             map.Add(station);
             tempMap.Remove(station);
         }
-        LoadMapData();
+        //LoadMapData();
 
         // remove it later
         //StartChecking();
 
     }
 
-    private void Start()
+    private void OnGUI()
     {
-        StartChecking();
+        if (GUI.Button(new Rect(0, 0, 200, 40), "Load Stations"))
+        {
+            //Debug.Log("Loading all stations");
+            //SpacetimeDBController.instance.SetAllStations(map);
+        }
     }
 
-    private void LoadMapData()
+    private void Start()
+    {
+        //StartChecking();
+    }
+
+    private async void LoadMapData()
     {
         //Load data from server
-        // Warning mock shit ahead
-        List<string> ids = map.Select(station => station.Id).ToList();
-        Dictionary<string, float> stationScores = new Dictionary<string, float>();
+        // // Warning mock shit ahead
+        // List<string> ids = map.Select(station => station.Id).ToList();
+        // Dictionary<string, float> stationScores = new Dictionary<string, float>();
 
-        foreach (string id in ids)
-        {
-            stationScores.Add(id, UnityEngine.Random.Range(0, 1000));
-        }
+        // foreach (string id in ids)
+        // {
+        //     stationScores.Add(id, UnityEngine.Random.Range(0, 1500));
+        // }
         //--------------------------------------------------
+
+        var stationScores = await SpacetimeDBController.instance.GetAllStations();
 
         foreach (Station station in map)
         {
-            float stationValue;
+            int stationValue;
             if (stationScores.TryGetValue(station.Id, out stationValue))
             {
                 station.LoadData(stationValue, tierConfig.tierReqs);
@@ -133,6 +145,7 @@ public class WorldMapController : MonoBehaviour
 
     public void StartChecking()
     {
+        LoadMapData();
         if (_stationChecker != null)
         {
             Debug.LogError("Someone is still checking(in silence)");
