@@ -11,16 +11,53 @@ public class PlayerController : NetworkBehaviour
     public float MoveInput
     { get; private set; }
 
-    // public override void Spawned()
+    public override void Spawned()
+    {
+        Debug.LogWarning("Player COntroller have spawned");
+        if (HasInputAuthority)
+        {
+            Debug.Log("Player COntroller has authority");
+            if (controls == null)
+                CreateControls();
+            SetPlayerControls();
+        }
+    }
+    // public void AfterSpawned()
     // {
-       
+    //     Debug.LogWarning("Player COntroller have spawned");
+    //     if (HasInputAuthority)
+    //     {
+    //         Debug.Log("Player COntroller has authority");
+    //         if (controls == null)
+    //             CreateControls();
+    //         SetPlayerControls();
+    //     }
     // }
+
+    private void SetPlayerControls()
+    {
+        playerCombatSystem.SetupPlayerController(this);
+    }
     private void OnEnable()
+    {
+        if (controls == null)
+            CreateControls();
+    }
+
+    private void CreateControls()
     {
         controls = new PlayerControls();
         controls.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>().y;
         controls.Player.Move.canceled += ctx => MoveInput = 0f;
         controls.Enable();
+    }
+    public void MoveAs(float movementInc)
+    {
+        MoveInput += movementInc;
+        if (MoveInput > 1f)
+            MoveInput = 1f;
+        if (MoveInput < -1f)
+            MoveInput = -1f;
     }
     private void OnDisable()
     {

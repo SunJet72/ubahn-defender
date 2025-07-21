@@ -1,5 +1,5 @@
 using UnityEngine;
-
+// DEPRECATED
 public class GameCombatUIManager : MonoBehaviour
 {
     [SerializeField] private SpellButton armorSpellButton;

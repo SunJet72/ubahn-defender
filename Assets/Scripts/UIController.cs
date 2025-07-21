@@ -5,7 +5,7 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-   [Header("Health UI")]
+    [Header("Health UI")]
     [Tooltip("Slider representing health bar")]
     [SerializeField] private Slider healthSlider;
     [Tooltip("Text on top of health bar to show numeric values")]
@@ -22,6 +22,15 @@ public class UIController : MonoBehaviour
 
     [Header("Wave UI")]
     [SerializeField] private TextMeshProUGUI waveText;
+
+    [Header("Spell Buttons")]
+    [SerializeField] private SpellButton armorSpellButton;
+    [SerializeField] private SpellButton weaponSpellButton;
+    [Header("Walking Buttons")]
+    [SerializeField] private Button walkingUpButton;
+    [SerializeField] private Button walkingDownButton;
+
+    private PlayerController playerController;
 
     private void OnEnable()
     {
@@ -72,4 +81,18 @@ public class UIController : MonoBehaviour
         if (waveText != null)
             waveText.text = $"Wave {currentWave}/{totalWaves}";
     }
+
+    public void SetSpells(PlayerCombatSystem player, Spell spellArmor, Spell spellWeapon)
+    {
+        armorSpellButton.SetSpell(player, spellArmor);
+        weaponSpellButton.SetSpell(player, spellWeapon);
+    }
+    public void SetupPlayerController(PlayerController playerController)
+    {
+        this.playerController = playerController;
+        walkingUpButton.onClick.AddListener(MoveUp);
+        walkingDownButton.onClick.AddListener(MoveDown);
+    }
+    public void MoveUp() => playerController.MoveAs(1f);
+    public void MoveDown() => playerController.MoveAs(-1f);
 }

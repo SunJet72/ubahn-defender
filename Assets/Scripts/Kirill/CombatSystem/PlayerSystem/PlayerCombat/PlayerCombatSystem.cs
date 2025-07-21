@@ -31,7 +31,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     private NetworkObject spellArmor { get; set; }
     [Networked]
     private NetworkObject spellWeapon { get; set; }
-    
+
     [Networked]
     private PlayerNetworkStruct networkData { get; set; }
     [Networked]
@@ -111,7 +111,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     //     //     Awake();
     //     // }
 
-        
+
     // }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
@@ -158,7 +158,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     public override void FixedUpdateNetwork()
     {
-        if(spellArmor != null) gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
+        if (spellArmor != null) gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
         if (!Runner.IsServer) return;
         if (!isSetUp)
             return;
@@ -361,5 +361,10 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
             if (data == null) UIEvents.ShieldChanged((int)Health, 100);
             else UIEvents.ShieldChanged((int)Health, (int)data.health);
         }
+    }
+
+    public void SetupPlayerController(PlayerController playerController)
+    {
+        gameCombatManager.SetPlayerControls(playerController);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameCombatManager : NetworkBehaviour
 {
     [SerializeField] private TrainSystem trainSystem;
-    [SerializeField] private GameCombatUIManager ui;
+    [SerializeField] private UIController ui;
 
     [SerializeField] private PlayerCombatSystem playerCombatSystem;
 
@@ -60,6 +60,11 @@ public class GameCombatManager : NetworkBehaviour
     public void SetSpells(PlayerCombatSystem player, Spell spellArmor, Spell spellWeapon)
     {
         ui.SetSpells(player, spellArmor, spellWeapon);
+    }
+
+    public void SetPlayerControls(PlayerController playerController)
+    {
+        ui.SetupPlayerController(playerController);
     }
 
     // public override void FixedUpdateNetwork()
