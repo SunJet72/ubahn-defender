@@ -3,7 +3,7 @@ using Fusion;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerCombatSystem : UnitController, IAfterSpawned
+public class PlayerCombatSystem : UnitController//, IAfterSpawned
 {
     private PlayerCombatSystemData data;
     public override UnitData UnitData => data;
@@ -69,14 +69,13 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     }
 
-    public void AfterSpawned()
-    {
-        if (HasInputAuthority)
-        {
-            gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
-            OnHealthChanged();
-        }
-    }
+    // public void AfterSpawned()
+    // {
+    //     if (HasInputAuthority)
+    //     {
+           
+    //     }
+    // }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.InputAuthority)]
     public void InitRpc(PlayerNetworkStruct data, int armorId, int weaponId)
@@ -87,6 +86,9 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         this.consumables = new List<ScriptableConsumable>();
 
         Init(this.data, this.armorEq, this.weaponEq, this.consumables);
+
+        gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
+        OnHealthChanged();
     }
 
     public void Init(PlayerCombatSystemData data, ScriptableArmor armorEq, ScriptableWeapon weaponEq, List<ScriptableConsumable> consumables)
