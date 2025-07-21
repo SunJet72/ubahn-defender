@@ -62,7 +62,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         DontDestroyOnLoad(this);
     }
 
-    async void StartGame(GameMode mode, string roomName = "TestRoomSunJ=fdgdfg")
+    async void StartGame(GameMode mode, string roomName = "TestRoomSunJ=fdgdsfdfg")
     {
         _myrunner = gameObject.AddComponent<NetworkRunner>();
         _myrunner.ProvideInput = true;
@@ -114,12 +114,14 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             // _spawnedPlayers.Add(playerRef, playerObj);
             runner.SetPlayerObject(playerRef, playerObj);
         }
-        if (runner.LocalPlayer == playerRef)
-        {
-            NetworkObject player = runner.GetPlayerObject(playerRef);
-            PlayerCombatSystem playerCombatSystem = player.GetComponent<PlayerCombatSystem>();
-            playerCombatSystem.Init(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
-        }
+        
+    }
+    public void InitPlayer(PlayerCombatSystem playerCombatSystem)
+    {
+        // NetworkObject player = runner.GetPlayerObject(playerRef);
+        // PlayerCombatSystem playerCombatSystem = player.GetComponent<PlayerCombatSystem>();
+        playerCombatSystem.Init(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
+
     }
 
 

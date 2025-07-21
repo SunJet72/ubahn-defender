@@ -57,6 +57,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
             UnitType.ENEMY,
             UnitType.VEHICLE
         };
+        NetworkManager.Instance.InitPlayer(this);
     }
 
     public void AfterSpawned()
