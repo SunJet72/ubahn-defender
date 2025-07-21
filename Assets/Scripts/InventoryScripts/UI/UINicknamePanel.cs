@@ -8,6 +8,8 @@ public class UINicknamePanel : MonoBehaviour
     [SerializeField] Button confirmButton;
     [SerializeField] TMP_Text buttonText;
 
+    private TouchScreenKeyboard keyboard;
+
     void Awake()
     {
         confirmButton.onClick.AddListener(() => GameFlowManager.instance.LogIn(inputNickname.text));
@@ -26,4 +28,17 @@ public class UINicknamePanel : MonoBehaviour
             confirmButton.enabled = true;
         }
     }
+
+    public void KeybordOpen()
+    {
+        Debug.Log("Keyboard");
+        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+        keyboard.active = true;
+    }
+
+    public void KeybordClose()
+    {
+        //TouchScreenKeyboard.
+    }
+    
 }

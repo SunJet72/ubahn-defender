@@ -1,8 +1,0 @@
-/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/.utmp/RelWithDebInfo/6k1yt343/arm64-v8a/CMakeFiles/edit_cache.dir
-/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/.utmp/RelWithDebInfo/6k1yt343/arm64-v8a/CMakeFiles/rebuild_cache.dir
-/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/.utmp/RelWithDebInfo/6k1yt343/arm64-v8a/GameActivity/CMakeFiles/game.dir
-/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/.utmp/RelWithDebInfo/6k1yt343/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
-/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/.utmp/RelWithDebInfo/6k1yt343/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
-/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/.utmp/RelWithDebInfo/6k1yt343/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
-/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/.utmp/RelWithDebInfo/6k1yt343/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
-/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/.utmp/RelWithDebInfo/6k1yt343/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir
