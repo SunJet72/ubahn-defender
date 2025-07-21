@@ -57,39 +57,13 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
             UnitType.ENEMY,
             UnitType.VEHICLE
         };
-
-    
-        ApplyUnitDataStats(armorEq.unitData);
-        ApplyUnitDataStats(weaponEq.unitData);
-
-        detectionCollider.radius = weaponEq.range;
-
-        //TODO Handle Consumables
-
-        //
-        isSetUp = true;
-        if (Runner.IsServer)
-        {
-            spellArmor = Runner.Spawn(armorEq.spell, inputAuthority: Object.InputAuthority, onBeforeSpawned: (runner, spawned) =>
-            {
-                spawned.transform.parent = transform;
-                spawned.transform.localPosition = Vector2.zero;
-            });
-
-            spellWeapon = Runner.Spawn(weaponEq.spell, inputAuthority: Object.InputAuthority, onBeforeSpawned: (runner, spawned) =>
-            {
-                spawned.transform.parent = transform;
-                spawned.transform.localPosition = Vector2.zero;
-            });
-        }
-
     }
 
     public void AfterSpawned()
     {
         if (HasInputAuthority)
         {
-            gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
+            
             OnHealthChanged();
         }
     }
@@ -107,8 +81,20 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         this.armorEq = (ScriptableArmor)ItemManager.instance.getItem(armorId);
         this.weaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
         this.consumables = new List<ScriptableConsumable>();
-        
+
         base.Init();
+
+        ApplyUnitDataStats(armorEq.unitData);
+        ApplyUnitDataStats(weaponEq.unitData);
+
+        detectionCollider.radius = weaponEq.range;
+
+        //TODO Handle Consumables
+
+        //
+        isSetUp = true;
+        InitSpellsRpc(armorId, weaponId);
+        gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
 
         // Init(this.data, this.armorEq, this.weaponEq, this.consumables);
 
@@ -130,9 +116,24 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     // }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void InitSpellsRpc()
+    private void InitSpellsRpc(int armorId, int weaponId)
     {
-        
+        ScriptableArmor localArmorEq = (ScriptableArmor)ItemManager.instance.getItem(armorId);
+        ScriptableWeapon localWeaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
+        if (Runner.IsServer)
+        {
+            spellArmor = Runner.Spawn(localArmorEq.spell, inputAuthority: Object.InputAuthority, onBeforeSpawned: (runner, spawned) =>
+            {
+                spawned.transform.parent = transform;
+                spawned.transform.localPosition = Vector2.zero;
+            });
+
+            spellWeapon = Runner.Spawn(localWeaponEq.spell, inputAuthority: Object.InputAuthority, onBeforeSpawned: (runner, spawned) =>
+            {
+                spawned.transform.parent = transform;
+                spawned.transform.localPosition = Vector2.zero;
+            });
+        }
     }
 
     void OnBecameVisible()

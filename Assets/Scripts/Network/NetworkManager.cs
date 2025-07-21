@@ -93,6 +93,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef playerRef)
     {
         Debug.Log("Player Joined!");
+
         if (runner.IsServer)
         {
             parentTransform = TrainSystem.Instance.transform;
@@ -100,22 +101,28 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
             NetworkObject playerObj = runner.Spawn(_playerPrefab, new Vector3(0, 9 - (size * 3), 0), Quaternion.identity, playerRef,
             onBeforeSpawned: (runner, spawned) =>
             {
-                Color color = colorPool[size % colorPool.Length];
-                PlayerMock player = spawned.GetComponent<PlayerMock>();
-                player.SpriteColor = color;
+                // Color color = colorPool[size % colorPool.Length];
+                // PlayerMock player = spawned.GetComponent<PlayerMock>();
+                // player.SpriteColor = color;
                 spawned.transform.SetParent(parentTransform, false);
                 spawned.transform.localScale = Vector3.one * 2;
 
-                PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
+                // PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
                 // if(playerRef == runner.LocalPlayer) playerCombatSystem.Init(playerCombatSystemData, scriptableArmor, scriptableWeapon, consumables);
-                playerCombatSystem.Init(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
-            });
 
+            });
             // _spawnedPlayers.Add(playerRef, playerObj);
             runner.SetPlayerObject(playerRef, playerObj);
         }
-
+        if (runner.LocalPlayer == playerRef)
+        {
+            NetworkObject player = runner.GetPlayerObject(playerRef);
+            PlayerCombatSystem playerCombatSystem = player.GetComponent<PlayerCombatSystem>();
+            playerCombatSystem.Init(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
+        }
     }
+
+
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         NetworkObject obj = runner.GetPlayerObject(player);
