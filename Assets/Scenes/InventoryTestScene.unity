@@ -1731,12 +1731,13 @@ MonoBehaviour:
     sample: {fileID: 11400000, guid: 11c116441f6b8c903878fa16dd4d059d, type: 2}
   playerSprite: {fileID: 0}
   currentClass: 1
+  nickname: 
   ingeneerData: {fileID: 11400000, guid: a65b53dc47773844b8ee183d29a67fa6, type: 2}
-  RangerData: {fileID: 0}
-  WarriorData: {fileID: 0}
-  standartWarriorSprite: {fileID: 0}
-  standartRangerSprite: {fileID: 0}
-  standartIngeneerSprite: {fileID: 0}
+  RangerData: {fileID: 11400000, guid: c723cc600b253ab4e80cd003b4251365, type: 2}
+  WarriorData: {fileID: 11400000, guid: 1fd0b1ff5e53f39469967462b8ca4b34, type: 2}
+  standartWarriorSprite: {fileID: 21300000, guid: c785975eda52e004daa8e8424b3453e5, type: 3}
+  standartRangerSprite: {fileID: 21300000, guid: 6ecf284007e5f9f4ea653adea296ae05, type: 3}
+  standartIngeneerSprite: {fileID: 21300000, guid: 5b71f289bdd655d4eb5eb853c645a9ac, type: 3}
 --- !u!212 &439166124
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4963,6 +4964,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locationRefreshTime: 5
+  nextStation:
+    Id: 
+    StationName: 
+    Wealth: 0
+    StationTier: 0
+    lon: 0
+    lat: 0
 --- !u!4 &1139584758
 Transform:
   m_ObjectHideFlags: 0
@@ -8758,15 +8766,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 89224619177218784, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -530
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 89224619177218784, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 600
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 89224619177218784, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 871.0863
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 503883136390759089, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_Name
@@ -8894,19 +8902,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5741190170143503695, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5741190170143503695, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5741190170143503695, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5741190170143503695, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 500
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5741190170143503695, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8918,23 +8926,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5741190170143503695, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5741190170143503695, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281630336471049361, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -2150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281630336471049361, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -804
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7281630336471049361, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 726.3368
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7517412278434708910, guid: c7614edbd1e86325d8609e1ddb9431d4, type: 3}
       propertyPath: m_fontAsset

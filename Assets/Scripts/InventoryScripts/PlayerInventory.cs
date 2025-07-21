@@ -24,7 +24,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private Sprite playerSprite;
 
     [SerializeField] private PlayerClass currentClass = PlayerClass.Warrior;
-    private string nickname;
+    [SerializeField]private string nickname;
 
     [SerializeField] private PlayerCombatSystemData ingeneerData;
     [SerializeField] private PlayerCombatSystemData RangerData;

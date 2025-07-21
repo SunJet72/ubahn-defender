@@ -1,12 +1,12 @@
 # ninja log v5
-2	69	1753023143267991527	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	3e73d2bd28ffada3
-70	100	1753023143301324979	/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/6k1yt343/obj/arm64-v8a/libswappywrapper.so	59e2cb57257f3fde
-1	519	1753023143714659771	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	2c6c3feac686ba9e
-1	521	1753023143714659771	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	ef59feea28ceb3c7
-1	545	1753023143741326532	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	636675243963bb2c
-2	561	1753023143757993257	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	ca08696b95409f40
-2	621	1753023143817993469	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	fd2e532f51a56c8f
-1	651	1753023143847993575	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	c1d8b127319ff95d
-1	802	1753023144001327450	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	74cd35a6bcee7fc3
-1	858	1753023144054660971	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	dc9254e6b939b8bb
-858	882	1753023144081327733	/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/6k1yt343/obj/arm64-v8a/libgame.so	5a4381622d09f545
+1	69	1753049116520411176	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	3e73d2bd28ffada3
+70	105	1753049116557077162	/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/6k1yt343/obj/arm64-v8a/libswappywrapper.so	59e2cb57257f3fde
+1	484	1753049116933736857	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	ef59feea28ceb3c7
+0	503	1753049116950403213	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	636675243963bb2c
+0	513	1753049116957069758	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	2c6c3feac686ba9e
+1	520	1753049116967069573	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	ca08696b95409f40
+1	597	1753049117043734821	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	fd2e532f51a56c8f
+0	629	1753049117073734265	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	c1d8b127319ff95d
+1	742	1753049117193732044	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	74cd35a6bcee7fc3
+0	815	1753049117263730748	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	dc9254e6b939b8bb
+815	873	1753049117327062907	/home/tomato/TUM/SoGe Practikum/U-Bahn-prototype/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/6k1yt343/obj/arm64-v8a/libgame.so	5a4381622d09f545

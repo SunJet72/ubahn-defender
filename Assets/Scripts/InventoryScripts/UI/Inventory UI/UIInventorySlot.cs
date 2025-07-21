@@ -22,17 +22,17 @@ public class UIInventorySlot : MonoBehaviour
         switch (realSlot.GetSample().tier)
         {
             case 0:
-                GetComponent<Image>().color = commonColor;
+                slotImage.color = commonColor;
                 break;
             case 1:
-                GetComponent<Image>().color = rareColor;
+                slotImage.color = rareColor;
                 break;
             case 2:
-                GetComponent<Image>().color = legendaryColor;
+                slotImage.color = legendaryColor;
                 break;
 
             default:
-                GetComponent<Image>().color = commonColor;
+                slotImage.color = commonColor;
                 break;
         }
     }

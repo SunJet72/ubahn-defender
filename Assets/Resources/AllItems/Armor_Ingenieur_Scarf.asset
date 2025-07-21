@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff73467fc8162adcbecc12c2c49c62c, type: 3}
   m_Name: Armor_Ingenieur_Scarf
   m_EditorClassIdentifier: 
-  id: 0
+  id: 11
   title: Scarf
   itemClass: 3
   description: 

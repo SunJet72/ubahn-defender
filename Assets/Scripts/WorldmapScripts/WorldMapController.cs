@@ -198,7 +198,8 @@ public class WorldMapController : MonoBehaviour
 
     public void SetTrueTemp()
     {
-        temp = true;
+        //temp = true;
+        //GpsMvgManager.
     }
 
     public void SetFalseTemp()

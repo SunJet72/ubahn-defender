@@ -236,6 +236,7 @@ public class SpacetimeDBController : MonoBehaviour
             ScriptableItemBase scriptableItem;
             if (item.Id == 0)
             {
+                continue;
                 scriptableItem = ItemManager.instance.emptyItem;
             }
             else
