@@ -30,7 +30,7 @@ public class ChasingVehicleController : VehicleBehaviourController
         if (isChasingThePoint)
         {
             transform.Translate((targetPosition - (Vector2)transform.position).normalized * Controller.Speed * Runner.DeltaTime);
-            if ((targetPosition - (Vector2)transform.position).magnitude < 0.01f)
+            if ((targetPosition - (Vector2)transform.position).magnitude < 0.1f)
             {
                 if (((Vector2)targetTransform.position - (Vector2)transform.position).magnitude > data.highToleranceDistance)
                 {

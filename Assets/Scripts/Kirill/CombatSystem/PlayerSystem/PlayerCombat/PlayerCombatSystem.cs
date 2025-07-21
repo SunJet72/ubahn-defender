@@ -64,7 +64,6 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     {
         if (HasInputAuthority)
         {
-            
             OnHealthChanged();
         }
     }
