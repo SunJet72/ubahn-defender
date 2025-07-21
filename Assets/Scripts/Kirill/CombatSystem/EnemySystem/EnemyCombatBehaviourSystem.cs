@@ -20,7 +20,6 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
 
     [HideInInspector] public EnemyType EnemyType { get => data.enemyType; }
 
-    [SerializeField] private PlayerMock playerMock;
     private GameCombatManager gameCombatManager;
 
     private CombatBehaviourController curController;
@@ -107,11 +106,13 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
     //---// AttackingRangedBehaviourController //---//
     public void RangedLoseTarget()
     {
+        Debug.LogWarning("I am ranged and stop shooting and start to ride again");
         ChangeCurrentBehaviour(ridingBehaviourController);
     }
 
     private void SetAttackingRangedBehaviour(PlayerCombatSystem target)
     {
+        Debug.LogWarning("I am starting attacking ranged");
         if (target == null)
         {
             ChangeCurrentBehaviour(ridingBehaviourController);

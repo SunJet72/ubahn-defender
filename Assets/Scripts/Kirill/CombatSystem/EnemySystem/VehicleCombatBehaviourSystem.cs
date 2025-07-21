@@ -129,6 +129,18 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
         }
     }
 
+    public void TellRangersToStopAttack()
+    {
+        Debug.Log("I am trying to tell the ranger, so that they could attack");
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i] != null && enemies[i].EnemyType == EnemyType.RANGED)
+            {
+                enemies[i].RangedLoseTarget();
+            }
+        }
+    }
+
     protected override void Die()
     {
         foreach (var enemy in enemies)
