@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Blood, sweat, and tears
   spellDescription: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: ae95722a82f8046e083d79839425b46f, type: 3}
   statusEffects:
   - {fileID: 11400000, guid: 2bfd05a77f579a3478600973b7bcb9bd, type: 2}
   - {fileID: 11400000, guid: c1893eacbdcb9be42a73de77ff7c1df4, type: 2}

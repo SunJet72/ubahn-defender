@@ -3,6 +3,7 @@ using SpacetimeDB.Types;
 using UnityEngine;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using System.Linq.Expressions;
 
 public class SpacetimeDBController : MonoBehaviour
 {
@@ -287,13 +288,33 @@ public class SpacetimeDBController : MonoBehaviour
 
     public async void SetAllStations(HashSet<Station> map)
     {
+
+        if (!isInit)
+        {
+            DbNotInit();
+        }
         foreach (Station st in map)
         {
-            if (st == null )
+            if (st == null)
             {
                 Debug.Log("proebali");
             }
             await dbService.add_station(st.Id, st.Id, (uint)st.Wealth);
         }
+    }
+
+    public async Task<Dictionary<string, int>> GetAllStations()
+    {
+        if (!isInit)
+        {
+            DbNotInit();
+        }
+        Dictionary<string, int> dict = new Dictionary<string, int>();
+        var stations = await dbService.get_stations();
+        foreach (SpacetimeDB.Types.Station station in stations)
+        {
+            dict.Add(station.MvgId, (int)station.Money);
+        }
+        return dict;
     }
 }

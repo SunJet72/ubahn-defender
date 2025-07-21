@@ -7,7 +7,7 @@ public class TrainController
     public TrainState State { get; private set;}
     public Station LastVisitedStation { get; private set; }
 
-    public float goods;
+    public int goods;
 
 
     public List<Station> route = new List<Station>();
