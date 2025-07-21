@@ -90,6 +90,13 @@ public class DbManager
     ////////////////////////////////////////////////////////
     /// ASYNC METHODS
 
+
+    public async Task add_station(string mvg_id, string game_id, uint money)
+    {
+        await WaitUntilReady();
+        Conn.Reducers.AddStationWithMoney(mvg_id, game_id, money);
+    }
+
     public async Task enter_the_train(string from, string to)
     {
         await WaitUntilReady();

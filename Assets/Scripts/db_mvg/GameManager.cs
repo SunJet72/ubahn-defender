@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("gpsManager is NULL!");
         }
     }
-    
+
     private async void OnHasStartedChanged(bool hasStarted, string from, string to)
     {
         isMoving = hasStarted;
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         {
             try
             {
-                await db_service.set_train_started(from, to, hasStarted);                
+                await db_service.set_train_started(from, to, hasStarted);
             }
             catch (System.Exception ex)
             {
@@ -98,4 +98,9 @@ public class GameManager : MonoBehaviour
             eventTriggered = false;
         }
     }
+}
+
+namespace System.Runtime.CompilerServices
+{
+    internal static class IsExternalInit { }
 }

@@ -79,22 +79,14 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.InputAuthority)]
-    public void InitRpc(PlayerNetworkStruct data, ArmorNetworkStruct armorEq, WeaponNetworkStruct weaponEq)
+    public void InitRpc(PlayerNetworkStruct data, int armorId, int weaponId)
     {
         this.data = data.CopyData();
-        this.armorEq = armorEq.CopyData();
-        this.weaponEq = weaponEq.CopyData();
+        this.armorEq = (ScriptableArmor) ItemManager.instance.getItem(armorId);
+        this.weaponEq = (ScriptableWeapon) ItemManager.instance.getItem(weaponId);
         this.consumables = new List<ScriptableConsumable>();
 
-        ApplyUnitDataStats(this.armorEq.unitData);
-        ApplyUnitDataStats(this.weaponEq.unitData);
-
-        detectionCollider.radius = weaponEq.range;
-
-        //TODO Handle Consumables
-
-        //
-        isSetUp = true;
+        Init(this.data, this.armorEq, this.weaponEq, this.consumables);
     }
 
     public void Init(PlayerCombatSystemData data, ScriptableArmor armorEq, ScriptableWeapon weaponEq, List<ScriptableConsumable> consumables)
