@@ -13,9 +13,6 @@ public class EctsContainer : NetworkBehaviour
     [Networked]
     private int previousBoxesAmount { get; set; }
 
-
-    public TrainSystem trainSystem;
-
     public override void Spawned()
     {
         OnBoxesAmountChanged();

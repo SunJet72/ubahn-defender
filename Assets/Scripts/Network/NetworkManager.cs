@@ -105,7 +105,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 // PlayerMock player = spawned.GetComponent<PlayerMock>();
                 // player.SpriteColor = color;
                 spawned.transform.SetParent(parentTransform, false);
-                spawned.transform.localScale = Vector3.one * 2;
+                spawned.transform.localScale = Vector3.one;
 
                 // PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
                 // if(playerRef == runner.LocalPlayer) playerCombatSystem.Init(playerCombatSystemData, scriptableArmor, scriptableWeapon, consumables);

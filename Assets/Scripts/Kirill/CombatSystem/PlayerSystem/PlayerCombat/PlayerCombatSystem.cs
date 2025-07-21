@@ -64,14 +64,13 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     {
         if (HasInputAuthority)
         {
-            
             OnHealthChanged();
         }
     }
 
     public void Init(PlayerNetworkStruct data, int armorId, int weaponId)
     {
-
+        if (!HasInputAuthority) return;
 
         this.networkData = data;
         this.armorId = armorId;
@@ -94,8 +93,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
         //
         isSetUp = true;
-        InitSpellsRpc(armorId, weaponId);
-        gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
+        InitSpellsRpc(Object.InputAuthority, armorId, weaponId);
 
         // Init(this.data, this.armorEq, this.weaponEq, this.consumables);
 
@@ -117,19 +115,19 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     // }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    private void InitSpellsRpc(int armorId, int weaponId)
+    private void InitSpellsRpc(PlayerRef playerNO, int armorId, int weaponId)
     {
         ScriptableArmor localArmorEq = (ScriptableArmor)ItemManager.instance.getItem(armorId);
         ScriptableWeapon localWeaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
         if (Runner.IsServer)
         {
-            spellArmor = Runner.Spawn(localArmorEq.spell, inputAuthority: Object.InputAuthority, onBeforeSpawned: (runner, spawned) =>
+            spellArmor = Runner.Spawn(localArmorEq.spell, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
             {
                 spawned.transform.parent = transform;
                 spawned.transform.localPosition = Vector2.zero;
             });
 
-            spellWeapon = Runner.Spawn(localWeaponEq.spell, inputAuthority: Object.InputAuthority, onBeforeSpawned: (runner, spawned) =>
+            spellWeapon = Runner.Spawn(localWeaponEq.spell, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
             {
                 spawned.transform.parent = transform;
                 spawned.transform.localPosition = Vector2.zero;
@@ -160,6 +158,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     public override void FixedUpdateNetwork()
     {
+        if(spellArmor != null) gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
         if (!Runner.IsServer) return;
         if (!isSetUp)
             return;

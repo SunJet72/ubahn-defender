@@ -9,7 +9,8 @@ public class AttackingRangedBehaviourController : CombatBehaviourController
 
     private Transform target;
     private PlayerCombatSystem chaisedPlayer;
-    private float curAttackCooldown = 0f;
+    [Networked]
+    private float curAttackCooldown { get; set; }
 
     List<UnitType> unitTypes = new List<UnitType>();
 
