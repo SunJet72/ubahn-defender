@@ -14,6 +14,8 @@ public class TrainMovement : NetworkBehaviour
     private bool _isMoving = true;
     private bool _isDecelerating = false;
     private Vector3 _lastPosition;
+    public Vector2 CurrentVelocity => moveDirection * _currentSpeed;
+
 
     private void Start()
     {

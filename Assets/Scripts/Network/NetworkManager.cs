@@ -62,7 +62,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         DontDestroyOnLoad(this);
     }
 
-    async void StartGame(GameMode mode, string roomName = "TestRoomSunJ=fdgdsfdfg")
+    async void StartGame(GameMode mode, string roomName = "TestRoomSunJ=tilemove")
     {
         _myrunner = gameObject.AddComponent<NetworkRunner>();
         _myrunner.ProvideInput = true;
