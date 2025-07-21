@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Target Marked
   spellDescription: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 97038302f89a9ab9cb636886028dd7e4, type: 3}
   statusEffects:
   - {fileID: 11400000, guid: 5d7adc61d6c4ef94c9b5a85827aef299, type: 2}
   - {fileID: 11400000, guid: d3fd24ac7839ea741956cb46c88d7f44, type: 2}

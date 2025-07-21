@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: You are Fired!
   spellDescription: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: dd415a4cab79ca1e28276fcc87646839, type: 3}
   radius: 5
   fov: 150
   executionTime: 3

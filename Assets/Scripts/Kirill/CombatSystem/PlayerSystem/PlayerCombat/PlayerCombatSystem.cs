@@ -39,6 +39,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     [Networked]
     private int weaponId { get; set; }
 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
 
     public override void Spawned()
     {
@@ -82,6 +84,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         this.weaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
         this.consumables = new List<ScriptableConsumable>();
 
+        SetCharacterSprite(true);
+
         base.Init();
 
         ApplyUnitDataStats(armorEq.unitData);
@@ -97,6 +101,16 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
         // Init(this.data, this.armorEq, this.weaponEq, this.consumables);
 
+    }
+
+    public void SetCharacterSprite(bool facingForward)
+    {
+        if (armorEq == null)
+            return;
+        if (facingForward)
+            spriteRenderer.sprite = armorEq.PlayerSprite;
+        else
+            spriteRenderer.sprite = armorEq.PlayerBackSprite;
     }
 
     // public void Init(PlayerCombatSystemData data, ScriptableArmor armorEq, ScriptableWeapon weaponEq, List<ScriptableConsumable> consumables)
@@ -158,7 +172,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     public override void FixedUpdateNetwork()
     {
-        if (spellArmor != null) gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
+        // if (spellArmor != null) gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
         if (!Runner.IsServer) return;
         if (!isSetUp)
             return;

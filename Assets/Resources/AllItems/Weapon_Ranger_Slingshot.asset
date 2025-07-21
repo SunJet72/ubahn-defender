@@ -18,7 +18,7 @@ MonoBehaviour:
   description: 
   maxStackSize: 1
   tier: 1
-  sprite: {fileID: 21300000, guid: b8c8d2c3d0f3844a482ace7ddcb2574b, type: 3}
+  sprite: {fileID: 21300000, guid: 739e3d37481569746be60a2c609af7e2, type: 3}
   price: 0
   action: {fileID: 0}
   spell: {fileID: 4932139034066870311, guid: 738f9c7eeace384419461a6c99607569, type: 3}

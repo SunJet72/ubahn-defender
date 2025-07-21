@@ -58,6 +58,14 @@ public class PlayerController : NetworkBehaviour
             MoveInput = 1f;
         if (MoveInput < -1f)
             MoveInput = -1f;
+        SetCharacterSprite();
+    }
+    private void SetCharacterSprite()
+    {
+        if (MoveInput >= 0f)
+            playerCombatSystem.SetCharacterSprite(true);
+        else
+            playerCombatSystem.SetCharacterSprite(false);
     }
     private void OnDisable()
     {

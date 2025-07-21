@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Kite
   spellDescription: 
-  icon: {fileID: 21300000, guid: 90a177c6fcc6045b3817e7b3d2b189f0, type: 3}
+  icon: {fileID: 21300000, guid: 6b0233d2b322344dfac6807a5e41a935, type: 3}
   statusEffects:
   - {fileID: 11400000, guid: 8644efc190a736f43a2fc0d5bb5a5a33, type: 2}
   type: 0

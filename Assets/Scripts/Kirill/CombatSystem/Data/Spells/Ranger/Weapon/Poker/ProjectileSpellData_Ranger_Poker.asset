@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellName: Poker
   spellDescription: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 739e3d37481569746be60a2c609af7e2, type: 3}
   targetType: 0
   targetTypes: 0100000002000000
   flightSpeed: 2
