@@ -5,6 +5,7 @@ using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using Fusion.Sockets;
 using SpacetimeDB.Types;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -67,7 +68,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         _myrunner = gameObject.AddComponent<NetworkRunner>();
         _myrunner.ProvideInput = true;
 
-        trainName = roomName;
+        trainName = UnityEngine.Random.Range(int.MinValue, int.MaxValue).ToString();
 
         // string sceneName = "SampleScene";
         // await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -118,6 +119,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
     }
     public void InitPlayer(PlayerCombatSystem playerCombatSystem)
     {
+        GameObject.Find("CmCam").GetComponent<CinemachineCamera>().Follow = playerCombatSystem.transform;
         // NetworkObject player = runner.GetPlayerObject(playerRef);
         // PlayerCombatSystem playerCombatSystem = player.GetComponent<PlayerCombatSystem>();
         playerCombatSystem.Init(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);

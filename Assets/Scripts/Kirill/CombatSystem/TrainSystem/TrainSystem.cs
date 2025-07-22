@@ -117,7 +117,7 @@ public class TrainSystem : NetworkBehaviour
 
     public Transform ReturnAnyAbordagePoint(Transform enemyTransform)
     {
-        return transform;
+        //return transform;
         //TODO: randomly choose am abordage point. Dont forget sides.
         int id = Random.Range(0, containersAmount);
         if (enemyTransform.position.x > transform.position.x)

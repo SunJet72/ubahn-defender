@@ -40,6 +40,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     private int weaponId { get; set; }
 
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private PlayerController PlayerController;
 
 
     public override void Spawned()
@@ -59,11 +60,12 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
             UnitType.ENEMY,
             UnitType.VEHICLE
         };
-        NetworkManager.Instance.InitPlayer(this);
+        //NetworkManager.Instance.InitPlayer(this);
     }
 
     public void AfterSpawned()
     {
+        NetworkManager.Instance.InitPlayer(this);
         if (HasInputAuthority)
         {
             OnHealthChanged();
@@ -146,6 +148,8 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 spawned.transform.parent = transform;
                 spawned.transform.localPosition = Vector2.zero;
             });
+
+            if (spellArmor != null && spellWeapon != null) gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
         }
     }
 

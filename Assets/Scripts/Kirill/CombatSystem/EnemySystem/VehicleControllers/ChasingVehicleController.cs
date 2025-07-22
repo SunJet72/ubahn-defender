@@ -53,7 +53,10 @@ public class ChasingVehicleController : VehicleBehaviourController
     private void TellRangersToAttack(bool isAttacking)
     {
         // TODO: All the rangers in the vehicle have to change their behavior.
-        Controller.TellRangersToAttack(player);
+        if (isAttacking)
+            Controller.TellRangersToAttack(player);
+        else
+            Controller.TellRangersToStopAttack();
     }
 
     public override void OnEndBehaviour()
