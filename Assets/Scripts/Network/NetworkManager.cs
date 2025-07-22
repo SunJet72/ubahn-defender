@@ -68,7 +68,7 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         _myrunner = gameObject.AddComponent<NetworkRunner>();
         _myrunner.ProvideInput = true;
 
-        trainName = roomName;
+        trainName = UnityEngine.Random.Range(int.MinValue, int.MaxValue).ToString();
 
         // string sceneName = "SampleScene";
         // await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
