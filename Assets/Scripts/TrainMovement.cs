@@ -15,7 +15,7 @@ public class TrainMovement : NetworkBehaviour
     private bool _isDecelerating = false;
     private Vector3 _lastPosition;
 
-    private void Start()
+    public override void Spawned()
     {
         moveDirection = moveDirection.normalized;
         _lastPosition = transform.position;

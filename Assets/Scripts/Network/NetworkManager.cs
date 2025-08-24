@@ -110,10 +110,10 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
 
                 // PlayerCombatSystem playerCombatSystem = spawned.GetComponent<PlayerCombatSystem>();
                 // if(playerRef == runner.LocalPlayer) playerCombatSystem.Init(playerCombatSystemData, scriptableArmor, scriptableWeapon, consumables);
-
+                runner.SetPlayerObject(playerRef, spawned);
             });
             // _spawnedPlayers.Add(playerRef, playerObj);
-            runner.SetPlayerObject(playerRef, playerObj);
+            
         }
         
     }
@@ -123,7 +123,6 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         // NetworkObject player = runner.GetPlayerObject(playerRef);
         // PlayerCombatSystem playerCombatSystem = player.GetComponent<PlayerCombatSystem>();
         playerCombatSystem.Init(playerCombatSystemData.CopyData(), scriptableArmor.id, scriptableWeapon.id);
-
     }
 
 
