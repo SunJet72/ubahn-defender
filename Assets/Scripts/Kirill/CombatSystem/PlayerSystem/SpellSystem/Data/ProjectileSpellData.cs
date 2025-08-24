@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ProjectileSpellData", menuName = "Scriptable Objects/ProjectileSpellData")]
 public class ProjectileSpellData : SpellData
 {
+    [Header("Projectile Spell Info")]
     public TargetType targetType; // Has to be the same with the Projectile!
     public List<UnitType> targetTypes;
 

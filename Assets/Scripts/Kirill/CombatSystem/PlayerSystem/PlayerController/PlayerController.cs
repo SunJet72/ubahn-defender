@@ -7,6 +7,7 @@ public class PlayerController : NetworkBehaviour
     private PlayerControls controls;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerCombatSystem playerCombatSystem;
+    [SerializeField] private SpellPreparationVisual spellPreparationVisual;
 
     public float MoveInput
     { get; private set; }
@@ -76,5 +77,15 @@ public class PlayerController : NetworkBehaviour
     {
         if (GetInput<NetworkInputData>(out var input) == false) return;
         rb.linearVelocityY = input.moveInput * playerCombatSystem.Speed;
+    }
+
+    public void StartSpellPreparation(Spell spell, SpellButton spellButton)
+    {
+        spellPreparationVisual.StartSpellPreparation(spell, spellButton);
+    }
+    
+    public void EndSpellPreparation(Spell spell, SpellButton spellButton)
+    {
+        spellPreparationVisual.EndSpellPreparation(spell, spellButton);
     }
 }

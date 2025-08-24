@@ -9,6 +9,7 @@ public enum EffectorSpellType
 [CreateAssetMenu(fileName = "EffectorSpellData", menuName = "Scriptable Objects/EffectorSpellData")]
 public class EffectorSpellData : SpellData
 {
+    [Header("Effector Spell Info")]
     public List<StatusEffect> statusEffects;
     public EffectorSpellType type;
 }

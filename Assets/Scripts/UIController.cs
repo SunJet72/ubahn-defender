@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class UIController : MonoBehaviour
 {
@@ -92,6 +94,15 @@ public class UIController : MonoBehaviour
         this.playerController = playerController;
         walkingUpButton.onClick.AddListener(MoveUp);
         walkingDownButton.onClick.AddListener(MoveDown);
+    }
+    public void StartSpellNavigation(Spell spell, SpellButton spellButton)
+    {
+        playerController.StartSpellPreparation(spell, spellButton);
+    }
+
+    public void EndSpellNavigation(Spell spell, SpellButton spellButton)
+    {
+        playerController.EndSpellPreparation(spell, spellButton);
     }
     public void MoveUp() => playerController.MoveAs(1f);
     public void MoveDown() => playerController.MoveAs(-1f);
