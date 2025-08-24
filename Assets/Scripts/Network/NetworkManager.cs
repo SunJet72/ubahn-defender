@@ -63,12 +63,12 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
         DontDestroyOnLoad(this);
     }
 
-    async void StartGame(GameMode mode, string roomName = "TestRoomSunJ=fdgdsfdfg")
+    async void StartGame(GameMode mode, string roomName = "NetworkRoom")
     {
         _myrunner = gameObject.AddComponent<NetworkRunner>();
         _myrunner.ProvideInput = true;
 
-        trainName = UnityEngine.Random.Range(int.MinValue, int.MaxValue).ToString();
+        trainName = roomName;
 
         // string sceneName = "SampleScene";
         // await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
