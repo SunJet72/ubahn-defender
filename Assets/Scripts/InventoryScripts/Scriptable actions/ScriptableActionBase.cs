@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEditor;
 #endif
 
-public abstract class ScriptableActionBase : ScriptableObject
+public abstract class ScriptableActionBase : ScriptableObject // DEPRECATED!
 {
     public string actionName;
     public Sprite actionSprite;

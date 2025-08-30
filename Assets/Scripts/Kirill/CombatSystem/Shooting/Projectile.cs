@@ -112,7 +112,7 @@ public class Projectile : NetworkBehaviour
 
             Debug.Log("I am attacking: " + unit.gameObject);
             //ApplyEffects(unit.transform);
-            unit.Hurt(CalculateDamage(damage), penetration, attacker);
+            attacker.Hit(unit, damage);
 
             if (!(data.hitType == HitType.ALL))
                 OnEndFlight();
@@ -123,7 +123,7 @@ public class Projectile : NetworkBehaviour
     {
         foreach (Effect effect in data.effects)
         {
-            effect.ApplyEffect(attacker as PlayerCombatSystem, targ); // !!! This code is very bad. attack can be not Player and target can be null.
+            //effect.ApplyEffect(attacker as PlayerCombatSystem, targ); // !!! This code is very bad. attack can be not Player and target can be null.
         }
     }
 
@@ -131,10 +131,5 @@ public class Projectile : NetworkBehaviour
     {
         ApplyEffects(target);
         Destroy(gameObject);
-    }
-    
-    private float CalculateDamage(float damage)
-    {
-        return damage * ((100f + strength) / 100f);
     }
 }

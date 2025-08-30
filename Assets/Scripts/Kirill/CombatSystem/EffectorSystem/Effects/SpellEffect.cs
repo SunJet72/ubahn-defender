@@ -5,8 +5,10 @@ public class SpellEffect : Effect
 {
     public ActiveSpell spell;
 
-    public override void ApplyEffect(PlayerCombatSystem player, Transform start)
+    public override EffectData EffectData => throw new System.NotImplementedException();
+
+    public override void ApplyEffect(UnitController caster, UnitController target)
     {
-        spell.Activate(player.Object, start.GetComponent<NetworkObject>(), Vector2.zero); // Can go wrong, if wrong spells used.
+        spell.Activate(caster.Object, caster.GetComponent<NetworkObject>(), target.transform.position);
     }
 }

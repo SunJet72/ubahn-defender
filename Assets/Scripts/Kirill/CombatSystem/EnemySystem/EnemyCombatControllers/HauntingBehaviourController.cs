@@ -56,7 +56,7 @@ public class HauntingBehaviourController : CombatBehaviourController
         Controller.ContainerWasEmptied(container);
     }
 
-    private void OnChangeAggro(UnitController attacker)
+    private void OnChangeAggro(UnitController attacker, UnitController target) // Target should be us
     {
         if (attacker != null)
             Controller.ChangeAggro(attacker);

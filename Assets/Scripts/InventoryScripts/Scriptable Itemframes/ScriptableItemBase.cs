@@ -19,6 +19,7 @@ public abstract class ScriptableItemBase : ScriptableObject
     public ScriptableActionBase action;
     
     public GameObject spell;
+    public UnitCharacteristics[] stats;
 
 
     public override string ToString()

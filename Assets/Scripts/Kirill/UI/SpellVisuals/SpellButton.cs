@@ -77,7 +77,7 @@ public class SpellButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         spell.Activate(player.Object, player.Object, worldMousePosition);*/
 
         Vector2 worldMousePosition = (Vector2)player.gameObject.transform.position + joystick.Direction * spell.SpellData.castRadius;
-        spell.Activate(player.Object, player.Object, worldMousePosition);
+        spell.Activate(player.Object, player.Object, worldMousePosition); //TODO: Migrate all spell logic to uiCOntroller
 
         ui.EndSpellNavigation(spell, this);
 

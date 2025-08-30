@@ -56,7 +56,7 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
 
     private void Attack()
     {
-        player.Hurt(CalculateDamage(data.attackDamage), Controller.ArmorPenetration, Controller);
+        Controller.Hit(player, data.attackDamage);
         curAttackCooldown = 1f;
     }
 
@@ -79,11 +79,6 @@ public class AttackingMeleeBehaviourController : CombatBehaviourController
         player = null;
         target = null;
         curAttackCooldown = 1f;
-    }
-
-    private float CalculateDamage(float damage)
-    {
-        return damage * ((100f + player.Strength) / 100f);
     }
 
     private void OnDrawGizmosSelected()

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ProjectileSpellData", menuName = "Scriptable Objects/ProjectileSpellData")]
-public class ProjectileSpellData : SpellData
+public class ProjectileSpellData : ScriptableObject // HitSpellData
 {
     [Header("Projectile Spell Info")]
     public TargetType targetType; // Has to be the same with the Projectile!

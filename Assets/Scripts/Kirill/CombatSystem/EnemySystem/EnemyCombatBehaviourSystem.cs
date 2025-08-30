@@ -170,7 +170,7 @@ public class EnemyCombatBehaviourSystem : UnitController, IAfterSpawned
         Runner.Despawn(Object);
     }
 
-    public override void Hurt(float damage, float penetration, UnitController attacker)
+    protected override void Hurt(float damage, float penetration, UnitController attacker)
     {
         base.Hurt(damage, penetration, attacker);
         if (attacker != null)

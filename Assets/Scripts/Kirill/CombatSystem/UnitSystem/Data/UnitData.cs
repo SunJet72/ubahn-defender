@@ -16,6 +16,12 @@ public enum UnitParams
     ATTACK_SPEED,
     ARMOR_PENETRATION
 }
+[System.Serializable]
+public struct UnitCharacteristics
+{
+    public UnitParams param;
+    public float value;
+}
 [CreateAssetMenu(fileName = "UnitData", menuName = "Scriptable Objects/UnitData")]
 public class UnitData : ScriptableObject
 {

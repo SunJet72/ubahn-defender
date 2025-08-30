@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class ScriptableArmor : ScriptableItemBase
 {
-    public float additionalHealth;
-    public float armor;
     public Sprite PlayerSprite;
     public Sprite PlayerBackSprite;
 
+    //---// DEPRECATED!
+    public float additionalHealth;
+    public float armor;
     public UnitData unitData;
+    //---//
 
 
     public void Use(GameObject player)

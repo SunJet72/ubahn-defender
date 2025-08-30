@@ -147,7 +147,7 @@ public class VehicleCombatBehaviourSystem : UnitController//, IAfterSpawned
         {
             if (enemy != null)
             {
-                enemy.Hurt(999999, 0, this);
+                Hit(enemy, 999999);
             }
         }
         Destroy(colliderToDisableHardCoded);

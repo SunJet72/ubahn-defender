@@ -13,7 +13,7 @@ public class ScriptableWeapon : ScriptableItemBase
     public float cooldown;
 
 
-    public UnitData unitData;
+    public UnitData unitData; // DEPRECATED
     public bool canShoot;
     public NetworkObject projectile;
     public bool canDealSplashDamage;

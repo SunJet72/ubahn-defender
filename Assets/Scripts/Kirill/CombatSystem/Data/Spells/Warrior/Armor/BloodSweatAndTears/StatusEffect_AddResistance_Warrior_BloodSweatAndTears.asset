@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a9711d31bedc854e9917d205123363d, type: 3}
   m_Name: StatusEffect_AddResistance_Warrior_BloodSweatAndTears
   m_EditorClassIdentifier: 
-  paramToEffect: 1
+  paramsToEffect: []
   value: 50
   hasDuration: 1
   duration: 5
