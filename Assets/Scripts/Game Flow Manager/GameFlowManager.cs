@@ -8,7 +8,7 @@ public class GameFlowManager : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private bool isReady = false;
-    [SerializeField] private float locationRefreshTime;
+
 
     public Station nextStation;
     public string nickname { get; private set; }
