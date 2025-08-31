@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Fusion;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerCombatSystem : UnitController, IAfterSpawned
 {
@@ -35,11 +36,12 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     private NetworkObject spellWeapon { get; set; }
 
     [Networked]
-    private PlayerNetworkStruct networkData { get; set; }
-    [Networked]
     private int armorId { get; set; }
     [Networked]
     private int weaponId { get; set; }
+
+    [Networked]
+    private PlayerNetworkStruct networkData { get; set; }
 
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private PlayerController PlayerController;
@@ -76,24 +78,35 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         {
             OnHealthChanged();
         }
+        else
+        {
+            InitEquipment();
+        }
     }
+
+    private void InitEquipment(int armorId, int weaponId)
+    {
+        this.armorId = armorId;
+        this.weaponId = weaponId;
+        InitEquipment();
+    }
+
+    private void InitEquipment()
+    {
+        this.armorEq = (ScriptableArmor)ItemManager.instance.getItem(armorId);
+        this.weaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
+        this.consumables = new List<ScriptableConsumable>();
+
+        SetCharacterSprite(true);
+    } 
 
     public void Init(PlayerNetworkStruct data, int armorId, int weaponId)
     {
         if (!HasInputAuthority) return;
 
         this.networkData = data;
-        this.armorId = armorId;
-        this.weaponId = weaponId;
-        this.consumables = new List<ScriptableConsumable>();
-
         this.data = networkData.CopyData();
-        this.armorEq = (ScriptableArmor)ItemManager.instance.getItem(armorId);
-        this.weaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
-        this.consumables = new List<ScriptableConsumable>();
-
-        SetCharacterSprite(true);
-
+        InitEquipment(armorId, weaponId);
         base.Init();
 
         ApplyUnitDataStats(armorEq.unitData);
@@ -115,48 +128,42 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     public void SetCharacterSprite(bool facingForward)
     {
         if (armorEq == null)
+        {
+            Debug.Log("Armor is null");
             return;
+        }
         if (facingForward)
             spriteRenderer.sprite = armorEq.PlayerSprite;
         else
             spriteRenderer.sprite = armorEq.PlayerBackSprite;
     }
 
-    // public void Init(PlayerCombatSystemData data, ScriptableArmor armorEq, ScriptableWeapon weaponEq, List<ScriptableConsumable> consumables)
-    // {
-    //     this.data = data;
-    //     this.armorEq = armorEq;
-    //     this.weaponEq = weaponEq;
-    //     this.consumables = new List<ScriptableConsumable>(consumables);
 
-    //     // if (!didAwake)
-    //     // {
-    //     //     Awake();
-    //     // }
-
-
-    // }
-
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     private void InitSpellsRpc(PlayerRef playerNO, int armorId, int weaponId)
     {
-        ScriptableArmor localArmorEq = (ScriptableArmor)ItemManager.instance.getItem(armorId);
-        ScriptableWeapon localWeaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
-        if (Runner.IsServer)
-        {
-            spellArmor = Runner.Spawn(localArmorEq.spell, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
-            {
-                spawned.transform.parent = transform;
-                spawned.transform.localPosition = Vector2.zero;
-            });
+        InitEquipment(armorId, weaponId);
+        if (!Runner.IsServer) return;
 
-            spellWeapon = Runner.Spawn(localWeaponEq.spell, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
-            {
-                spawned.transform.parent = transform;
-                spawned.transform.localPosition = Vector2.zero;
-            });
-            InitLocalSpellsRpc(spellArmor, spellWeapon);
+        spellArmor = Runner.Spawn(armorEq.spell, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
+        {
+            spawned.transform.parent = transform;
+            spawned.transform.localPosition = Vector2.zero;
+        });
+
+        spellWeapon = Runner.Spawn(weaponEq.spell, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
+        {
+            spawned.transform.parent = transform;
+            spawned.transform.localPosition = Vector2.zero;
+        });
+
+        if (spellArmor == null || spellWeapon == null)
+        {
+            Debug.Log("Couldn't spawn the spell!");
         }
+
+        InitLocalSpellsRpc(spellArmor, spellWeapon);
+    
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
@@ -387,6 +394,10 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         return target;
     }
 
+    public void SetupPlayerController(PlayerController playerController)
+    {
+        gameCombatManager.SetPlayerControls(playerController);
+    }
     public override void OnHealthChanged()
     {
         if (Runner.GetPlayerObject(Runner.LocalPlayer).Equals(Object))
@@ -394,10 +405,5 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
             if (data == null) UIEvents.ShieldChanged((int)Health, 100);
             else UIEvents.ShieldChanged((int)Health, (int)data.health);
         }
-    }
-
-    public void SetupPlayerController(PlayerController playerController)
-    {
-        gameCombatManager.SetPlayerControls(playerController);
     }
 }

@@ -113,7 +113,6 @@ public class NetworkManager : SimulationBehaviour, INetworkRunnerCallbacks
                 runner.SetPlayerObject(playerRef, spawned);
             });
             // _spawnedPlayers.Add(playerRef, playerObj);
-            
         }
         
     }
