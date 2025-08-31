@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Fusion;
 using Unity.VisualScripting;
@@ -29,6 +30,7 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
 
     [Networked]
     private NetworkObject spellArmor { get; set; }
+
     [Networked]
     private NetworkObject spellWeapon { get; set; }
 
@@ -72,8 +74,6 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     {
         if (HasInputAuthority)
         {
-            if (spellArmor != null && spellWeapon != null)
-                gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
             OnHealthChanged();
         }
     }
@@ -155,7 +155,17 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
                 spawned.transform.parent = transform;
                 spawned.transform.localPosition = Vector2.zero;
             });
+            InitLocalSpellsRpc(spellArmor, spellWeapon);
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    private void InitLocalSpellsRpc(NetworkObject spellArmor, NetworkObject spellWeapon)
+    {
+        this.spellArmor = spellArmor;
+        this.spellWeapon = spellWeapon;
+        if (spellArmor != null && spellWeapon != null)
+            gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
     }
 
     void OnBecameVisible()
