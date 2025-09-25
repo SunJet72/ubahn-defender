@@ -1,4 +1,5 @@
 using System;
+using Fusion;
 using UnityEngine;
 
 public abstract class ScriptableItemBase : ScriptableObject
@@ -17,8 +18,9 @@ public abstract class ScriptableItemBase : ScriptableObject
     public int price;
 
     public ScriptableActionBase action;
-    
-    public GameObject spell;
+
+    public NetworkObject itemGO;
+    public Spell spell;
     public UnitCharacteristics[] stats;
 
 

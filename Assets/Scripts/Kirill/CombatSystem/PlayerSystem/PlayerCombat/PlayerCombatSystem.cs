@@ -18,9 +18,9 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
     List<UnitType> unitTypesEnemyAndVehicle;
 
     [Networked]
-    private NetworkObject spellArmor { get; set; }
+    private NetworkObject armorGO { get; set; }
     [Networked]
-    private NetworkObject spellWeapon { get; set; }
+    private NetworkObject weaponGO { get; set; }
 
     [Networked]
     private PlayerNetworkStruct networkData { get; set; }
@@ -117,19 +117,19 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         ScriptableWeapon localWeaponEq = (ScriptableWeapon)ItemManager.instance.getItem(weaponId);
         if (Runner.IsServer)
         {
-            spellArmor = Runner.Spawn(localArmorEq.spell, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
+            armorGO = Runner.Spawn(localArmorEq.itemGO, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
             {
                 spawned.transform.parent = transform;
                 spawned.transform.localPosition = Vector2.zero;
             });
 
-            spellWeapon = Runner.Spawn(localWeaponEq.spell, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
+            weaponGO = Runner.Spawn(localWeaponEq.itemGO, inputAuthority: playerNO, onBeforeSpawned: (runner, spawned) =>
             {
                 spawned.transform.parent = transform;
                 spawned.transform.localPosition = Vector2.zero;
             });
 
-            if (spellArmor != null && spellWeapon != null) gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
+            if (armorGO != null && weaponGO != null) gameCombatManager.InitPlayer(this, armorGO.GetComponent<ArmorGO>(), weaponGO.GetComponent<WeaponGO>());
         }
     }
 

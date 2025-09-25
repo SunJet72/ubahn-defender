@@ -57,9 +57,9 @@ public class GameCombatManager : NetworkBehaviour
 
     }
 
-    public void SetSpells(PlayerCombatSystem player, Spell spellArmor, Spell spellWeapon)
+    public void InitPlayer(PlayerCombatSystem player, ItemGO armorGO, ItemGO weaponGO)
     {
-        ui.SetSpells(player, spellArmor, spellWeapon);
+        ui.SetPlayerInfo(player, armorGO, weaponGO);
     }
 
     public void SetPlayerControls(PlayerController playerController)

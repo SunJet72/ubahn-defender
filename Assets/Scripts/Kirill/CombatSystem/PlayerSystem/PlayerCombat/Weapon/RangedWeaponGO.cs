@@ -5,6 +5,9 @@ public class RangedWeaponGO : WeaponGO
 {
     private List<EnemyCombatBehaviourSystem> nearestEnemies = new List<EnemyCombatBehaviourSystem>();
     private List<VehicleCombatBehaviourSystem> nearestVehicles = new List<VehicleCombatBehaviourSystem>();
+
+    public override ScriptableItemBase ItemData => weapon;
+
     protected override void Attack(UnitController target)
     {
         Runner.Spawn(weapon.projectile, onBeforeSpawned: (runner, spawned) =>

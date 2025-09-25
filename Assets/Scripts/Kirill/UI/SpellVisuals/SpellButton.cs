@@ -16,8 +16,8 @@ public class SpellButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     [SerializeField] private Image icon;
     [SerializeField] private Joystick joystick;
     private PlayerCombatSystem player;
-
-    private ActiveSpell spell;
+    private SpellCaster spellCaster;
+    private Spell spell;
 
     public event Action<Vector2> OnHandleMove;
 
@@ -44,9 +44,13 @@ public class SpellButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     //     //icon.sprite = spell.SpellData.icon;
     // }
 
-    public void SetSpell(PlayerCombatSystem player, Spell spell)
+    public void SetSpell(PlayerCombatSystem player, SpellCaster spellCaster)
     {
         this.player = player;
+        this.spellCaster = spellCaster;
+        spell = spellCaster.GetSpell();
+        
+        icon.sprite = spell.SpellData.icon;
 
         Debug.Log("I AM SETTING SPELL: " + spell);
         if (spell is ActiveSpell activeSpell)
@@ -59,7 +63,7 @@ public class SpellButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     void FixedUpdate()
     {
         if (spell == null) return;
-        cooldownOverlay.fillAmount = 1f - spell.Reload.ReloadPercentage;
+        //cooldownOverlay.fillAmount = 1f - spellCaster.ReloadPercentage; (TODO: OnReloadPercentageChanged)
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -77,7 +81,7 @@ public class SpellButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         spell.Activate(player.Object, player.Object, worldMousePosition);*/
 
         Vector2 worldMousePosition = (Vector2)player.gameObject.transform.position + joystick.Direction * spell.SpellData.castRadius;
-        spell.Activate(player.Object, player.Object, worldMousePosition); //TODO: Migrate all spell logic to uiCOntroller
+        //spell.Activate(player.Object, worldMousePosition); //TODO: Migrate all spell logic to uiCOntroller
 
         ui.EndSpellNavigation(spell, this);
 
@@ -85,5 +89,10 @@ public class SpellButton : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
 
         joystick.gameObject.SetActive(false);
         isPreparingSpell = false;
+    }
+
+    private void CastSpell()
+    {
+        // Cast Spell from SpellCaster
     }
 }

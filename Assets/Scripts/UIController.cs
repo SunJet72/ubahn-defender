@@ -84,10 +84,10 @@ public class UIController : MonoBehaviour
             waveText.text = $"Wave {currentWave}/{totalWaves}";
     }
 
-    public void SetSpells(PlayerCombatSystem player, Spell spellArmor, Spell spellWeapon)
+    public void SetPlayerInfo(PlayerCombatSystem player, ItemGO armorGO, ItemGO weaponGO)
     {
-        armorSpellButton.SetSpell(player, spellArmor);
-        weaponSpellButton.SetSpell(player, spellWeapon);
+        armorSpellButton.SetSpell(player, armorGO);
+        weaponSpellButton.SetSpell(player, weaponGO);
     }
     public void SetupPlayerController(PlayerController playerController)
     {

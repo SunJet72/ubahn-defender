@@ -22,6 +22,10 @@ public abstract class UnitController : NetworkBehaviour
     private float attackSpeed { get; set; }
     [Networked]
     private float armorPenetration { get; set; }
+    [Networked]
+    private int bloodPoints { get; set; }
+    [Networked]
+    private int dirtPoints { get; set; }
 
     public float Health { get => health; }
     public float Armor { get => armor; }
@@ -29,11 +33,30 @@ public abstract class UnitController : NetworkBehaviour
     public float Speed { get => speed * (speedMultiplex <= 0.1 ? 0.1f : speedMultiplex); }
     public float AttackSpeed { get => attackSpeed * (attackSpeedMultiplex <= 0.1 ? 0.1f : attackSpeedMultiplex); }
     public float ArmorPenetration { get => armorPenetration >= 90f ? 90f : armorPenetration; }
+    public int BloodPoints
+    {
+        get => bloodPoints;
+        private set
+        {
+            bloodPoints = value;
+            OnBloodPointsChanged?.Invoke(value);
+        }
+    }
+    public Action<int> OnBloodPointsChanged;
+    public int DirtPoints
+    {
+        get => dirtPoints;
+        private set
+        {
+            dirtPoints = value;
+            OnDirtPointsChanged?.Invoke(value);
+        }
+    }
+    public Action<int> OnDirtPointsChanged;
+
 
     private float speedMultiplex;
     private float attackSpeedMultiplex;
-
-    private List<StatusEffect> curStatusEffects;
     protected void Init()
     {
         health = 0;
@@ -45,8 +68,6 @@ public abstract class UnitController : NetworkBehaviour
 
         speedMultiplex = 1f;
         attackSpeedMultiplex = 1f;
-
-        curStatusEffects = new List<StatusEffect>();
 
         ApplyUnitDataStats(UnitData);
     }
@@ -69,26 +90,17 @@ public abstract class UnitController : NetworkBehaviour
         Debug.Log("Current attack speed:" + AttackSpeed);
     }
 
-    public void ApplyStatusEffect(StatusEffect statusEffect, float multiplex)
+    public void ApplyStatusEffect(StatusEffect statusEffect)
     {
-        curStatusEffects.Add(statusEffect);
-        CalculateStatusEffect(statusEffect, multiplex);
+        CalculateStatusEffect(statusEffect, 1);
     }
 
-    public void UpdateStatusEffect(StatusEffect statusEffect, float prevMultiplex, float multiplex)
+    public void RemoveStatusEffect(StatusEffect statusEffect)
     {
-        CalculateStatusEffect(statusEffect, -prevMultiplex);
-        CalculateStatusEffect(statusEffect, multiplex);
+        CalculateStatusEffect(statusEffect, -1);
     }
 
-    public void RemoveStatusEffect(StatusEffect statusEffect, float multiplex)
-    {
-        Debug.Log("I remove effect: " + statusEffect);
-        CalculateStatusEffect(statusEffect, -multiplex);
-        curStatusEffects.Remove(statusEffect);
-    }
-
-    private void CalculateStatusEffect(StatusEffect statusEffect, float multiplex)
+    private void CalculateStatusEffect(StatusEffect statusEffect, float multiplex) // multiplex = 1 if adding and -1 if removing
     {
         if (statusEffect.paramsToEffect == null)
             return;

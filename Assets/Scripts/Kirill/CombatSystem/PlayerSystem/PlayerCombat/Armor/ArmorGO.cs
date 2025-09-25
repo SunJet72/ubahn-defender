@@ -1,16 +1,7 @@
 using UnityEngine;
 
-public class ArmorGO : MonoBehaviour
+public class ArmorGO : ItemGO
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public override ScriptableItemBase ItemData => throw new System.NotImplementedException();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

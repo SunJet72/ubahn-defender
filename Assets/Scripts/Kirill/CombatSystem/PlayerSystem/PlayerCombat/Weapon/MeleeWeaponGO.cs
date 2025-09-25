@@ -4,6 +4,9 @@ using UnityEngine;
 public class MeleeWeaponGO : WeaponGO
 {
     private List<EnemyCombatBehaviourSystem> nearestEnemies = new List<EnemyCombatBehaviourSystem>();
+
+    public override ScriptableItemBase ItemData => weapon;
+
     protected override void Attack(UnitController target)
     {
         if (weapon.canDealSplashDamage)

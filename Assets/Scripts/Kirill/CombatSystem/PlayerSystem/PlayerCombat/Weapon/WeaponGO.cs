@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public abstract class WeaponGO : NetworkBehaviour
+public abstract class WeaponGO : ItemGO
 {
     protected PlayerCombatSystem player;
     [SerializeField] protected ScriptableWeapon weapon;
-    [SerializeField] private Spell spell;
     [SerializeField] private CircleCollider2D detectionCollider;
 
     private float cooldown;
@@ -53,11 +52,6 @@ public abstract class WeaponGO : NetworkBehaviour
 
     protected abstract void Attack(UnitController target);
     protected abstract UnitController FindTarget();
-
-    public Spell GetSpell()
-    {
-        return spell;
-    }
 
     public UnitController GetCurrentTargetSelected()
     {
