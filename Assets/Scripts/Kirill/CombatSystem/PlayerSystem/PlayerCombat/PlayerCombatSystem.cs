@@ -173,6 +173,10 @@ public class PlayerCombatSystem : UnitController, IAfterSpawned
         this.spellWeapon = spellWeapon;
         if (spellArmor != null && spellWeapon != null)
             gameCombatManager.SetSpells(this, spellArmor.GetComponent<Spell>(), spellWeapon.GetComponent<Spell>());
+        else
+        {
+            Debug.Log("Spells that came from server are empty!");
+        }
     }
 
     void OnBecameVisible()
